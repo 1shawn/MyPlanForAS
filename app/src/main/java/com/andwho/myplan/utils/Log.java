@@ -10,7 +10,7 @@ import android.os.Environment;
 
 public final class Log {
 
-	private static final boolean ENABLE = false;
+	private static final boolean ENABLE = true;
 	
 	
 	private static final boolean LOG_SDCARD_ENABLE = false;
