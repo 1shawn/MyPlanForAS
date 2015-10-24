@@ -52,7 +52,7 @@ public class IndexAct extends BaseAct implements OnClickListener {
 		// 检查更新
 		UpgradeUtils.checkNewVersion(myselfContext);
 
-		Log.d(TAG, "@@...测试提交新内容222");
+		Log.d(TAG, "@@...测试提交新内容3334444");
 		switchItemSelected(0);
 	}
 
