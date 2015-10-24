@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+     <color name="bg_color">#ffffff</color>
+     
+     
+    <!-- Even添加 开始 -->
+
+
+    <color name="overall">#2ebc9c</color>
+    <color name="unclickable_btx">#dddddd</color>
+    <color name="day_picker_btn">#2198e8</color>
+    <color name="patch_tv">#ed8080</color>
+    
+    <color name="praise_tv">#ffb643</color>
+    
+    <color name="normal_tv">#333333</color>
+    <color name="group_divider_normal">#44c492</color>
+    <color name="group_divider_selected">#64e4b2</color>
+    <color name="image_filter">#35000000</color>
+    <color name="form_text">#666666</color>
+    <color name="tips_dialog_title">#d32330</color>
+    <color name="tips_dialog_btn_stroke">#666666</color>
+    <color name="groupbtn_stroke">#999999</color>
+    <color name="title_edit">#0e627a</color>
+    <color name="title_cancel">#d32330</color>
+    
+    <color name="delete_content">#15ff0000</color>
+    <color name="title_complete">#006f37</color>
+    <color name="list_item_selected_color">#f0f3f5</color>
+    <color name="main_bottom_bg">#ebf3f6</color>
+    <color name="child_title_bg">#f6f8f7</color>
+  <!--   <color name="body_bg">#fcfcfe</color> -->
+    <color name="body_light_bg">#fdfdff</color>
+    
+    <color name="body_bg">#ededf2</color>
+    
+    <color name="body_dark_bg">#e0e0e0</color>
+    <color name="title_bg">#f5f5f5</color>
+    <color name="form_line">#dedede</color>
+    <color name="tryagain_btnbg_pressed_color">#999999</color>
+    <color name="divider">#dddddd</color>
+    
+    <color name="dialog_stroke">#bbbbbb</color>
+    <color name="group_stroke">#666666</color>
+    <color name="edit_text_tag">#a0a0a0</color>
+    <color name="text">#333333</color>
+    <color name="text_highlight">#2eb5e7</color>
+    <color name="text_gray">#a0a0a0</color>
+    <color name="edittext_stroke">#cccccc</color>
+    <color name="edit_text_hint">#dadada</color>
+    <color name="edit_text">#333333</color>
+    <color name="blue_btn_color">#2eb5e7</color>
+    <color name="contrary_btn_color">#ffffff</color>
+    <color name="black_btn_color">#666666</color>
+    <color name="green_btn_color">#20c892</color>
+    
+    <color name="green_btn_unclickable_color">#d0f0e2</color>
+    <color name="red_btn_color">#fb5f54</color>
+    <color name="title_line">#bbbbbb</color>
+    <!-- title_bg 蓝：72c4ff -->
+    
+    <color name="dialog_title">#000000</color>
+    <color name="titletext_normal">#000000</color>
+    <color name="titletext_selected">#999999</color>
+    <color name="hightlight_tx">#FF0000</color>
+    <color name="normal_tx">#000000</color>
+    <color name="group_item_divider">#cccccc</color>
+    <color name="item_divider">#dedede</color>
+    <color name="dayevent_theme">#69afd4</color>
+    <color name="dayevent_theme_ex">#99efff</color>
+    <color name="customers_theme">#1293E9</color>
+    <color name="tabtext_normal">#999999</color>
+    <!-- Even添加结束 -->
+
+    <color name="title_bg_color">#ff22292c</color>
+    <color name="full_transparent">#00000000</color>
+    <color name="half_transparent">#aa000000</color>
+    <color name="_30_transparent">#4c000000</color>
+    <color name="login_bg_color">#f3f4f6</color>
+    <color name="login_txt_color">#333333</color>
+    <color name="login_color">#ffffff</color>
+    <color name="blue">#23b4eb</color>
+    <color name="grey">#cccccc</color>
+    <color name="no_verify_txColor">#0696ec</color>
+    <color name="register_tip_txColor">#999</color>
+    <color name="login_btn_click">#4423b4eb</color>
+    <color name="experience_resend_txColor">#0696ec</color>
+    <color name="tip_dialog_titleColor">#000000</color>
+    <color name="tip_dialog_contentColor">#666666</color>
+    <color name="old_date_txColor">#999999</color>
+    <color name="contacts_tab_color">#01a0e1</color>
+    <color name="contacts_tab_tx_color">#7f7f7f</color>
+    <color name="contacts_divider_color">#d5d5d8</color>
+    <color name="calendar_bg">#f5f5f5</color>
+    <color name="calendar_gray">#b9b8b8</color>
+    <color name="calendar_line">#e1e1e1</color>
+    <color name="calendar_line2">#efefef</color>
+    <color name="calendar_date_color">#d0d0d0</color>
+    <color name="calendar_weekend_color">#eb2f32</color>
+    <color name="calendar_date2_color">#999999</color>
+    <color name="calendar_list_head_color">#1a83c3</color>
+    <color name="calendar_list_date_color">#666666</color>
+    <color name="contacts_line">#d3d3d3</color>
+    <color name="console_line">#ffc9d5e2</color>
+    <color name="console_bg">#fff2f6fc</color>
+    <color name="console_title_normal">#999999</color>
+    <color name="console_title_selected">#1193E9</color>
+    <color name="contacts_index_color">#666666</color>
+    <color name="contacts_section_color">#f5f5f5</color>
+    <color name="tab_color">#f4f4f4</color>
+    <color name="calendar_red">#ff0000</color>
+    <color name="shallow_green_bg">#f9f9f9</color>
+    <!-- 浅灰(如：日程其它月日期号) -->
+
+    <color name="second_gray">#bbbbbb</color>
+    <!-- 偏色灰(如主页通知上显示的时间文字颜色)、输入框hint文字颜色 -->
+    <color name="primary_black">#262626</color>
+    <!-- 主黑色(正常展示的黑色,包括输入框输入后的文字颜色) -->
+    <color name="primary_black_alpha">#77262626</color>
+    <!-- 主黑色(正常展示的黑色,包括输入框输入后的文字颜色) 30% -->
+    <color name="shallow_green_byte">#1abc9c</color>
+    <!-- 条款 日程 等绿色字体颜色 -->
+    <color name="shallow_green_byte_alpha">#771abc9c</color>
+    <!-- 条款 日程 等绿色字体颜色 30% -->
+    <color name="copyright_green">#636363</color>
+    <!-- 灰色1(如：版本) -->
+    <color name="pure_white_alpha">#77ffffff</color>
+    <!-- 纯白色 30% -->
+    <color name="pure_white">#ffffff</color>
+    <!-- 纯白色 -->
+    <color name="thirty_transparent_pure_white">#e0ffffff</color>
+    <!-- 纯白色 30%透明 -->
+    <color name="weekend_red">#e74c3c</color>
+    <!-- 红色(如：日程周末字体) -->
+
+    <color name="forth_gray">#888888</color>
+    <!-- 偏色灰2(如：周历中星期文本颜色值) -->
+    <color name="primary_write">#f2f2f2</color>
+    <!-- 文字主色(如：正常展示的白色) -->
+    <color name="shallow_black">#737373</color>
+    <!-- 浅黑(如：日程年月值) -->
+    <color name="shallow_white">#fcfcfc</color>
+    <!-- 浅白(如：来电弹屏电话文本颜色值) -->
+    <color name="normal_green">#dedede</color>
+    <!-- 标准灰(如：添加快捷键背景色) -->
+    <color name="earth_yellow">#f39c12</color>
+    <!-- 土黄(如：系统通知 加入企业文字值 ) -->
+    <color name="si_item_gray">#929292</color>
+    <!-- si标题 -->
+    <color name="transparent">#00000000</color>
+    <!-- 透明 -->
+    <color name="thirty_transparent">#117c61</color>
+    <!-- 30%透明 -->
+    <color name="item_gray">#e5e5e5</color>
+    <!-- item分割线 -->
+    <color name="item_click_gray">#f9f9f9</color>
+    <!-- item点击背景分割线 -->
+    <color name="primary_black_tr">#e0262626</color>
+    <color name="bg_gray">#ececec</color>
+    <!-- =================================================== 2.0没有用到有颜色==================================== -->
+    <color name="light_black">#5b5b5b</color>
+    <color name="actionbar_title_color">#F5FFFA</color>
+    <color name="dialog_color">#6acc9d</color>
+    <color name="second_black">#666666</color>
+    <!-- 偏色黑(如：通知列表中的子项颜色) -->
+    <color name="third_black">#262626</color>
+    <!-- 黑色(如：快捷方式的SI列表的选项字体) -->
+    <color name="primary_gray">#929292</color>
+    <!-- 主色灰(如主页通知上显示的最新那个通知的文字颜色、不可点击文字颜色、部分按钮文字颜色等 ) -->
+    <color name="third_gray">#c9c9c9</color>
+    <!-- 偏色灰2(如：月历中上或下月的文本颜色值) -->
+    <color name="home_normal">#bdc3c7</color>
+    <!-- 首页底部导航初始显示颜色 -->
+    <color name="primary_blue">#3598db</color>
+    <!-- 主蓝色(如：通知列表中的子项中的"查看详情") -->
+    <color name="five_gray">#dedcdd</color>
+    <!-- 浅灰色(如：时踪详情两块的分割线") -->
+    <color name="five_blue">#3498d9eb</color>
+    <!-- 浅蓝色(如：登录页面的忘记密码") -->
+    <color name="six_gray">#e2eae8</color>
+    <!-- 灰色(如：日程日历星期底色") -->
+    <color name="seven_gray">#737373</color>
+    <!-- 偏浅灰色(如：公告发布人") -->
+    <color name="eight_gray">#dedede</color>
+    <!-- 浅偏色灰(如：快捷方式的SI菜单的背景) -->
+    <color name="primary_orange">#ec6a00</color>
+    <!-- 灰色(如：日程日历星期底色") -->
+    <color name="second_white">#f7f7f7</color>
+    <!-- 乳白色（如：日历的底色） -->
+    <color name="third_white">#1abc9c</color>
+    <!-- 浅白色（如：添加快捷方式的si底色） -->
+    <color name="second_blue">#48cfad</color>
+    <!-- 蓝色(如：SI会议列表中的右边"参加") -->
+    <color name="primary_red">#ec6a00</color>
+    <!-- 主红色(如：SI会议列表中的右边"不参加") -->
+    <color name="primary_yellow">#a8c9d5</color>
+    <!-- 主黄色(如：SI会议列表中的右边"未反馈") -->
+    <color name="line_color">#e7e7e7</color>
+    <!-- 底线颜色 -->
+    <color name="bg_list_selected">#ebebeb</color>
+    <!-- 列表选中效果 -->
+    <color name="deliver_list">#cccccc</color>
+    <!-- 列表分隔线 -->
+    <color name="third_blue">#1abc9c</color>
+    <!-- 忘记密码的文字颜色 -->
+    <color name="third_orange">#eb760f</color>
+    <!-- 时间控件被选中的时间文字颜色 -->
+    <color name="si_item_green">#38bd9c</color>
+    <!-- si详情分组标题文字颜色 -->
+
+    <color name="old_gay">#7e938e</color>
+    <!-- 应用详情截图背景 -->
+
+    <color name="yel_explan_green">#3bc1a0</color>
+    <color name="photo_album_bg">#191919</color>
+    <color name="photo_album_button_bg">#000000</color>
+    <color name="yellowpage_pic_tip_bg">#eeeeee</color>
+    <!-- 企业黄页编辑图片提示背景 -->
+
+
+    <!-- =================================================== 扫一扫相关的色值==================================== -->
+    <color name="contents_text">#ff000000</color>
+    <color name="encode_view">#ffffffff</color>
+    <color name="help_button_view">#ffcccccc</color>
+    <color name="help_view">#ff404040</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_image_border">#ffffffff</color>
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c000ff00</color>
+    <color name="result_text">#ffffffff</color>
+    <color name="result_view">#b0000000</color>
+    <color name="sbc_header_text">#ff808080</color>
+    <color name="sbc_header_view">#ffffffff</color>
+    <color name="sbc_list_item">#fffff0e0</color>
+    <color name="sbc_layout_view">#ffffffff</color>
+    <color name="sbc_page_number_text">#ff000000</color>
+    <color name="sbc_snippet_text">#ff4b4b4b</color>
+    <color name="share_text">#ff000000</color>
+    <color name="share_view">#ffffffff</color>
+    <color name="status_view">#50000000</color>
+    <color name="status_text">#ffffffff</color>
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="header">#58567D</color>
+    <color name="grgray">#686868</color>
+    <color name="divid_line_2">#d7d7d7</color>
+    <color name="devid_line">#d1d1d1</color>
+    <color name="transparent_black">#1f000000</color>
+    <color name="transparent_background">#00ffffff</color>
+    <color name="tab_header_blue">#157EFB</color>
+
+</resources>

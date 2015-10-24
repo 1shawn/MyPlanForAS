@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">我有计划</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="pull_to_refresh_from_bottom_pull_label">上拉刷新…</string>
+    <string name="pull_to_refresh_from_bottom_release_label">放开以刷新…</string>
+    <string name="pull_to_refresh_from_bottom_refreshing_label">正在载入…</string>
+    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">放开以刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">正在载入…</string>
+    <string name="mine_if_text">假如我可以活到<Data><![CDATA[<b><font color="#DA1C1C">%s</font></b>]]></Data>岁</string>
+    <string name="mine_left1_text">你仅剩<Data><![CDATA[<b><font color="#DA1C1C">%s</font></b>]]></Data>天</string>
+    <string name="mine_left2_text">你的今天仅剩<Data><![CDATA[<b><font color="#DA1C1C">%s</font></b>]]></Data>秒</string>
+
+    <string-array name="mine_icon_sel_array">
+        <item>拍照</item>
+　　                 <item>相册</item>
+    </string-array>
+  <string name="take_photo_msg_no_sdcard">亲,未找到SD卡噢...</string>
+      <string name="str_operation_failed">操作失败</string>
+</resources>
