@@ -3,7 +3,6 @@ package com.andwho.myplan.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -193,7 +192,7 @@ public abstract class ScaleBase<T extends View> extends LinearLayout implements 
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
+    public boolean onTouchEvent( MotionEvent event) {
         if (!isPullToScaleEnabled() || isHideHeader()) {
             return false;
         }

@@ -1,15 +1,11 @@
 package com.andwho.myplan.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.LayoutParams;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,6 +35,9 @@ import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Mode;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.OnRefreshListener;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ouyyx 长远计划

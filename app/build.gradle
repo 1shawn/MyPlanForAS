@@ -6,17 +6,11 @@ android {
 
     defaultConfig {
         applicationId "com.andwho.myplan"
-<<<<<<< HEAD
-        minSdkVersion 15
-        targetSdkVersion 19
-        versionCode 101
-        versionName "1.0.1"
-=======
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
->>>>>>> 8db2aececdd559dc72ea30fee56d8d11576bd004
+
     }
     buildTypes {
         release {
@@ -29,12 +23,12 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:23.1.1'
+   // compile 'com.android.support:support-v4:23.1.1'
     compile files('libs/android-support-v13.jar')
     compile files('libs/BmobSDK_V3.4.4_0930.jar')
-    /*compile files('libs/spring-android-core-1.0.0.M4.jar')
+    compile files('libs/spring-android-core-1.0.0.M4.jar')
     compile files('libs/spring-android-core-1.0.0.M4-sources.jar')
     compile files('libs/spring-android-rest-template-1.0.0.M4.jar')
     compile files('libs/spring-android-rest-template-1.0.0.M4-sources.jar')
-    compile files('libs/android-support-v4.jar')*/
+    compile files('libs/android-support-v4.jar')
 }
