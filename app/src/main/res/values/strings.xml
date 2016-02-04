@@ -16,8 +16,23 @@
 
     <string-array name="mine_icon_sel_array">
         <item>拍照</item>
-　　                 <item>相册</item>
+        <item>相册</item>
     </string-array>
-  <string name="take_photo_msg_no_sdcard">亲,未找到SD卡噢...</string>
-      <string name="str_operation_failed">操作失败</string>
+    <string name="take_photo_msg_no_sdcard">亲,未找到SD卡噢...</string>
+    <string name="str_operation_failed">操作失败</string>
+    <string name="more_problem">常见问题</string>
+    <string name="more_share">推荐分享</string>
+    <string name="more_aboutus">关于我们</string>
+    <string name="more_suggest">建议反馈</string>
+    <string name="more_notice">消息中心</string>
+    <string name="login_sign">快速注册</string>
+    <string name="login_forget">忘记密码</string>
+    <string name="str_Register_Tips1">邮箱地址Email</string>
+    <string name="str_Register_Tips2">请输入邮箱地址</string>
+    <string name="str_Register_Tips3">邮箱地址格式不正确</string>
+    <string name="str_Register_Tips5">该邮箱账号已经注册，如果密码丢失，可通过“忘记密码”找回</string>
+    <string name="str_Register_Tips6">我们给你的邮箱发了一封验证邮件，请先验证邮件后再登录使用</string>
+    <string name="str_Register_Tips8">温馨提示：注册邮箱需要接收系统的验证邮件，请填写真实有效的邮箱地址。</string>
+    <string name="login_fail">登录失败！</string>
+    <string name="commone_fail">网络链接失败，请稍后再试！</string>
 </resources>

@@ -11,12 +11,13 @@
         android:layout_height="fill_parent"
         android:background="@drawable/common_btn_selector"
         android:orientation="horizontal"
-        android:padding="10dip"
-        android:visibility="invisible" >
+        android:layout_marginLeft="3dp"
+        android:visibility="visible" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:src="@drawable/icon_back" />
 
         <TextView
@@ -24,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
             android:text="编辑"
             android:textColor="#ffffff"
             android:textSize="16dp" />

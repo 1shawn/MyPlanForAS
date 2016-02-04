@@ -1,19 +1,5 @@
 package com.andwho.myplan.upgrade;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.ObjectOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.ResponseExtractor;
-import org.springframework.web.client.RestTemplate;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -37,13 +25,27 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.andwho.myplan.R;
+import com.andwho.myplan.utils.Log;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
-
-import com.andwho.myplan.utils.Log;
-
-import com.andwho.myplan.R;
 
 //import org.android.tools.version.VersionPackage;
 
@@ -184,12 +186,18 @@ public class UpgradeUtils {
 		String contentText = "点击可下载最新版本升级";
 
 		int iconId = ctx.getApplicationContext().getApplicationInfo().icon;
-
-		Notification notification = new Notification(iconId, titleText,
+		/*Notification notification = new Notification(iconId, titleText,
 				System.currentTimeMillis());
 		notification.setLatestEventInfo(ctx, titleText, contentText,
 				contentIntent);
-		mNotificationManager.notify(iconId, notification);
+		mNotificationManager.notify(iconId, notification);*/
+		Bitmap bitmap= BitmapFactory.decodeResource(ctx.getResources(), R.drawable.icon_launcher);
+		Notification noti = new Notification.Builder(ctx)
+				.setContentTitle(titleText)
+				.setContentText(contentText)
+				.setSmallIcon(iconId)
+				.setLargeIcon(bitmap)
+				.build();
 	}
 
 	/**
@@ -210,7 +218,7 @@ public class UpgradeUtils {
 		int iconId = android.R.drawable.ic_dialog_alert;
 		// if ("1".equals(versionInfo.isoptional)) {
 		// msg = "发现新版本:V" + versionInfo.version + "，确定更新？\n";
-		msg = "超级经理 V" + versionInfo.newVersion + " 新特性：\n"
+		msg = "发现新版本 V" + versionInfo.newVersion + " 新特性：\n"
 				+ "1.升级内容 \n2.升级内容 \n安装包大小：10M";
 		// iconId = android.R.drawable.ic_menu_help;
 		// } else {
