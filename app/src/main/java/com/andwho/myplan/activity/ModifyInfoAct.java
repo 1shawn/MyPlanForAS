@@ -1,13 +1,10 @@
 package com.andwho.myplan.activity;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -18,10 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.contentprovider.DbManger;
-import com.andwho.myplan.model.Plan;
 import com.andwho.myplan.preference.MyPlanPreference;
-import com.andwho.myplan.utils.DateUtil;
 
 /**
  * 编辑计划 ouyyx
@@ -42,7 +36,7 @@ public class ModifyInfoAct extends BaseAct implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.act_modify_info);
+		setContentView(R.layout.modify_info_act);
 
 		myselfContext = this;
 

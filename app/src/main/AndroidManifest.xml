@@ -40,7 +40,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".activity.PlanEditAct"
+            android:name=".activity.EditPlanAct"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>

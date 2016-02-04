@@ -59,7 +59,7 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.act_personal_setting);
+		setContentView(R.layout.personal_setting_act);
 
 		myselfContext = this;
 

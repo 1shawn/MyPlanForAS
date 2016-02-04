@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.utils.MyPlanUtil;
 
 /**
  * @author ouyyx 关于我们
@@ -36,7 +35,7 @@ public class ProblemsAct extends BaseAct implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.act_problems);
+		setContentView(R.layout.problems_act);
 
 		myselfContext = this;
 

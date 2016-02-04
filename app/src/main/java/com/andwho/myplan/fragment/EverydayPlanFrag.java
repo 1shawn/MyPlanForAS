@@ -70,7 +70,7 @@ public class EverydayPlanFrag extends BaseFrag implements OnClickListener {
 
 	private View findViews(LayoutInflater inflater, ViewGroup container) {
 
-		View view = inflater.inflate(R.layout.frag_everyday_plan, container,
+		View view = inflater.inflate(R.layout.everyday_plan_frag, container,
 				false);
 
 		tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);

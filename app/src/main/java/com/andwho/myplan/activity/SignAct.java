@@ -34,7 +34,7 @@ public class SignAct  extends BaseAct implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_login);
+        setContentView(R.layout.login_act);
 
         myselfContext = this;
         findViews();
