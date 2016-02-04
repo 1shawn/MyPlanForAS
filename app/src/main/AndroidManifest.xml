@@ -82,6 +82,12 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
+            android:name=".activity.FindPswAct"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
             android:name="com.andwho.myplan.upgrade.DownloadActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

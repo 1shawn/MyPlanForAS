@@ -5,6 +5,7 @@ import android.content.Context;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.ResetPasswordByEmailListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -27,7 +28,14 @@ public class BmobAgent {
         bu.signUp(context, listener);
     }
 
-    //登录
+    //忘记密码
+    public static void forgetPsw(Context context,String email,ResetPasswordByEmailListener listener) {
+        BmobUser bu2 = new BmobUser();
+        bu2.resetPasswordByEmail(context, email, listener);
+    }
+
+                //登录
+
     public static void loginIn(Context context,String username,String password,SaveListener listener){
         BmobUser bu2 = new BmobUser();
         bu2.setUsername(username);

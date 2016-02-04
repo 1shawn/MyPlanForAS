@@ -70,7 +70,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                 IntentHelper.showSign(myselfContext);
                 break;
             case R.id.tv_forget:
-                IntentHelper.showSign(myselfContext);
+                IntentHelper.showFindPsw(myselfContext);
                 break;
             default:
                 break;
