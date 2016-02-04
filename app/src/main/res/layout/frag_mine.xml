@@ -33,7 +33,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="40dp"
-                android:background="@drawable/common_btn_selector"
+                android:background="@drawable/btn_header_selector"
                 android:padding="2dp"
                 android:src="@drawable/default_headicon" />
 

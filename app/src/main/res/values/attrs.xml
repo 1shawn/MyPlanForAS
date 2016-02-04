@@ -25,4 +25,65 @@ limitations under the License.
         <attr name="tileBackgroundColor" format="color"/>
     </declare-styleable>
 
+
+
+
+    <declare-styleable name="FVItemSmall">
+        <attr name="hasLeftRedDot" format="boolean"/>
+        <attr name="hasRightRedDotCount" format="boolean"/>
+        <attr name="hasRightText" format="boolean"/>
+
+        <attr name="hasTopLine" format="boolean"/>
+        <attr name="hasCloseBottomLine" format="boolean"/>
+        <attr name="hasMarginBottomLine" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="FVItemBig">
+        <attr name="bigHasLeftRedDot" format="boolean"/>
+        <attr name="bigHasRightText" format="boolean"/>
+        <attr name="bigHasTopLine" format="boolean"/>
+        <attr name="bigHasMarginTopLine" format="boolean"/>
+        <attr name="bigHasCloseBottomLine" format="boolean"/>
+        <attr name="bigHasMarginBottomLine" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="FVCardItemTitle">
+        <attr name="leftTvSize" format="dimension"/>
+        <attr name="leftTvColor" format="color|reference"/>
+        <attr name="rightTvSize" format="dimension"/>
+        <attr name="rightTvColor" format="color|reference"/>
+        <attr name="bottomLineLeftMargin" format="dimension"/>
+        <attr name="bottomLineRightMargin" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="FVExchangeRecord">
+    </declare-styleable>
+
+    <declare-styleable name="FVPersonnelCenterItem">
+        <attr name="pic_right_img_visible" format="boolean" />
+        <attr name="pic_right_tv_visible" format="boolean" />
+        <attr name="pic_left_red_dot_visible" format="boolean" />
+        <attr name="pic_right_arrow_visible" format="boolean" />
+        <attr name="pic_right_toggle_visible" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="FVBaseLine">
+        <attr name="bl_topLineLeftMargin" format="dimension"/>
+        <attr name="bl_topLineRightMargin" format="dimension"/>
+        <attr name="bl_bottomLineLeftMargin" format="dimension"/>
+        <attr name="bl_bottomLineRightMargin" format="dimension"/>
+        <attr name="bl_hasCloseTopLine" format="boolean"/>
+        <attr name="bl_hasMarginTopLine" format="boolean"/>
+        <attr name="bl_hasCloseBottomLine" format="boolean"/>
+        <attr name="bl_hasMarginBottomLine" format="boolean"/>
+        <attr name="bl_right_img_visible" format="boolean" />
+        <attr name="bl_right_tv_visible" format="boolean" />
+        <attr name="bl_right_arrow_visible" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="PullToScaleView">
+        <attr name="headerView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="scaleView" format="reference" />
+        <attr name="isHeaderParallax" format="boolean" />
+    </declare-styleable>
 </resources>

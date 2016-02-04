@@ -1,13 +1,13 @@
 package com.andwho.myplan.upgrade;
 
-import java.io.File;
-import java.io.ObjectInputStream;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,8 +21,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+
 import com.andwho.myplan.R;
 import com.andwho.myplan.utils.Log;
+
+import java.io.File;
+import java.io.ObjectInputStream;
 
 /**
  * 下载视图 功能： 1.显示下载信息：如本地版本，服务器版本 2.下载控制：是否下载
@@ -47,10 +51,17 @@ public class DownloadActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if (downloadTask != null && !downloadTask.isCancelled) {
 				if (msg.arg1 < 0) {
-					notification.setLatestEventInfo(DownloadActivity.this,
+					/*notification.setLatestEventInfo(DownloadActivity.this,
 							getString(R.string.app_name), "下载失败,点击可重新下载",
 							pIntent);
-					manager.notify(R.drawable.icon_launcher, notification);
+					manager.notify(R.drawable.icon_launcher, notification);*/
+					Bitmap bitmap= BitmapFactory.decodeResource(DownloadActivity.this.getResources(), R.drawable.icon_launcher);
+					Notification noti = new Notification.Builder(DownloadActivity.this)
+							.setContentTitle(getString(R.string.app_name))
+							.setContentText("下载失败,点击可重新下载")
+							.setSmallIcon(R.drawable.icon_launcher)
+							.setLargeIcon(bitmap)
+							.build();
 				} else if (msg.arg1 < 100) {
 					view.setProgressBar(R.id.pb, 100, msg.arg1, false);
 					view.setTextViewText(R.id.tv, "下载" + msg.arg1 + "%");

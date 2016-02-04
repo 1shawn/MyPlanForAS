@@ -40,11 +40,23 @@ public class IntentHelper {
 		act.startActivity(intent);
 	}
 
+	public static final void showLogin(Activity act) {
+		Intent intent = new Intent(act, LoginAct.class);
+		act.startActivity(intent);
+	}
+	public static final void showMain(Activity act) {
+		Intent intent = new Intent(act, IndexAct.class);
+		act.startActivity(intent);
+	}
+
 	public static final void showAboutUs(Activity act) {
 		Intent intent = new Intent(act, AboutUsAct.class);
 		act.startActivity(intent);
 	}
-
+	public static final void showSign(Activity act) {
+		Intent intent = new Intent(act, SignAct.class);
+		act.startActivity(intent);
+	}
 	public static final void share(Activity act) {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("image/*");

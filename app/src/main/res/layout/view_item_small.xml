@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="43dip"
+    android:background="@drawable/item_selector_bg"
+    android:paddingLeft="15dip"
+    android:paddingRight="15dip">
+    <!-- 左边图标 -->
+    <ImageView
+        android:id="@+id/view_item_small_left_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+    <!-- 标题 -->
+    <TextView
+        android:id="@+id/view_item_small_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dip"
+        android:layout_toRightOf="@+id/view_item_small_left_icon"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="16dip" />
+    <!-- 右边箭头 -->
+    <ImageView
+        android:id="@+id/view_item_small_arrow_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow_right_mine" />
+    <!-- 右边红点数区域 -->
+    <RelativeLayout
+        android:id="@+id/view_item_small_dot_count_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/view_item_small_tv"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/undo_msg_bg"
+        android:visibility="gone">
+        <!-- 右边红点数 -->
+        <TextView
+            android:id="@+id/view_item_small_dot_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+    </RelativeLayout>
+    <!-- 右边文字 -->
+    <TextView
+        android:id="@+id/view_item_small_right_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/view_item_small_arrow_right"
+        android:text="剩余10M"
+        android:textColor="@color/my_item_small_right_tv"
+        android:visibility="gone" />
+    <!-- 左边小红点 -->
+    <ImageView
+        android:id="@+id/view_item_small_left_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/view_item_small_tv"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/sign_tip_red"
+        android:visibility="gone" />
+</RelativeLayout>

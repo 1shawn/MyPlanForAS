@@ -252,4 +252,18 @@
     <color name="transparent_background">#00ffffff</color>
     <color name="tab_header_blue">#157EFB</color>
 
+  <color name="white">#ffffff</color>
+  <color name="white_e5">#e5ffffff</color>
+  <color name="black">#000000</color>
+  <color name="half_transparent_black">#7f000000</color>
+  <color name="secondblack">#333333</color>
+  <color name="green">#64ccb4</color>
+  <color name="red">#ed1c24</color>
+  <color name="light_red">#ff4200</color>
+
+  <color name="my_item_small_right_tv">#BCBCBC</color>
+  <color name="more_item_bg">#444444</color>
+  <color name="main_blue">#5191E8</color>
+  <color name="toast_bg_color">#CC000000</color>
+
 </resources>

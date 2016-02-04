@@ -1,11 +1,5 @@
 package com.andwho.myplan.activity;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -21,6 +15,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,8 +24,16 @@ import android.widget.Toast;
 import com.andwho.myplan.R;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.DateUtil;
-import com.andwho.myplan.view.RoundedImageView;
 import com.andwho.myplan.view.MpDatePickerDialog;
+import com.andwho.myplan.view.RoundedImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * @author ouyyx 个人设置
@@ -47,11 +50,12 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 	private ImageView iv_rightIcon;
 
 	private LinearLayout ll_headicon, ll_nickname, ll_gender, ll_birthday,
-			ll_life;
+			ll_life,ll_email,ll_changePsw;
 	private RoundedImageView iv_headicon;
 	private ImageView iv_male, iv_female;
 	private TextView tv_nickname, tv_birthday, tv_lifespan;
 
+	private Button btn_login;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +98,11 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 		tv_birthday = (TextView) this.findViewById(R.id.tv_birthday);
 		tv_lifespan = (TextView) this.findViewById(R.id.tv_lifespan);
 
+		btn_login = (Button)this.findViewById(R.id.btn_login);
+
+		ll_email = (LinearLayout) this.findViewById(R.id.ll_email);
+		ll_changePsw = (LinearLayout) this.findViewById(R.id.ll_changePsw);
+
 	}
 
 	private void setListener() {
@@ -102,9 +111,20 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 		ll_gender.setOnClickListener(this);
 		ll_birthday.setOnClickListener(this);
 		ll_life.setOnClickListener(this);
+		btn_login.setOnClickListener(this);
+		this.findViewById(R.id.img_changePsw).setOnClickListener(this);
+        this.findViewById(R.id.img_synchroData).setOnClickListener(this);
 	}
 
 	private void init() {
+		BmobUser bmobUser = BmobUser.getCurrentUser(this);
+		if(bmobUser != null){
+			// 允许用户使用应用
+
+		}else{
+			//缓存用户对象为空时， 可打开用户注册界面…
+//			IntentHelper.showLogin(this);
+		}
 
 	}
 
@@ -206,7 +226,13 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 		case R.id.ll_life:
 			IntentHelper.showModifyInfo(myselfContext, "lifespan");
 			break;
+		case R.id.btn_login:
+			IntentHelper.showLogin(myselfContext);
 
+		case R.id.img_changePsw://忘记密码
+			IntentHelper.showLogin(myselfContext);
+		case R.id.img_synchroData://同步数据
+			IntentHelper.showLogin(myselfContext);
 		default:
 			break;
 		}

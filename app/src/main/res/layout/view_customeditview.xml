@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_all"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:minHeight="45dip"
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
+
+        <com.andwho.myplan.view.WordLimitedEditText
+            android:id="@+id/customeditview_eidt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/customeditview_deletebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/deleteicon_selector" />
+        <ImageView 
+            android:id="@+id/customeditview_downbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_arrow_d"
+            android:visibility="gone"
+            />
+        <ImageView 
+            android:id="@+id/customeditview_otherbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="14dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_arrow_d"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
+</LinearLayout>

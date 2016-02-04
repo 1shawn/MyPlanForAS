@@ -3,13 +3,21 @@
     android:id="@+id/ll_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+<<<<<<< HEAD
     android:background="@color/bg_color"
     android:orientation="vertical">
+=======
+    android:background="@color/title_bg"
+    android:orientation="vertical" >
+>>>>>>> 8db2aececdd559dc72ea30fee56d8d11576bd004
 
     <include layout="@layout/layout_title_bar" />
 
-    <ScrollView
+    <com.andwho.myplan.view.ScaleScrollView
+        android:visibility="visible"
+        android:id="@+id/main_page_area"
         android:layout_width="fill_parent"
+<<<<<<< HEAD
         android:layout_height="fill_parent">
 
         <LinearLayout
@@ -202,5 +210,8 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+=======
+        android:layout_height="fill_parent"/>
+>>>>>>> 8db2aececdd559dc72ea30fee56d8d11576bd004
 
 </LinearLayout>

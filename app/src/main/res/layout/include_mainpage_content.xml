@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fvitemsmall="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="26dp"
+    android:splitMotionEvents="false"
+    android:orientation="vertical">
+
+    <com.andwho.myplan.view.FVItemSmall
+        android:id="@+id/ll_problems_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        fvitemsmall:hasMarginBottomLine="true"
+        fvitemsmall:hasTopLine="true" />
+
+
+    <com.andwho.myplan.view.FVItemSmall
+        android:id="@+id/ll_suggest_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fvitemsmall:hasMarginBottomLine="true"
+        />
+
+
+    <com.andwho.myplan.view.FVItemSmall
+        android:id="@+id/ll_share_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        fvitemsmall:hasCloseBottomLine="true" />
+
+    <!--<com.corp21cn.flowpay.view.widget.FVItemSmall
+        android:id="@+id/task_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fvitemsmall:hasCloseBottomLine="true" />-->
+
+    <com.andwho.myplan.view.FVItemSmall
+        android:id="@+id/ll_notice_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        fvitemsmall:hasCloseBottomLine="true"
+        fvitemsmall:hasTopLine="true" />
+
+
+    <com.andwho.myplan.view.FVItemSmall
+        android:id="@+id/ll_about_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        fvitemsmall:hasCloseBottomLine="true"
+        fvitemsmall:hasTopLine="true" />
+</LinearLayout>
