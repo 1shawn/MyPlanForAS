@@ -57,6 +57,10 @@ public class IntentHelper {
 		Intent intent = new Intent(act, SignAct.class);
 		act.startActivity(intent);
 	}
+	public static final void showFindPsw(Activity act) {
+		Intent intent = new Intent(act, FindPswAct.class);
+		act.startActivity(intent);
+	}
 	public static final void share(Activity act) {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("image/*");
