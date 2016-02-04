@@ -67,7 +67,7 @@ public class LongtermPlanFrag extends BaseFrag implements OnClickListener {
 
 	private View findViews(LayoutInflater inflater, ViewGroup container) {
 
-		View view = inflater.inflate(R.layout.frag_longterm_plan, container,
+		View view = inflater.inflate(R.layout.longterm_plan_frag, container,
 				false);
 		tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);
 		listview = (PullToRefreshListView) view.findViewById(R.id.listview);

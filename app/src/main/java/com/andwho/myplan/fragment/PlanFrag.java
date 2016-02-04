@@ -42,7 +42,7 @@ public class PlanFrag extends MyPlanViewPagerFrag implements OnClickListener {
 
 	private View findViews(LayoutInflater inflater, ViewGroup container) {
 
-		View view = inflater.inflate(R.layout.frag_plan, container, false);
+		View view = inflater.inflate(R.layout.plan_frag, container, false);
 		initHeader(view);
 
 		rl_everyday_plan = (RelativeLayout) view

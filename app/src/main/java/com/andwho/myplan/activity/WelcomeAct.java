@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.utils.Log;
 
 /**
  * 欢迎页 ouyyx
@@ -20,7 +19,7 @@ public class WelcomeAct extends BaseAct {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.act_welcome);
+		setContentView(R.layout.welcome_act);
 
 		myselfContext = this;
 

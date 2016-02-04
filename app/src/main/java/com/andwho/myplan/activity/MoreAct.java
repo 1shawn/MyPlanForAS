@@ -65,7 +65,7 @@ public class MoreAct extends BaseAct implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.act_more);
+		setContentView(R.layout.more_act);
 
 		myselfContext = this;
 

@@ -13,7 +13,7 @@ public class IntentHelper {
 
 	public static final void showPlanEdit(Activity act, String planType,
 			Plan plan) {
-		Intent intent = new Intent(act, PlanEditAct.class);
+		Intent intent = new Intent(act, EditPlanAct.class);
 		intent.putExtra("planType", planType);
 		intent.putExtra("plan", plan);
 		act.startActivity(intent);

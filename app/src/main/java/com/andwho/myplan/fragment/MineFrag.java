@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -67,7 +66,7 @@ public class MineFrag extends BaseFrag implements OnClickListener {
 
 	private View findViews(LayoutInflater inflater, ViewGroup container) {
 
-		View view = inflater.inflate(R.layout.frag_mine, container, false);
+		View view = inflater.inflate(R.layout.mine_frag, container, false);
 		initHeader(view);
 		iv_ss = (ImageView) view.findViewById(R.id.iv_ss);
 		ll_root = (ScrollView) view.findViewById(R.id.ll_root);
