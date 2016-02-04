@@ -31,6 +31,7 @@ import com.andwho.myplan.view.MpDatePickerDialog;
 /**
  * @author ouyyx 关于我们
  */
+@SuppressWarnings("ALL")
 public class AboutUsAct extends BaseAct implements OnClickListener {
 
 	private static final String TAG = AboutUsAct.class.getSimpleName();
@@ -38,6 +39,7 @@ public class AboutUsAct extends BaseAct implements OnClickListener {
 	private Activity myselfContext;
 
 	private LinearLayout ll_leftIcon;
+	@SuppressWarnings("FieldCanBeLocal")
 	private TextView tv_leftIcon;
 	private TextView tv_title;
 	private ImageView iv_rightIcon;

@@ -20,4 +20,5 @@
     </string-array>
   <string name="take_photo_msg_no_sdcard">亲,未找到SD卡噢...</string>
       <string name="str_operation_failed">操作失败</string>
+
 </resources>

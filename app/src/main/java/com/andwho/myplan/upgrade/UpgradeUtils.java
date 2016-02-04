@@ -517,15 +517,13 @@ public class UpgradeUtils {
 	private static String getImsi(final Context mActivity) {
 		TelephonyManager telephonyManager = (TelephonyManager) mActivity
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		String imei = telephonyManager.getSubscriberId();
-		return imei;
+		return telephonyManager.getSubscriberId();
 	}
 
 	private static String getEsn(final Activity mActivity) {
 		TelephonyManager tm = (TelephonyManager) mActivity
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		String esn = tm.getDeviceId();
-		return esn;
+		return tm.getDeviceId();
 	}
 
 }

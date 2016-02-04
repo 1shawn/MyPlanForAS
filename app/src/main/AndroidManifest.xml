@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.andwho.myplan" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.CAMERA" />
 

@@ -18,6 +18,7 @@ import com.andwho.myplan.model.Plan;
 /**
  * @author ouyyx
  * */
+@SuppressWarnings("ALL")
 public class DbManger {
 	//
 
@@ -117,6 +118,7 @@ public class DbManger {
 		return queryPlans(planType, null);
 	}
 
+	@SuppressWarnings("WhileLoopReplaceableByForEach")
 	public ArrayList<DatePlans> getEverydayPlanData() {
 		ArrayList<DatePlans> datePlansList = new ArrayList<DatePlans>();
 		// date
@@ -127,6 +129,7 @@ public class DbManger {
 		}
 		//
 		Iterator<String> i = dateSet.iterator();
+		//noinspection WhileLoopReplaceableByForEach,WhileLoopReplaceableByForEach
 		while (i.hasNext()) {
 			String date = i.next();
 			ArrayList<Plan> tempList = new ArrayList<Plan>();
