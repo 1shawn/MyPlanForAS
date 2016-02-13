@@ -1,15 +1,16 @@
 package com.andwho.myplan.utils;
 
+import android.app.Activity;
+
+import com.andwho.myplan.preference.MyPlanPreference;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-
-import com.andwho.myplan.preference.MyPlanPreference;
-
-import android.app.Activity;
+import java.util.Locale;
 
 public class DateUtil {
 	public static String getCurTimeInMillis() {
@@ -26,12 +27,13 @@ public class DateUtil {
 		return strDate;
 	}
 
-	public static String getCurDateYYYYMMDDHHSS() {
+	public static String getCurDateYYYYMMDDHHMM() {
+		Locale.setDefault(Locale.getDefault());
 		Date date = new Date();
 		date.setTime(Calendar.getInstance().getTimeInMillis());
 
 		String strDate = "";
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:ss");
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		strDate = format.format(date);
 		return strDate;
 	}

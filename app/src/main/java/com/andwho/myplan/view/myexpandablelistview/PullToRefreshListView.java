@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.andwho.myplan.R;
 import com.andwho.myplan.view.myexpandablelistview.adapter.EmptyViewMethodAccessor;

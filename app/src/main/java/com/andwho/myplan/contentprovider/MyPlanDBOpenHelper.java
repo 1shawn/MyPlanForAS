@@ -14,7 +14,7 @@ public class MyPlanDBOpenHelper extends SQLiteOpenHelper {
 	// 表名
 	public static final String TABLE_NAME = "myplan";// 表名
 	// 表字段
-	public static final String PLANID = "planid";// 表键
+	public static final String PLANID = "_id";// 表键
 	public static final String CONTENT = "content";// 内容
 	public static final String CREATETIME = "createtime";// 创建时间
 	public static final String COMPLETETIME = "completetime";// 完成时间

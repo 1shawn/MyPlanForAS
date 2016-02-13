@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.view.MyViewPager;
 
 public abstract class MyPlanViewPagerFrag extends BaseFrag {
@@ -40,9 +39,6 @@ public abstract class MyPlanViewPagerFrag extends BaseFrag {
 	public abstract ViewGroup getContainer(View view);
 
 	public void setPageSelected(int position) {
-		if (tabPager == null) {
-			Log.d(TAG, "@@....tabPager为空值");
-		}
 		tabPager.setCurrentItem(position, true);
 	}
 

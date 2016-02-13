@@ -18,7 +18,7 @@ import com.andwho.myplan.R;
 /**
  * Created by zhouf on 2016/1/21.
  */
-public class CustomEditView  extends LinearLayout implements View.OnClickListener {
+public class CustomEditView extends LinearLayout implements View.OnClickListener {
     private Context mContext;
     private WordLimitedEditText mEditText;
     private ImageView mDeleteBtn;
@@ -27,29 +27,35 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
     private CustomEditViewListner mCustomEditViewInterface;
     private LinearLayout mAllView;
 
-    /** 编辑框实际长度 */
+    /**
+     * 编辑框实际长度
+     */
     private int mCurrentLenght;
-    /** 是否需要自动填充数据标志 */
+    /**
+     * 是否需要自动填充数据标志
+     */
     private boolean autoCompleteFlag = true;
-    /** 表示数据是自动填充的，自动填充的数据定义为非编辑框实际长度 */
+    /**
+     * 表示数据是自动填充的，自动填充的数据定义为非编辑框实际长度
+     */
     private boolean isAutoComplete = false;
     private boolean isVisible = false;
 
 
-    public CustomEditView(Context context){
+    public CustomEditView(Context context) {
         super(context);
         mContext = context;
         initView();
     }
 
-    public CustomEditView(Context context, AttributeSet attrs){
+    public CustomEditView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         initView();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public CustomEditView(Context context, AttributeSet attrs, int defStyle){
+    public CustomEditView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
         initView();
@@ -62,7 +68,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
         mDeleteBtn = (ImageView) findViewById(R.id.customeditview_deletebtn);
         mDownBtn = (ImageView) findViewById(R.id.customeditview_downbtn);
         mOtherBtn = (ImageView) findViewById(R.id.customeditview_otherbtn);
-        mAllView = (LinearLayout)findViewById(R.id.ll_all);
+        mAllView = (LinearLayout) findViewById(R.id.ll_all);
 
         if (mEditText.getText().toString().trim().equals("")) {
             mDeleteBtn.setVisibility(View.GONE);
@@ -77,7 +83,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
         mEditText.setFocusable(true);
         mEditText.requestFocus();
         // modify by chenyl 2015-5-29 如果失去焦点需要把删除整句按钮消失掉
-        mEditText.setOnFocusChangeListener(new OnFocusChangeListener(){
+        mEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -99,11 +105,11 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
         this.isVisible = isVisible;
     }
 
-    public void setOnSelectionChangedListener(WordLimitedEditText.OnSelectionChangedListener onSelectionChangedListener){
+    public void setOnSelectionChangedListener(WordLimitedEditText.OnSelectionChangedListener onSelectionChangedListener) {
         mEditText.setOnSelectionChangedListener(onSelectionChangedListener);
     }
 
-    private TextWatcher textWatcher = new TextWatcher(){
+    private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
@@ -160,11 +166,11 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
         }
     }
 
-    public void setOtherEnable(boolean flag){
+    public void setOtherEnable(boolean flag) {
         mOtherBtn.setEnabled(flag);
     }
 
-    public void setEditTextEnable(boolean flag){
+    public void setEditTextEnable(boolean flag) {
         mEditText.setEnabled(flag);
     }
 
@@ -178,6 +184,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 设置是否为自动填充数据
+     *
      * @param flag
      */
     public void setIsAutoComplete(boolean flag) {
@@ -186,6 +193,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 设置光标位置
+     *
      * @param index
      */
     public void setSelection(int index) {
@@ -197,6 +205,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 设置监听器
+     *
      * @param customEditViewInterface
      */
     public void setCustomEditViewLister(CustomEditViewListner customEditViewInterface) {
@@ -221,6 +230,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 设置编辑框内容
+     *
      * @param content
      */
     public void setEditViewContent(Object content) {
@@ -231,6 +241,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 获取编辑框内容
+     *
      * @return
      */
     public String getEditViewContent() {
@@ -243,6 +254,7 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 获取编辑框内容
+     *
      * @return
      */
     public WordLimitedEditText getEditView() {
@@ -260,13 +272,15 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
 
     /**
      * 设置编辑框hint
+     *
      * @param hint
      */
     public void setEditViewHint(String hint) {
         mEditText.setHint(hint);
         mEditText.setHintTextColor(getResources().getColor(R.color.my_item_small_right_tv));
     }
-    public String getEditViewHint(){
+
+    public String getEditViewHint() {
         return mEditText.getHint().toString();
     }
 
@@ -306,24 +320,29 @@ public class CustomEditView  extends LinearLayout implements View.OnClickListene
         mEditText.requestFocus();
     }
 
-    public void addTextChangedListener(TextWatcher watcher){
+    public void addTextChangedListener(TextWatcher watcher) {
         mEditText.removeTextChangedListener(textWatcher);
         mEditText.addTextChangedListener(watcher);
     }
 
     /**
      * 设置整个背景颜色
+     *
      * @param color
      */
-    public void setViewBackground(int color){mAllView.setBackgroundColor(color);}
+    public void setViewBackground(int color) {
+        mAllView.setBackgroundColor(color);
+    }
 
-    public void setContextColor(int color){
+    public void setContextColor(int color) {
         mEditText.setTextColor(color);
     }
 
     public interface CustomEditViewListner {
         void onDownBtnClick();
+
         void onOtherBtnClick();
+
         void onFuzzyMatch(Editable s, boolean autoCompleteFlag);
     }
 }
