@@ -90,6 +90,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="library" exported="" name="spring-android-rest-template-1.0.0.M4-sources" level="project" />
+    <orderEntry type="library" exported="" name="library-universalimageloader-master20151217" level="project" />
     <orderEntry type="library" exported="" name="spring-android-core-1.0.0.M4" level="project" />
     <orderEntry type="library" exported="" name="spring-android-core-1.0.0.M4-sources" level="project" />
     <orderEntry type="library" exported="" name="spring-android-rest-template-1.0.0.M4" level="project" />
