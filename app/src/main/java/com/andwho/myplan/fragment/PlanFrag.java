@@ -35,12 +35,14 @@ import com.andwho.myplan.constants.PlanType;
 import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.contentprovider.MyPlanDBOpenHelper;
 import com.andwho.myplan.model.Plan;
-import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.utils.MyPlanUtil;
 import com.andwho.myplan.view.myexpandablelistview.PinnedExpandableListView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshExpandableListView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -137,8 +139,8 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        // 添加，修改“长远计划”后返回，刷新cursor
-        Log.e(TAG, "@@----onStart  ");
+        // 添加，修改“计划”后返回，刷新cursor
+        //Log.e(TAG, "@@----onStart 开始onStart  ");
 
         if (curPlanType.equals(PlanType.LONGTERM_PLAN)) {
             if (longPlanCursor != null && listAdapter != null) {
@@ -149,15 +151,24 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             }
         } else {
             if (everydayCursor != null && expandableListAdapter != null) {
+                // Log.e(TAG, "@@----onStart   everydayCursor ， expandableListAdapter 都不为空");
                 everydayCursor.requery();
                 expandableListAdapter.notifyDataSetChanged();
-                expandable_list.expandGroup(0);
+                // 更新cursor以后，展开之前已经展开的项目，否则列表全部收缩
+                expandExist();
             } else {
+                // Log.e(TAG, "@@----onStart initEverydayList ");
                 initEverydayList();
             }
         }
     }
 
+
+    private void expandExist() {
+        for (Integer groupPosition : expandPositionsEveryday) {
+            expandable_list.expandGroup(groupPosition);
+        }
+    }
 
     private String curPlanType = PlanType.EVERYDAY_PLAN;
 
@@ -256,7 +267,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
     }
 
 
-//    private Set<Integer> expandPositionsEveryday = new HashSet<Integer>();
+    private Set<Integer> expandPositionsEveryday = new HashSet<Integer>();
 
     /***
      * "每日计划"的适配器
@@ -345,14 +356,13 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                     }
                 }
             });
-//            int groupPosition = cursor.getPosition();
 
-//            if (isExpanded) {
-//                Log.e(TAG, "@@---------------------bindGroupView expand groupPosition： " + groupPosition);
-//                expandPositionsEveryday.add(groupPosition);
-//            } else {
-//                expandPositionsEveryday.remove(groupPosition);
-//            }
+            if (isExpanded) {
+                // Log.d(TAG, "@@---------------------bindGroupView expand groupPosition： " + groupPosition);
+                expandPositionsEveryday.add(groupPosition);
+            } else {
+                expandPositionsEveryday.remove(groupPosition);
+            }
 
         }
 
@@ -669,7 +679,6 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                             }
                         } else {
                             DbManger.getInstance(myselfContext).deletePlan(plan.planid);
-
                             everydayCursor.requery();
                             // 删除后,如果没有记录，提示“暂无数据”
                             if (everydayCursor != null && everydayCursor.getCount() == 0) {
@@ -677,8 +686,6 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                                 tv_nocontent.setVisibility(View.VISIBLE);
                                 expandableListAdapter = null;// 初始化
                             } else {
-                                expandable_list.expandGroup(0);
-
                                 expandableListAdapter.notifyDataSetChanged();
                             }
                         }
