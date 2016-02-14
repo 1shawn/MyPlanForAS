@@ -40,11 +40,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author ouyyx 小区
+ * @author ouyyx 小区(顶部广告，分享列表)
  */
-public class PostListFrag extends BaseFrag implements OnClickListener {
+public class CommunityFrag extends BaseFrag implements OnClickListener {
 
-    private static final String TAG = PostListFrag.class.getSimpleName();
+    private static final String TAG = CommunityFrag.class.getSimpleName();
 
     private Activity myselfContext;
 

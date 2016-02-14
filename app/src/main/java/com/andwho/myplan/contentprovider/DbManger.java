@@ -75,7 +75,8 @@ public class DbManger {
     public Cursor getEverydayPlanByDate(String createDate) {
         String where = MyPlanDBOpenHelper.PLANTYPE + " = 1  AND  "
                 + MyPlanDBOpenHelper.CREATETIME + " = '" + createDate + "'"
-                + "  ORDER BY " + MyPlanDBOpenHelper.UPDATETIME + " DESC";
+                + "  ORDER BY " + MyPlanDBOpenHelper.ISCOMPLETED + " ASC,"
+                + MyPlanDBOpenHelper.UPDATETIME + " DESC";
         Cursor cursor = mContentResolver.query(
                 Uri.parse(MyPlanDBOpenHelper.CONTENT_URI), null, where, null,
                 null);
@@ -101,17 +102,6 @@ public class DbManger {
 
     public ArrayList<Plan> queryPlans(String planType, String iscompleted) {
         ArrayList<Plan> listPlan = new ArrayList<Plan>();
-
-//        String where = null;
-//        if (!TextUtils.isEmpty(iscompleted)) {
-//            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType + " and "
-//                    + MyPlanDBOpenHelper.ISCOMPLETED + " = " + iscompleted;
-//        } else {
-//            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType;
-//        }
-//        Cursor cursor = mContentResolver.query(
-//                Uri.parse(MyPlanDBOpenHelper.CONTENT_URI), null, where, null,
-//                null);
 
         Cursor cursor = getPlanCursor(planType, iscompleted);
         while (cursor.moveToNext()) {
@@ -181,10 +171,15 @@ public class DbManger {
     public Cursor getPlanCursor(String planType, String iscompleted) {
         String where = null;
         if (!TextUtils.isEmpty(iscompleted)) {
-            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType + " and "
-                    + MyPlanDBOpenHelper.ISCOMPLETED + " = " + iscompleted + "  ORDER BY " + MyPlanDBOpenHelper.UPDATETIME + " DESC";
+            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType
+                    + " and "
+                    + MyPlanDBOpenHelper.ISCOMPLETED + " = " + iscompleted
+                    + "  ORDER BY " + MyPlanDBOpenHelper.ISCOMPLETED + " ASC,"
+                    + MyPlanDBOpenHelper.CREATETIME + " DESC";
         } else {
-            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType + "  ORDER BY " + MyPlanDBOpenHelper.UPDATETIME + " DESC";
+            where = MyPlanDBOpenHelper.PLANTYPE + " =" + planType
+                    + "  ORDER BY " + MyPlanDBOpenHelper.ISCOMPLETED + " ASC ,"
+                    + MyPlanDBOpenHelper.CREATETIME + " DESC";
         }
         Cursor cursor = mContentResolver.query(
                 Uri.parse(MyPlanDBOpenHelper.CONTENT_URI), null, where, null,
