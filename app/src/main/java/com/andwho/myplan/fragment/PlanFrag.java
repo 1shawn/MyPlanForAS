@@ -35,6 +35,7 @@ import com.andwho.myplan.constants.PlanType;
 import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.contentprovider.MyPlanDBOpenHelper;
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.utils.MyPlanUtil;
 import com.andwho.myplan.view.myexpandablelistview.PinnedExpandableListView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
@@ -140,7 +141,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
     public void onStart() {
         super.onStart();
         // 添加，修改“计划”后返回，刷新cursor
-        //Log.e(TAG, "@@----onStart 开始onStart  ");
+        Log.e(TAG, "@@----onStart 开始onStart  ");
 
         if (curPlanType.equals(PlanType.LONGTERM_PLAN)) {
             if (longPlanCursor != null && listAdapter != null) {
@@ -151,13 +152,13 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             }
         } else {
             if (everydayCursor != null && expandableListAdapter != null) {
-                // Log.e(TAG, "@@----onStart   everydayCursor ， expandableListAdapter 都不为空");
+                Log.e(TAG, "@@----onStart   everydayCursor ， expandableListAdapter 都不为空");
                 everydayCursor.requery();
                 expandableListAdapter.notifyDataSetChanged();
                 // 更新cursor以后，展开之前已经展开的项目，否则列表全部收缩
                 expandExist();
             } else {
-                // Log.e(TAG, "@@----onStart initEverydayList ");
+                Log.e(TAG, "@@----onStart initEverydayList ");
                 initEverydayList();
             }
         }
@@ -202,18 +203,20 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
 
     private Cursor everydayCursor;
 
+
     private void initEverydayList() {
         listview.setVisibility(View.GONE);
 
         if (expandableListAdapter != null && expandableListAdapter.getGroupCount() > 0) {
+            Log.e(TAG, "@@---------------------initEverydayList  adapter group count > 0 ");
             // 如果列表已经加载了数据则只要显示
             // 这个判断在“每日计划”“长远计划”tab切换的时候使用
             tv_nocontent.setVisibility(View.GONE);
             expandable_list.setVisibility(View.VISIBLE);
+            // 在切换到“长远计划”，点击“新增，编辑计划”后，返回，切换到“每日计划”，需要保持之前展开状态
+            expandExist();
         } else {
-            tv_nocontent.setVisibility(View.GONE);
-            expandable_list.setVisibility(View.VISIBLE);
-
+            Log.e(TAG, "@@---------------------重新查询 ");
             everydayCursor = DbManger.getInstance(myselfContext).getEverydayPlanDate();
 //            Log.e(TAG, "@@---------------------cursor count = " + everydayCursor.getCount());
 //            while (everydayCursor.moveToNext()) {
@@ -229,6 +232,9 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
 //            }
 
             if (everydayCursor != null && everydayCursor.getCount() > 0) {
+                tv_nocontent.setVisibility(View.GONE);
+                expandable_list.setVisibility(View.VISIBLE);
+
                 myselfContext.startManagingCursor(everydayCursor);
                 expandableListAdapter = new EverydayTreeAdapter(everydayCursor, myselfContext);
                 expandable_list.setAdapter(expandableListAdapter);
@@ -617,19 +623,24 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
 
         Button btn1 = (Button) popupWindow_view.findViewById(R.id.btn1);
         Button btn2 = (Button) popupWindow_view.findViewById(R.id.btn2);
+        btn1.setVisibility(View.VISIBLE);
         if (CompleteStatus.IS_COMPLETED.equals(plan.iscompleted)) {
-            btn1.setVisibility(View.GONE);
+            btn1.setText("未完成");
         } else {
-            btn1.setVisibility(View.VISIBLE);
+            btn1.setText("完成");
         }
-        btn1.setText("完成");
         btn2.setText("删除");
         btn1.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                plan.iscompleted = CompleteStatus.IS_COMPLETED;
+                if (CompleteStatus.IS_COMPLETED.equals(plan.iscompleted)) {
+                    plan.iscompleted = CompleteStatus.IS_NOT_COMPLETED;
+                } else {
+                    plan.iscompleted = CompleteStatus.IS_COMPLETED;
+                }
+
                 DbManger.getInstance(myselfContext).updatePlan(plan);
                 if (planType.equals(PlanType.LONGTERM_PLAN)) {
                     longPlanCursor.requery();
@@ -653,7 +664,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             }
         });
 
-        popupWindow.showAsDropDown(view, view.getWidth() / 5, -20);
+        popupWindow.showAsDropDown(view, view.getWidth() / 2, (-150));
 
     }
 
