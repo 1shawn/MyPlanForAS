@@ -1,23 +1,5 @@
 package com.andwho.myplan.helper;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.AnimationDrawable;
-import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.andwho.myplan.R;
-import com.andwho.myplan.utils.AndroidUtil;
-
 /**
  * Created by zhouf on 2016/1/22.
  */
@@ -30,7 +12,7 @@ public class CustomDialogHelper {
      * @param cancelable    是否点返回dismiss
      * @param keybackFinish 是否点返回finish Activity
      * @return 对话框
-     */
+     *//*
     public static Dialog showUniLoadingDialog(Context context, String message, boolean cancelable,
                                               boolean keybackFinish) {
         Activity activity = (Activity) context;
@@ -94,5 +76,5 @@ public class CustomDialogHelper {
             });
         }
         return dialog;
-    }
+    }*/
 }
