@@ -26,6 +26,7 @@ dependencies {
    // compile 'com.android.support:support-v4:23.1.1'
     compile files('libs/android-support-v13.jar')
     compile files('libs/BmobSDK_V3.4.4_0930.jar')
+    compile files('libs/library-universalimageloader-master20151217.jar')
     compile files('libs/spring-android-core-1.0.0.M4.jar')
     compile files('libs/spring-android-core-1.0.0.M4-sources.jar')
     compile files('libs/spring-android-rest-template-1.0.0.M4.jar')

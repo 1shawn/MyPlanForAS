@@ -114,7 +114,7 @@ public class IndexFrag extends MyPlanViewPagerFrag implements View.OnClickListen
         Fragment[] frags = new Fragment[3];
         frags[0] = new MineFrag();
         frags[1] = new PlanFrag();
-        frags[2] = new PostListFrag();
+        frags[2] = new CommunityFrag();
         return frags;
     }
 

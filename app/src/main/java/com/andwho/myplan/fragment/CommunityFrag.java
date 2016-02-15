@@ -29,8 +29,11 @@ import android.widget.TextView;
 import com.andwho.myplan.R;
 import com.andwho.myplan.activity.IntentHelper;
 import com.andwho.myplan.contentprovider.DbManger;
+import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.utils.MyPlanUtil;
+import com.andwho.myplan.view.AdView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Mode;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.OnRefreshListener;
@@ -39,17 +42,23 @@ import com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author ouyyx 小区
- */
-public class PostListFrag extends BaseFrag implements OnClickListener {
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
 
-    private static final String TAG = PostListFrag.class.getSimpleName();
+/**
+ * @author ouyyx 小区(顶部广告，分享列表)
+ */
+public class CommunityFrag extends BaseFrag implements OnClickListener {
+
+    private static final String TAG = CommunityFrag.class.getSimpleName();
 
     private Activity myselfContext;
+    private TextView tv_title;
+    private ImageView iv_rightIcon;
 
     private TextView tv_nocontent;
 
+    private AdView ad;
     private PullToRefreshListView listview;
     private ListAdapter listAdapter;
 
@@ -67,8 +76,11 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
 
     private View findViews(LayoutInflater inflater, ViewGroup container) {
 
-        View view = inflater.inflate(R.layout.post_list_frag, container,
+        View view = inflater.inflate(R.layout.community_frag, container,
                 false);
+        initHeader(view);
+
+        ad = (AdView) view.findViewById(R.id.ad);
         tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);
         listview = (PullToRefreshListView) view.findViewById(R.id.listview);
         return view;
@@ -78,6 +90,15 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
 
         listview.setMode(Mode.BOTH);
         listview.setOnRefreshListener(mOnRefreshListener);
+    }
+
+    private void initHeader(View view) {
+        tv_title = (TextView) view.findViewById(R.id.tv_title);
+        tv_title.setText("小区");
+        iv_rightIcon = (ImageView) view.findViewById(R.id.iv_rightIcon);
+        iv_rightIcon.setVisibility(View.VISIBLE);
+        iv_rightIcon.setImageResource(R.drawable.icon_add);
+        iv_rightIcon.setOnClickListener(this);
     }
 
     private OnRefreshListener<ListView> mOnRefreshListener = new OnRefreshListener<ListView>() {
@@ -115,17 +136,19 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
     };
 
     private void init() {
-        //
+        initList();
     }
 
     @Override
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        initList();
+
     }
 
     private void initList() {
+        addHeader();
+
         ArrayList<Plan> list = DbManger.getInstance(myselfContext).queryPlans(
                 "0");
         if (list != null && list.size() > 0) {
@@ -136,10 +159,54 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
             listview.setAdapter(listAdapter);
             listview.setOnItemClickListener(mOnItemClickListener);
             listview.setOnItemLongClickListener(mOnItemLongClickListener);
+
         } else {
             listview.setVisibility(View.GONE);
             tv_nocontent.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void addHeader() {
+//        LayoutInflater vi = (LayoutInflater) myselfContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        ad = (AdView) vi.inflate(R.layout.ad_header, null, false);
+        ad.showDefaultImg();
+
+//        BmobQuery<Banner> query = new BmobQuery<Banner>();
+//        query.findObjects(myselfContext, new FindListener<Banner>() {
+//            @Override
+//            public void onSuccess(final List<Banner> listBanner) {
+//                // TODO Auto-generated method stub
+//
+//                Log.e(TAG, "@@...smpp...CheckUpdate size = " + listBanner);
+//
+//                for (Banner banner : listBanner) {
+//                    Log.e(TAG, "@@...smpp..-----------------> ");
+//                    Log.e(TAG, "@@...smpp...banner title = "
+//                            + banner.title);
+//                    Log.e(TAG, "@@...smpp...banner imgURL = "
+//                            + banner.imgURL);
+//                    Log.e(TAG, "@@...smpp...banner  detailURL = "
+//                            + banner.detailURL);
+//
+//                }
+//                myselfContext.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        ad.init(listBanner);
+//                    }
+//                });
+//
+//                //listview.addHeaderView(ad , null, false);
+//            }
+//
+//            @Override
+//            public void onError(int arg0, String arg1) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        });
+
+
     }
 
     private class ListAdapter extends BaseAdapter {
@@ -211,11 +278,20 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
 
     }
 
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
 
+    @Override
+    public void onClick(View view) {
+        // TODO Auto-generated method stub
+        int id = view.getId();
+        switch (id) {
+            case R.id.iv_rightIcon:
+//                IntentHelper.showPlanEdit(myselfContext, curPlanType);
+                break;
+            default:
+                break;
+        }
     }
+
 
     protected void initPopuptWindow(View view, final Plan plan) {
         // TODO Auto-generated method stub
@@ -310,5 +386,19 @@ public class PostListFrag extends BaseFrag implements OnClickListener {
             }
         });
         dialog.show();
+    }
+
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // StatService.onResume(this);
+        ad.startAdAutoSwitch();
+    }
+
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // StatService.onPause(this);
+        ad.stopAdAutoSwitch();
     }
 }

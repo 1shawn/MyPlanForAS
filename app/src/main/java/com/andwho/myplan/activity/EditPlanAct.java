@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.constants.CompleteStatus;
 import com.andwho.myplan.constants.PlanType;
 import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.model.Plan;
@@ -156,6 +157,7 @@ public class EditPlanAct extends BaseAct implements OnClickListener {
     private Plan getPlan() {
         Plan plan = new Plan();
         plan.content = et.getText().toString();
+        plan.iscompleted = CompleteStatus.IS_NOT_COMPLETED;
         plan.createtime = DateUtil.getCurDateYYYYMMDD();
         plan.updatetime = DateUtil.getCurDateYYYYMMDDHHMM();
         plan.plantype = planType;
