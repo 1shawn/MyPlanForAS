@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.andwho.myplan.constants.ConfigParam;
+import com.andwho.myplan.utils.DensityUtils;
 import com.andwho.myplan.utils.ImageUtils;
 
 import cn.bmob.v3.Bmob;
@@ -19,6 +20,7 @@ public class MpApplication extends Application {
 
         Context mContext = getApplicationContext();
 
+        DensityUtils.setContext(mContext);
         Bmob.initialize(mContext, ConfigParam.BOMB_APPLICATION_ID);
         ImageUtils.initImageLoader(mContext);
     }

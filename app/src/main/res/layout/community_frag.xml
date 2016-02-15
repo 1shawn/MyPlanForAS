@@ -18,7 +18,7 @@
         <com.andwho.myplan.view.AdView
             android:id="@+id/ad"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="190dp" />
 
         <TextView
             android:id="@+id/tv_nocontent"

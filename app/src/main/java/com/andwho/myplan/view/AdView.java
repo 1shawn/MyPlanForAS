@@ -72,37 +72,22 @@ public class AdView extends LinearLayout {
     }
 
     public void init(List<Banner> listInfos) {
-        //
-        // String[] images = {
-        // "http://img2.imgtn.bdimg.com/it/u=3093785514,1341050958&fm=21&gp=0.jpg",
-        // "http://img2.3lian.com/2014/f2/37/d/40.jpg",
-        // "http://d.3987.com/sqmy_131219/001.jpg",
-        // "http://img2.3lian.com/2014/f2/37/d/39.jpg",
-        // "http://www.8kmm.com/UploadFiles/2012/8/201208140920132659.jpg",
-        // "http://f.hiphotos.baidu.com/image/h%3D200/sign=1478eb74d5a20cf45990f9df460b4b0c/d058ccbf6c81800a5422e5fdb43533fa838b4779.jpg",
-        // "http://f.hiphotos.baidu.com/image/pic/item/09fa513d269759ee50f1971ab6fb43166c22dfba.jpg"
-        // };
-        //
-        // List<String> listInfos = new ArrayList<String>();
-        // listInfos.add(images[0]);
-        // listInfos.add(images[1]);
-        // listInfos.add(images[2]);
-        // listInfos.add(images[3]);
-        // listInfos.add(images[4]);
-        // listInfos.add(images[5]);
+
 
         adInfos = listInfos;
-        // adInfos.addAll(listInfos);
 
         if (adInfos != null && adInfos.size() > 0) {
+
             // 展示的广告
             iv_ad.setVisibility(View.GONE);
             ad_layout.setVisibility(View.VISIBLE);
             // 页码显示
             int showSize = adInfos.size();
+
             if (showSize > 1) {
                 ll_ad_indicator.setVisibility(View.VISIBLE);
-                mMaxFlipAd = showSize;
+                adRealCount = showSize;
+
                 createPageIndicatorAd();
             } else {
                 ll_ad_indicator.removeAllViews();
@@ -123,6 +108,8 @@ public class AdView extends LinearLayout {
 
     }
 
+    private int REPEAT_TIMES = 3;
+
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
 
         @Override
@@ -140,12 +127,22 @@ public class AdView extends LinearLayout {
     private AdapterView.OnItemSelectedListener onAdItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
         @Override
-        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
                                    long arg3) {
             // TODO Auto-generated method stub
-            mAdSelectedPosition = arg2;
-            updateTitle(mAdSelectedPosition);
-            updatePageIndicatorAd();
+            if (position == 0) {
+                // 如果滑动到第一项
+                ad_gallery.setSelection(adRealCount);
+            } else if (position == (adInfos.size() * REPEAT_TIMES) - 1) {
+                // 如果滑动到最后一项
+                ad_gallery.setSelection(adRealCount + adRealCount - 1);
+            } else {
+                mAdSelectedPosition = position % adRealCount;
+                updateTitle(mAdSelectedPosition);
+                updatePageIndicatorAd();
+            }
+
+
         }
 
         @Override
@@ -159,16 +156,17 @@ public class AdView extends LinearLayout {
         tv_title.setText(adInfos.get(position).title);
     }
 
-    private int mMaxFlipAd = 0;
+    private int adRealCount = 0;
 
     private void createPageIndicatorAd() {
+
         ll_ad_indicator.removeAllViews();
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         llp.leftMargin = DensityUtils.dip2px(10);
         llp.rightMargin = DensityUtils.dip2px(10);
-        for (int i = 0; i < this.mMaxFlipAd; i++) {
+        for (int i = 0; i < this.adRealCount; i++) {
             ImageView img = new ImageView(myselfContext);
             img.setLayoutParams(llp);
             ll_ad_indicator.addView(img, llp);
@@ -181,10 +179,11 @@ public class AdView extends LinearLayout {
 
     private void updatePageIndicatorAd() {
 
-        if (mAdSelectedPosition < 0 || mAdSelectedPosition > mMaxFlipAd - 1) {
+        if (mAdSelectedPosition < 0 || mAdSelectedPosition > adRealCount - 1) {
             ll_ad_indicator.setVisibility(View.INVISIBLE);
             return;
         }
+
         ll_ad_indicator.setVisibility(View.VISIBLE);
 
         for (int i = 0; i < ll_ad_indicator.getChildCount(); i++) {
@@ -218,14 +217,14 @@ public class AdView extends LinearLayout {
         public int getCount() {
             // TODO Auto-generated
             // method stub
-            return infoList.size();
+            return infoList.size() * REPEAT_TIMES;
         }
 
         @Override
         public Object getItem(int position) {
             // TODO Auto-generated
             // method stub
-            return infoList.get(position);
+            return infoList.get(position % REPEAT_TIMES);
         }
 
         @Override
@@ -248,9 +247,8 @@ public class AdView extends LinearLayout {
 
             imageView.setDefaultImage(R.drawable.def_activity_bar);
 
-            Banner detail = (Banner) infoList.get(position);
+            Banner detail = (Banner) infoList.get(position % REPEAT_TIMES);
             if (detail != null && !TextUtils.isEmpty(detail.imgURL)) {
-                // Log.d(TAG, "@@...sp...getView..url : " + detail.imgURL);
                 imageView.setImageUrl(detail.imgURL);
             } else {
                 imageView.setImageResource(R.drawable.def_activity_bar);
@@ -267,27 +265,57 @@ public class AdView extends LinearLayout {
         @SuppressWarnings("deprecation")
         @Override
         public void handleMessage(Message msg) {
-            int count = ad_gallery.getCount();
-            if (count <= 1) {
+            int galleryCount = ad_gallery.getCount();
+            if (galleryCount <= 1) {
                 return;
             }
-            int selectedPosition = ad_gallery.getSelectedItemPosition();
-            if (selectedPosition >= count - 1) {
-                selectedPosition = 0;
-                ad_gallery.setSelection(selectedPosition);
+
+            int realSelectedPosition = ad_gallery.getSelectedItemPosition();
+            if (realSelectedPosition == 0) {
+                // 如果滑动到第一项
+                //updateTitle(0);
+                ad_gallery.setSelection(adRealCount);
+            } else if (realSelectedPosition == galleryCount - 1) {
+                // 如果滑动到最后一项
+                //updateTitle(adRealCount - 1);
+                ad_gallery.setSelection(adRealCount + adRealCount - 1);
             } else {
-                selectedPosition++;
+                //updateTitle((realSelectedPosition++) % REPEAT_TIMES);
+                // 自动向右滚动滚动
+                ad_gallery.onScroll(null, null, 100, 0);
+                ad_gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
             }
 
-            updateTitle(selectedPosition);
-
-            // 自动向右滚动滚动
-            ad_gallery.onScroll(null, null, 100, 0);
-            ad_gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
 
             startAdAutoSwitch();
         }
     };
+
+//    Handler galleryHandler = new Handler() {
+//        @SuppressWarnings("deprecation")
+//        @Override
+//        public void handleMessage(Message msg) {
+//            int count = ad_gallery.getCount();
+//            if (count <= 1) {
+//                return;
+//            }
+//            int selectedPosition = ad_gallery.getSelectedItemPosition();
+//            if (selectedPosition >= count - 1) {
+//                selectedPosition = 0;
+//                ad_gallery.setSelection(selectedPosition);
+//            } else {
+//                selectedPosition++;
+//            }
+//
+//            updateTitle(selectedPosition);
+//
+//            // 自动向右滚动滚动
+//            ad_gallery.onScroll(null, null, 100, 0);
+//            ad_gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
+//
+//            startAdAutoSwitch();
+//        }
+//    };
 
     public void startAdAutoSwitch() {
         if (adInfos != null && adInfos.size() > 0) {

@@ -171,40 +171,40 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 //        ad = (AdView) vi.inflate(R.layout.ad_header, null, false);
         ad.showDefaultImg();
 
-//        BmobQuery<Banner> query = new BmobQuery<Banner>();
-//        query.findObjects(myselfContext, new FindListener<Banner>() {
-//            @Override
-//            public void onSuccess(final List<Banner> listBanner) {
-//                // TODO Auto-generated method stub
-//
-//                Log.e(TAG, "@@...smpp...CheckUpdate size = " + listBanner);
-//
-//                for (Banner banner : listBanner) {
-//                    Log.e(TAG, "@@...smpp..-----------------> ");
-//                    Log.e(TAG, "@@...smpp...banner title = "
-//                            + banner.title);
-//                    Log.e(TAG, "@@...smpp...banner imgURL = "
-//                            + banner.imgURL);
-//                    Log.e(TAG, "@@...smpp...banner  detailURL = "
-//                            + banner.detailURL);
-//
-//                }
-//                myselfContext.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        ad.init(listBanner);
-//                    }
-//                });
-//
-//                //listview.addHeaderView(ad , null, false);
-//            }
-//
-//            @Override
-//            public void onError(int arg0, String arg1) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
+        BmobQuery<Banner> query = new BmobQuery<Banner>();
+        query.findObjects(myselfContext, new FindListener<Banner>() {
+            @Override
+            public void onSuccess(final List<Banner> listBanner) {
+                // TODO Auto-generated method stub
+
+                Log.e(TAG, "@@...smpp...CheckUpdate size = " + listBanner);
+
+                for (Banner banner : listBanner) {
+                    Log.e(TAG, "@@...smpp..-----------------> ");
+                    Log.e(TAG, "@@...smpp...banner title = "
+                            + banner.title);
+                    Log.e(TAG, "@@...smpp...banner imgURL = "
+                            + banner.imgURL);
+                    Log.e(TAG, "@@...smpp...banner  detailURL = "
+                            + banner.detailURL);
+
+                }
+                myselfContext.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ad.init(listBanner);
+                    }
+                });
+
+                //listview.addHeaderView(ad , null, false);
+            }
+
+            @Override
+            public void onError(int arg0, String arg1) {
+                // TODO Auto-generated method stub
+
+            }
+        });
 
 
     }
