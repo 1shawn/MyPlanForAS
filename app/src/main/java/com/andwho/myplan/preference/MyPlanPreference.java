@@ -2,7 +2,6 @@ package com.andwho.myplan.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 
 public class MyPlanPreference {
 
@@ -27,13 +26,38 @@ public class MyPlanPreference {
 	}
 
 	public final static String MYPLAN_NAME = "com.andwho.myplan.preference.myplanpreference";
+	private static final String USERId = "userId";
+
+	public String getUserId() {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+		return spf.getString(USERId, "");
+	}
+
+	public void setUserId(String id) {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERId, id).commit();
+	}
+
+	private static final String USERNAME = "userName";
+
+	public String getUsername() {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+		return spf.getString(USERNAME, "");
+	}
+
+	public void setUsername(String name) {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERNAME, name).commit();
+	}
 
 	private static final String NICKNAME = "nickname";
 
 	public String getNickname() {
 		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
 
-		return spf.getString(NICKNAME, "昵称");
+		return spf.getString(NICKNAME, "");
 	}
 
 	public void setNickname(String name) {

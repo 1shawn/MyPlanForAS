@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.AndroidUtil;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.ToastUtil;
@@ -43,7 +44,6 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
         mAccountView = (CustomEditView) findViewById(R.id.login_account_et);
         mAccountView.setSingleLine(true);
         mAccountView.setEditViewHint("请输入邮箱");
-        mAccountView.setNumberInput();
         mAccountView.setFocus();
         mAccountView.setDeleteBtnVisibility(true);
         mAccountView.setCustomEditViewLister(new CustomEditViewListener());
@@ -117,7 +117,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
             ToastUtil.showShortToast(this, getResources().getString(R.string.str_Register_Tips3));
             return;
         }
-        BmobAgent.checkUser(this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new FindListener<BmobUser>() {
+        BmobAgent.checkUser(this, mAccountView.getEditViewContent(), new FindListener<BmobUser>() {
             @Override
             public void onSuccess(List<BmobUser> list) {
                 if (null != list && list.size() > 0) {
@@ -126,6 +126,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                         BmobAgent.loginIn(LoginAct.this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new SaveListener() {
                             @Override
                             public void onSuccess() {
+                                MyPlanPreference.getInstance(myselfContext).setUsername(mAccountView.getEditViewContent());
                                 IntentHelper.showMain(myselfContext);
                             }
 

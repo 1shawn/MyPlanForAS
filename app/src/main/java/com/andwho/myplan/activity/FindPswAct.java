@@ -43,7 +43,6 @@ public class FindPswAct extends BaseAct implements View.OnClickListener {
         mAccountView = (CustomEditView) findViewById(R.id.login_account_et);
         mAccountView.setSingleLine(true);
         mAccountView.setEditViewHint("请输入邮箱");
-        mAccountView.setNumberInput();
         mAccountView.setFocus();
         mAccountView.setDeleteBtnVisibility(true);
         mAccountView.setCustomEditViewLister(new CustomEditViewListener());
