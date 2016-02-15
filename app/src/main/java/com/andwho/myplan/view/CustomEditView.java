@@ -99,6 +99,7 @@ public class CustomEditView extends LinearLayout implements View.OnClickListener
         mDeleteBtn.setOnClickListener(this);
         mDownBtn.setOnClickListener(this);
         mOtherBtn.setOnClickListener(this);
+        mEditText.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 
     public void setDeleteBtnVisibility(boolean isVisible) {

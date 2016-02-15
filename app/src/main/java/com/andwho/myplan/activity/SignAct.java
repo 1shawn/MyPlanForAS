@@ -44,7 +44,6 @@ public class SignAct  extends BaseAct implements View.OnClickListener {
         mAccountView = (CustomEditView) findViewById(R.id.login_account_et);
         mAccountView.setSingleLine(true);
         mAccountView.setEditViewHint("请输入邮箱");
-        mAccountView.setNumberInput();
         mAccountView.setFocus();
         mAccountView.setDeleteBtnVisibility(true);
         mAccountView.setCustomEditViewLister(new CustomEditViewListener());
@@ -113,25 +112,29 @@ public class SignAct  extends BaseAct implements View.OnClickListener {
             ToastUtil.showShortToast(this, getResources().getString(R.string.str_Register_Tips3));
             return;
         }
-        BmobAgent.checkUser(this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new FindListener<BmobUser>() {
+        BmobAgent.checkUser(this, mAccountView.getEditViewContent(), new FindListener<BmobUser>() {
             @Override
             public void onSuccess(List<BmobUser> list) {
-               BmobAgent.signIn(SignAct.this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new SaveListener() {
-                   @Override
-                   public void onSuccess() {
-                       ToastUtil.showLongToast(SignAct.this, getResources().getString(R.string.str_Register_Tips6));
-                   }
+                if(list!=null&&list.size()>0){
+                    ToastUtil.showLongToast(SignAct.this, getResources().getString(R.string.str_Register_Tips5));
+                }else {
+                    BmobAgent.signIn(SignAct.this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+                            ToastUtil.showLongToast(SignAct.this, getResources().getString(R.string.str_Register_Tips6));
+                        }
 
-                   @Override
-                   public void onFailure(int i, String s) {
-                       ToastUtil.showLongToast(SignAct.this, s);
-                   }
-               });
+                        @Override
+                        public void onFailure(int i, String s) {
+                            ToastUtil.showLongToast(SignAct.this, s);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onError(int i, String s) {
-                ToastUtil.showLongToast(SignAct.this, getResources().getString(R.string.str_Register_Tips5));
+                ToastUtil.showLongToast(SignAct.this, s);
             }
         });
     }

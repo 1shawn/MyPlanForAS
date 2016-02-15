@@ -23,9 +23,12 @@ import android.widget.Toast;
 
 import com.andwho.myplan.R;
 import com.andwho.myplan.preference.MyPlanPreference;
+import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
+import com.andwho.myplan.utils.StringUtil;
 import com.andwho.myplan.view.MpDatePickerDialog;
 import com.andwho.myplan.view.RoundedImageView;
+import com.bmob.btp.callback.UploadListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +36,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * @author ouyyx 个人设置
@@ -117,10 +120,17 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 	}
 
 	private void init() {
-		BmobUser bmobUser = BmobUser.getCurrentUser(this);
-		if(bmobUser != null){
+		String userName=MyPlanPreference.getInstance(myselfContext).getUsername();
+//		BmobUser bmobUser = BmobUser.getCurrentUser(this);
+		if(!TextUtils.isEmpty(userName)){
 			// 允许用户使用应用
-
+			String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
+			if(!TextUtils.isEmpty(nickname)){
+			     tv_nickname.setText(nickname);
+			}else{
+				tv_nickname.setText(StringUtil.starStrFormatChange(userName));
+			}
+			ll_changePsw.setVisibility(View.VISIBLE);
 		}else{
 			//缓存用户对象为空时， 可打开用户注册界面…
 //			IntentHelper.showLogin(this);
@@ -137,9 +147,24 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 
 	public void initData() {
 		new LoadImageAsyncTask().execute();
-		String nickname = MyPlanPreference.getInstance(myselfContext)
+		/*String nickname = MyPlanPreference.getInstance(myselfContext)
 				.getNickname();
-		tv_nickname.setText(nickname);
+		tv_nickname.setText(nickname);*/
+		String userName=MyPlanPreference.getInstance(myselfContext).getUsername();
+		if(!TextUtils.isEmpty(userName)){
+			// 允许用户使用应用
+			String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
+			if(!TextUtils.isEmpty(nickname)){
+				tv_nickname.setText(nickname);
+			}else{
+				tv_nickname.setText(StringUtil.starStrFormatChange(userName));
+			}
+			btn_login.setText("注销登录");
+		}else{
+			//缓存用户对象为空时， 可打开用户注册界面…
+//			IntentHelper.showLogin(this);
+		}
+
 		initGender();
 		initBirthday();
 		String lifeSpan = MyPlanPreference.getInstance(myselfContext)
@@ -227,10 +252,16 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 			IntentHelper.showModifyInfo(myselfContext, "lifespan");
 			break;
 		case R.id.btn_login:
-			IntentHelper.showLogin(myselfContext);
+			String userName=MyPlanPreference.getInstance(myselfContext).getUsername();
+			if(!TextUtils.isEmpty(userName)) {
+				BmobAgent.loginOut(myselfContext);
+				btn_login.setText("登录");
+			}else{
+				IntentHelper.showLogin(myselfContext);
+			}
 
 		case R.id.img_changePsw://忘记密码
-			IntentHelper.showLogin(myselfContext);
+			IntentHelper.showFindPsw(myselfContext);
 		case R.id.img_synchroData://同步数据
 			IntentHelper.showLogin(myselfContext);
 		default:
@@ -384,6 +415,30 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 					.getExternalStorageDirectory(), fileName));
 			MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
 					pictureUri.toString());
+			BmobAgent.uploadFile(myselfContext, pictureUri.toString(),new UploadListener() {
+
+				@Override
+				public void onSuccess(String fileName,String url,BmobFile file) {
+//					Log.i("bmob","文件上传成功："+fileName+",可访问的文件地址："+file.getUrl());
+					// TODO Auto-generated method stub
+					// fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
+					// url        ：文件地址
+					// file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
+//					注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），需要经过`URL签名`得到真正的可访问的URL地址,当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
+				}
+
+				@Override
+				public void onProgress(int progress) {
+					// TODO Auto-generated method stub
+//					Log.i("bmob","onProgress :"+progress);
+				}
+
+				@Override
+				public void onError(int statuscode, String errormsg) {
+					// TODO Auto-generated method stub
+//					Log.i("bmob","文件上传失败："+errormsg);
+				}
+			});
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
 			myselfContext.startActivityForResult(intent, REQUEST_CODE_CROP);
 

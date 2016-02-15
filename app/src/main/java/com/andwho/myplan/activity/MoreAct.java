@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,10 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.preference.MyPlanPreference;
+import com.andwho.myplan.utils.StringUtil;
 import com.andwho.myplan.view.FVItemSmall;
 import com.andwho.myplan.view.ScaleScrollView;
-
-import cn.bmob.v3.BmobUser;
 
 /**
  * @author ouyyx 更多
@@ -140,13 +141,30 @@ public class MoreAct extends BaseAct implements OnClickListener {
 	}
 
 	private void init() {
-		BmobUser bmobUser = BmobUser.getCurrentUser(this);
+		/*BmobUser bmobUser = BmobUser.getCurrentUser(this);
 		if(bmobUser != null){
 			// 允许用户使用应用
 
 		}else{
 			//缓存用户对象为空时， 可打开用户注册界面…
 //			IntentHelper.showLogin(this);
+			mLoginedView.setVisibility(View.GONE);
+			mUserAvatarIV.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_headicon));
+			mNotLoginView.setVisibility(View.VISIBLE);
+		}*/
+		String userName= MyPlanPreference.getInstance(myselfContext).getUsername();
+//		BmobUser bmobUser = BmobUser.getCurrentUser(this);
+		if(!TextUtils.isEmpty(userName)){
+			// 允许用户使用应用
+			String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
+			if(!TextUtils.isEmpty(nickname)){
+				mNameTextView.setText(nickname);
+			}else{
+				mNameTextView.setText(StringUtil.starStrFormatChange(userName));
+			}
+
+		}else{
+			//缓存用户对象为空时， 可打开用户注册界面…
 			mLoginedView.setVisibility(View.GONE);
 			mUserAvatarIV.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.default_headicon));
 			mNotLoginView.setVisibility(View.VISIBLE);
