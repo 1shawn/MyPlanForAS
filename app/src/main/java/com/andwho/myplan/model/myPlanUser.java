@@ -5,7 +5,7 @@ import cn.bmob.v3.BmobObject;
 /**
  * Created by zhouf on 2016/2/14.
  */
-public class myPlanUser extends  BmobObject {
+public class MyPlanUser extends  BmobObject {
     private String userObjectId;
     private String nickName;
     private String birthday;

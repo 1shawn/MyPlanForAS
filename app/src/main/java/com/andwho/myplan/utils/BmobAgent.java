@@ -2,6 +2,7 @@ package com.andwho.myplan.utils;
 
 import android.content.Context;
 
+import com.andwho.myplan.model.MyPlanUser;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.bmob.BmobProFile;
 import com.bmob.btp.callback.UploadListener;
@@ -11,6 +12,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.ResetPasswordByEmailListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by Administrator on 2016/1/22.
@@ -53,30 +55,22 @@ public class BmobAgent {
 //        BmobUser currentUser = BmobUser.getCurrentUser(context); // 现在的currentUser是null了
     }
     public static void uploadFile(Context context,String filePath,UploadListener listener){
-        BmobProFile.getInstance(context).upload(filePath,listener);
-      /*  BTPFileResponse response = BmobProFile.getInstance(context).upload(filePath, new UploadListener() {
+        BmobProFile.getInstance(context).upload(filePath, listener);
+    }
+    public static void checkUserSettingInfo(Context context,String userObjectId,FindListener<MyPlanUser> listener){
+        BmobQuery<MyPlanUser> query = new BmobQuery<MyPlanUser>();
+        //查询
+        query.addWhereEqualTo("userObjectId", userObjectId);
+        //执行查询方法
+        query.findObjects(context, listener);
+    }
 
-            @Override
-            public void onSuccess(String fileName,String url,BmobFile file) {
-                Log.i("bmob","文件上传成功："+fileName+",可访问的文件地址："+file.getUrl());
-                // TODO Auto-generated method stub
-                // fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
-                // url        ：文件地址
-                // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
-                注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），需要经过`URL签名`得到真正的可访问的URL地址,当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
-            }
+    public static void updateUserInfo(Context context, MyPlanUser userInfo,UpdateListener listener){
 
-            @Override
-            public void onProgress(int progress) {
-                // TODO Auto-generated method stub
-                Log.i("bmob","onProgress :"+progress);
-            }
+        userInfo.update(context, listener);
+    }
 
-            @Override
-            public void onError(int statuscode, String errormsg) {
-                // TODO Auto-generated method stub
-                Log.i("bmob","文件上传失败："+errormsg);
-            }
-        });*/
+    public static void saveUserInfo(Context context, MyPlanUser userInfo,SaveListener listener){
+        userInfo.save(context,listener);
     }
 }

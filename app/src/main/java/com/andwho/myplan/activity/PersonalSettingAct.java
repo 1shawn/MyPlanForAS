@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.model.MyPlanUser;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
@@ -34,9 +35,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * @author ouyyx 个人设置
@@ -418,13 +422,39 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
 			BmobAgent.uploadFile(myselfContext, pictureUri.toString(),new UploadListener() {
 
 				@Override
-				public void onSuccess(String fileName,String url,BmobFile file) {
+				public void onSuccess(String fileName,String url, final BmobFile file) {
 //					Log.i("bmob","文件上传成功："+fileName+",可访问的文件地址："+file.getUrl());
 					// TODO Auto-generated method stub
 					// fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
 					// url        ：文件地址
 					// file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
 //					注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），需要经过`URL签名`得到真正的可访问的URL地址,当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
+				BmobAgent.checkUserSettingInfo(PersonalSettingAct.this,"",new FindListener<MyPlanUser>(){
+					@Override
+					public void onSuccess(List<MyPlanUser> object) {
+						// TODO Auto-generated method stub
+//						toast("查询成功：共" + object.size() + "条数据。");
+						for (MyPlanUser userInfo : object) {
+							userInfo.setAvatarURL(file.getUrl());
+							BmobAgent.updateUserInfo(PersonalSettingAct.this, userInfo, new UpdateListener(){
+								@Override
+								public void onSuccess() {
+
+								}
+
+								@Override
+								public void onFailure(int i, String s) {
+
+								}
+							});
+						}
+					}
+					@Override
+					public void onError(int code, String msg) {
+						// TODO Auto-generated method stub
+//						toast("查询失败：" + msg);
+					}
+				});
 				}
 
 				@Override
