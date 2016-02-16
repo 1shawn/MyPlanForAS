@@ -149,9 +149,9 @@ public class AdView extends LinearLayout {
             if (position == 0) {
                 // 如果滑动到第一项
                 ad_gallery.setSelection(adRealCount);
-            } else if (position == (adRealCount * REPEAT_TIMES) - 1) {
-                // 如果滑动到最后一项
-                ad_gallery.setSelection(adRealCount + adRealCount - 1);
+            } else if (position == (adRealCount * REPEAT_TIMES) - 2) {
+                // 如果滑动到最后第二项（如果滑到最后一项，会有卡顿）
+                ad_gallery.setSelection(adRealCount + adRealCount - 2);
             } else {
                 mAdSelectedPosition = position % adRealCount;
                 updateTitle(mAdSelectedPosition);
@@ -293,9 +293,9 @@ public class AdView extends LinearLayout {
             if (realSelectedPosition == 0) {
                 // 如果滑动到第一项
                 ad_gallery.setSelection(adRealCount);
-            } else if (realSelectedPosition == galleryCount - 1) {
-                // 如果滑动到最后一项
-                ad_gallery.setSelection(adRealCount + adRealCount - 1);
+            } else if (realSelectedPosition == galleryCount - 2) {
+                // 如果滑动到最后第二项（如果滑到最后一项，会有卡顿）
+                ad_gallery.setSelection(adRealCount + adRealCount - 2);
             } else {
                 // 自动向右滚动滚动
                 ad_gallery.onScroll(null, null, 100, 0);
