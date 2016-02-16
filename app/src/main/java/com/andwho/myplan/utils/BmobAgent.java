@@ -2,7 +2,7 @@ package com.andwho.myplan.utils;
 
 import android.content.Context;
 
-import com.andwho.myplan.model.MyPlanUser;
+import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.bmob.BmobProFile;
 import com.bmob.btp.callback.UploadListener;
@@ -57,20 +57,20 @@ public class BmobAgent {
     public static void uploadFile(Context context,String filePath,UploadListener listener){
         BmobProFile.getInstance(context).upload(filePath, listener);
     }
-    public static void checkUserSettingInfo(Context context,String userObjectId,FindListener<MyPlanUser> listener){
-        BmobQuery<MyPlanUser> query = new BmobQuery<MyPlanUser>();
+    public static void checkUserSettingInfo(Context context,String userObjectId,FindListener<UserSettings> listener){
+        BmobQuery<UserSettings> query = new BmobQuery<UserSettings>();
         //查询
         query.addWhereEqualTo("userObjectId", userObjectId);
         //执行查询方法
         query.findObjects(context, listener);
     }
 
-    public static void updateUserInfo(Context context, MyPlanUser userInfo,UpdateListener listener){
+    public static void updateUserInfo(Context context, UserSettings userInfo,UpdateListener listener){
 
         userInfo.update(context, listener);
     }
 
-    public static void saveUserInfo(Context context, MyPlanUser userInfo,SaveListener listener){
+    public static void saveUserInfo(Context context, UserSettings userInfo,SaveListener listener){
         userInfo.save(context,listener);
     }
 }

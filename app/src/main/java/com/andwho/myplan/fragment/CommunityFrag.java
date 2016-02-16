@@ -1,39 +1,25 @@
 package com.andwho.myplan.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.LayoutParams;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.activity.IntentHelper;
-import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.model.Banner;
-import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.model.Posts;
 import com.andwho.myplan.utils.Log;
-import com.andwho.myplan.utils.MyPlanUtil;
 import com.andwho.myplan.view.AdView;
+import com.andwho.myplan.view.RemoteImageView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Mode;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.OnRefreshListener;
@@ -117,54 +103,64 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                 long arg3) {
             // TODO Auto-generated method stub
-            final Plan plan = listAdapter.getItem(arg2 - 1);
-            IntentHelper.showPlanEdit(myselfContext, "0", plan);
-        }
-
-    };
-    private OnItemLongClickListener mOnItemLongClickListener = new OnItemLongClickListener() {
-
-        @Override
-        public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                       int position, long arg3) {
-            // TODO Auto-generated method stub
-            Plan plan = listAdapter.getItem(position - 1);
-            initPopuptWindow(arg1, plan);
-            return true;
+//            final Plan plan = listAdapter.getItem(arg2 - 1);
+//            IntentHelper.showPlanEdit(myselfContext, "0", plan);
         }
 
     };
 
     private void init() {
-        initList();
-    }
-
-    @Override
-    public void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-
-    }
-
-    private void initList() {
         addHeader();
 
-        ArrayList<Plan> list = DbManger.getInstance(myselfContext).queryPlans(
-                "0");
-        if (list != null && list.size() > 0) {
-            tv_nocontent.setVisibility(View.GONE);
-            listview.setVisibility(View.VISIBLE);
-
-            listAdapter = new ListAdapter(myselfContext, list);
-            listview.setAdapter(listAdapter);
-            listview.setOnItemClickListener(mOnItemClickListener);
-            listview.setOnItemLongClickListener(mOnItemLongClickListener);
-
-        } else {
-            listview.setVisibility(View.GONE);
-            tv_nocontent.setVisibility(View.VISIBLE);
-        }
+        initPostList();
     }
+
+    private void initPostList() {
+
+        BmobQuery<Posts> query = new BmobQuery<Posts>();
+        query.findObjects(myselfContext, new FindListener<Posts>() {
+            @Override
+            public void onSuccess(final List<Posts> list) {
+                // TODO Auto-generated method stub
+
+                Log.e(TAG, "@@...smpp...Posts size = " + list);
+
+                for (Posts banner : list) {
+                    Log.e(TAG, "@@...smpp..-----------------> ");
+                    Log.e(TAG, "@@...smpp...  content = "
+                            + banner.content);
+                    Log.e(TAG, "@@...smpp...  nickName = "
+                            + banner.author.nickName);
+                    Log.e(TAG, "@@...smpp...  likesCount = "
+                            + banner.likesCount);
+
+
+                }
+
+                if (list != null && list.size() > 0) {
+                    tv_nocontent.setVisibility(View.GONE);
+                    listview.setVisibility(View.VISIBLE);
+
+                    listAdapter = new ListAdapter(myselfContext, list);
+                    listview.setAdapter(listAdapter);
+                    listview.setOnItemClickListener(mOnItemClickListener);
+                } else {
+                    listview.setVisibility(View.GONE);
+                    tv_nocontent.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onError(int arg0, String arg1) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+    }
+
 
     private void addHeader() {
 //        LayoutInflater vi = (LayoutInflater) myselfContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -213,13 +209,13 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 
     private class ListAdapter extends BaseAdapter {
 
-        public List<Plan> data;
+        public List<Posts> data;
 
         private Activity mActivity;
         private LayoutInflater inflater;
         private String activityType;
 
-        public ListAdapter(Activity mActivity, List<Plan> data) {
+        public ListAdapter(Activity mActivity, List<Posts> data) {
             this.mActivity = mActivity;
             this.data = data;
             inflater = mActivity.getLayoutInflater();
@@ -231,7 +227,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         }
 
         @Override
-        public Plan getItem(int arg0) {
+        public Posts getItem(int arg0) {
             return data.get(arg0);
         }
 
@@ -246,36 +242,85 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = (LinearLayout) inflater.inflate(
-                        R.layout.plans_child_item, null);
+                        R.layout.post_list_item, null);
+
+                holder.iv_headicon = (RemoteImageView) convertView
+                        .findViewById(R.id.iv_headicon);
+                holder.iv_post_img1 = (RemoteImageView) convertView
+                        .findViewById(R.id.iv_post_img1);
+                holder.iv_post_img2 = (RemoteImageView) convertView
+                        .findViewById(R.id.iv_post_img2);
+
                 holder.tv_name = (TextView) convertView
                         .findViewById(R.id.tv_name);
-                holder.iv_iscompleted = (ImageView) convertView
-                        .findViewById(R.id.iv_iscompleted);
+                holder.tv_time = (TextView) convertView
+                        .findViewById(R.id.tv_time);
+                holder.tv_content = (TextView) convertView
+                        .findViewById(R.id.tv_content);
+
+                holder.ll_read = (LinearLayout) convertView
+                        .findViewById(R.id.ll_read);
+                holder.ll_comments = (LinearLayout) convertView
+                        .findViewById(R.id.ll_comments);
+                holder.ll_likes = (LinearLayout) convertView
+                        .findViewById(R.id.ll_likes);
+
+                holder.iv_read = (ImageView) convertView
+                        .findViewById(R.id.iv_read);
+                holder.iv_comments = (ImageView) convertView
+                        .findViewById(R.id.iv_comments);
+                holder.iv_likes = (ImageView) convertView
+                        .findViewById(R.id.iv_likes);
+
+                holder.tv_read_times = (TextView) convertView
+                        .findViewById(R.id.tv_read_times);
+                holder.tv_comments_count = (TextView) convertView
+                        .findViewById(R.id.tv_comments_count);
+                holder.tv_likes_count = (TextView) convertView
+                        .findViewById(R.id.tv_likes_count);
 
                 convertView.setTag(holder);
 
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            Plan plan = data.get(position);
-            holder.tv_name.setText(plan.content);
-            if ("1".equals(plan.iscompleted)) {
-                holder.tv_name.getPaint().setFlags(
-                        Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-                holder.tv_name.setTextColor(Color.parseColor("#909090"));
 
-                // holder.iv_iscompleted.setVisibility(View.VISIBLE);
-            } else {
-                holder.tv_name.getPaint().setFlags(Paint.ANTI_ALIAS_FLAG);
-                holder.tv_name.setTextColor(Color.parseColor("#333333"));
-                // holder.iv_iscompleted.setVisibility(View.GONE);
+            Posts post = data.get(position);
+            holder.iv_headicon.setDefaultImage(R.drawable.default_headicon);
+            if (post.author != null) {
+                holder.iv_headicon.setImageUrl(post.author.avatarURL);
+                holder.tv_name.setText(post.author.nickName);
             }
+
+            holder.tv_time.setText(post.createdAt);
+            holder.tv_content.setText(post.content);
+
+            holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
+            holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
+            ArrayList<String> imgs = post.imgURLArray;
+            if (imgs != null && imgs.size() > 0) {
+                if (imgs.size() == 1) {
+                    holder.iv_post_img1.setImageUrl(imgs.get(0));
+                } else if (imgs.size() == 2) {
+                    holder.iv_post_img1.setImageUrl(imgs.get(0));
+                    holder.iv_post_img2.setImageUrl(imgs.get(1));
+                }
+            }
+
+            holder.tv_read_times.setText(post.readTimes);
+            holder.tv_comments_count.setText(post.commentsCount);
+            holder.tv_likes_count.setText(post.likesCount);
+
             return convertView;
         }
 
         class ViewHolder {
-            TextView tv_name;
-            ImageView iv_iscompleted;
+            RemoteImageView iv_headicon, iv_post_img1, iv_post_img2;
+            TextView tv_name, tv_time, tv_content;
+
+            LinearLayout ll_read, ll_comments, ll_likes;
+            ImageView iv_read, iv_comments, iv_likes;
+            TextView tv_read_times, tv_comments_count, tv_likes_count;
         }
 
     }
@@ -294,101 +339,6 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         }
     }
 
-
-    protected void initPopuptWindow(View view, final Plan plan) {
-        // TODO Auto-generated method stub
-
-        View popupWindow_view = ((LayoutInflater) myselfContext
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE)).inflate(
-                R.layout.popupwindow_2items, null);
-        int popWidth = MyPlanUtil.dip2px(myselfContext, 120);
-        final PopupWindow popupWindow = new PopupWindow(popupWindow_view,
-                popWidth, LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setFocusable(true);
-        popupWindow_view.setFocusableInTouchMode(true);// 不然按KEYCODE_BACK不生效
-        popupWindow_view.setOnKeyListener(new OnKeyListener() {
-
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // TODO Auto-generated method stub
-                if (keyCode == KeyEvent.KEYCODE_BACK && popupWindow != null
-                        && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        popupWindow_view.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                }
-                return false;
-            }
-        });
-
-        Button btn1 = (Button) popupWindow_view.findViewById(R.id.btn1);
-        Button btn2 = (Button) popupWindow_view.findViewById(R.id.btn2);
-        if ("1".equals(plan.iscompleted)) {
-            btn1.setVisibility(View.GONE);
-        } else {
-            btn1.setVisibility(View.VISIBLE);
-        }
-        btn1.setText("完成");
-        btn2.setText("删除");
-        btn1.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                plan.iscompleted = "1";
-                DbManger.getInstance(myselfContext).updatePlan(plan);
-                initList();
-                popupWindow.dismiss();
-            }
-        });
-
-        btn2.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                confirmDialog(plan);
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.showAsDropDown(view, view.getWidth() / 5, -20);
-
-    }
-
-    private void confirmDialog(final Plan plan) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(myselfContext);
-        dialog.setCancelable(true);
-        dialog.setMessage("确定删除'" + plan.content + "'吗？");
-        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                DbManger.getInstance(myselfContext).deletePlan(plan.planid);
-                initList();
-            }
-        });
-        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        dialog.show();
-    }
 
     public void onResume() {
         // TODO Auto-generated method stub

@@ -30,7 +30,7 @@ import java.util.List;
 
 
 /***
- * @author ouyyx 广告栏
+ * @author ouyyx 广告栏，每次滑动第一项和最后一项，则自动重新定位
  */
 public class AdView extends LinearLayout {
 
