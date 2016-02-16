@@ -140,4 +140,41 @@ public class DateUtil {
 
 		return String.valueOf(delta / 1000);
 	}
+
+	public static boolean isToday(String rawDate) {
+		boolean isToday = false;
+		try {
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd");
+			Date date = null;
+			try {
+				date = format.parse(rawDate);
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+
+			Calendar todayCalendar = Calendar.getInstance();
+			todayCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			todayCalendar.set(Calendar.MINUTE, 0);
+			todayCalendar.set(Calendar.SECOND, 0);
+
+			Calendar yestodayCalendar = Calendar.getInstance();
+			yestodayCalendar.set(Calendar.HOUR_OF_DAY, -1);
+			yestodayCalendar.set(Calendar.MINUTE, 0);
+			yestodayCalendar.set(Calendar.SECOND, 0);
+
+			isToday = calendar.before(todayCalendar)
+					&& calendar.after(yestodayCalendar);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return isToday;
+	}
 }

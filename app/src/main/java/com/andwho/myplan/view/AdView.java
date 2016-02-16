@@ -19,10 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.activity.IntentHelper;
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.utils.DensityUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+//import com.andwho.myplan.utils.Log;
 
 
 /***
@@ -62,7 +66,7 @@ public class AdView extends LinearLayout {
         ll_ad_indicator = (LinearLayout) findViewById(R.id.ll_ad_indicator);
     }
 
-    private List<Banner> adInfos;
+    private List<Banner> adInfos = new ArrayList<Banner>();
 
     public void showDefaultImg() {
         iv_ad.setVisibility(View.VISIBLE);
@@ -72,9 +76,12 @@ public class AdView extends LinearLayout {
     }
 
     public void init(List<Banner> listInfos) {
-
-
-        adInfos = listInfos;
+        // 过滤没有删除的广告
+        for (Banner banner : listInfos) {
+            if ("0".equals(banner.isDeleted)) {
+                adInfos.add(banner);
+            }
+        }
 
         if (adInfos != null && adInfos.size() > 0) {
 
@@ -82,14 +89,14 @@ public class AdView extends LinearLayout {
             iv_ad.setVisibility(View.GONE);
             ad_layout.setVisibility(View.VISIBLE);
             // 页码显示
-            int showSize = adInfos.size();
+            adRealCount = adInfos.size();
 
-            if (showSize > 1) {
+            if (adRealCount > 1) {
                 ll_ad_indicator.setVisibility(View.VISIBLE);
-                adRealCount = showSize;
 
                 createPageIndicatorAd();
             } else {
+                REPEAT_TIMES = 1;
                 ll_ad_indicator.removeAllViews();
                 ll_ad_indicator.setVisibility(View.INVISIBLE);
             }
@@ -116,9 +123,9 @@ public class AdView extends LinearLayout {
         public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                 long arg3) {
             // TODO Auto-generated method stub
-            Banner detail = adInfos.get(position);
-            if (detail != null && !TextUtils.isEmpty(detail.detailURL)) {
-                // IntentHelper.showCommonWebViewAct(myselfContext, detail);
+            Banner banner = adInfos.get(position % adRealCount);
+            if (banner != null) {
+                IntentHelper.showCommonWebView(myselfContext, banner);
             }
 
         }
@@ -130,10 +137,19 @@ public class AdView extends LinearLayout {
         public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
                                    long arg3) {
             // TODO Auto-generated method stub
+            int galleryCount = ad_gallery.getCount();
+            if (galleryCount <= 1) {
+                return;
+            }
+
+//            Log.e(TAG, "@@...mp...onItemSelected  galleryCount = " + galleryCount);
+//            Log.e(TAG, "@@...mp...onItemSelected  gallery position = " + position);
+//            Log.e(TAG, "@@...mp...onItemSelected  content position = " + (position % adRealCount));
+
             if (position == 0) {
                 // 如果滑动到第一项
                 ad_gallery.setSelection(adRealCount);
-            } else if (position == (adInfos.size() * REPEAT_TIMES) - 1) {
+            } else if (position == (adRealCount * REPEAT_TIMES) - 1) {
                 // 如果滑动到最后一项
                 ad_gallery.setSelection(adRealCount + adRealCount - 1);
             } else {
@@ -224,7 +240,7 @@ public class AdView extends LinearLayout {
         public Object getItem(int position) {
             // TODO Auto-generated
             // method stub
-            return infoList.get(position % REPEAT_TIMES);
+            return infoList.get(position % adRealCount);
         }
 
         @Override
@@ -247,7 +263,10 @@ public class AdView extends LinearLayout {
 
             imageView.setDefaultImage(R.drawable.def_activity_bar);
 
-            Banner detail = (Banner) infoList.get(position % REPEAT_TIMES);
+//            Log.e(TAG, "@@...mp...getView  position = " + position);
+//            Log.e(TAG, "@@...mp...getView  real position = " + (position % adRealCount));
+
+            Banner detail = (Banner) infoList.get(position % adRealCount);
             if (detail != null && !TextUtils.isEmpty(detail.imgURL)) {
                 imageView.setImageUrl(detail.imgURL);
             } else {
@@ -273,14 +292,11 @@ public class AdView extends LinearLayout {
             int realSelectedPosition = ad_gallery.getSelectedItemPosition();
             if (realSelectedPosition == 0) {
                 // 如果滑动到第一项
-                //updateTitle(0);
                 ad_gallery.setSelection(adRealCount);
             } else if (realSelectedPosition == galleryCount - 1) {
                 // 如果滑动到最后一项
-                //updateTitle(adRealCount - 1);
                 ad_gallery.setSelection(adRealCount + adRealCount - 1);
             } else {
-                //updateTitle((realSelectedPosition++) % REPEAT_TIMES);
                 // 自动向右滚动滚动
                 ad_gallery.onScroll(null, null, 100, 0);
                 ad_gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
@@ -290,32 +306,6 @@ public class AdView extends LinearLayout {
             startAdAutoSwitch();
         }
     };
-
-//    Handler galleryHandler = new Handler() {
-//        @SuppressWarnings("deprecation")
-//        @Override
-//        public void handleMessage(Message msg) {
-//            int count = ad_gallery.getCount();
-//            if (count <= 1) {
-//                return;
-//            }
-//            int selectedPosition = ad_gallery.getSelectedItemPosition();
-//            if (selectedPosition >= count - 1) {
-//                selectedPosition = 0;
-//                ad_gallery.setSelection(selectedPosition);
-//            } else {
-//                selectedPosition++;
-//            }
-//
-//            updateTitle(selectedPosition);
-//
-//            // 自动向右滚动滚动
-//            ad_gallery.onScroll(null, null, 100, 0);
-//            ad_gallery.onKeyDown(KeyEvent.KEYCODE_DPAD_RIGHT, null);
-//
-//            startAdAutoSwitch();
-//        }
-//    };
 
     public void startAdAutoSwitch() {
         if (adInfos != null && adInfos.size() > 0) {
@@ -332,18 +322,6 @@ public class AdView extends LinearLayout {
         }
     }
 
-    public static enum AdvertsType {
-
-        TYPE1(1, "超级笔记广告"), TYPE2(2, "工作台广告");
-
-        public int index;
-        public String desc;
-
-        private AdvertsType(int index, String desc) {
-            this.index = index;
-            this.desc = desc;
-        }
-    }
 
     private boolean isInMove = false;
     private SlowGalleryForAd.OnGalleryTouchListener OnTouchListener = new SlowGalleryForAd.OnGalleryTouchListener() {

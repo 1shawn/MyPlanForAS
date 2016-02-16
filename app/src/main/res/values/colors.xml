@@ -266,4 +266,9 @@
   <color name="main_blue">#5191E8</color>
   <color name="toast_bg_color">#CC000000</color>
 
+  <color name="complete_bg">#BDFCC9</color>
+  <color name="plan_group_text">#FFFF01</color>
+
+
+
 </resources>

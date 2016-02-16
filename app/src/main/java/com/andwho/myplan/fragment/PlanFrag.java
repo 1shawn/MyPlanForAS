@@ -35,6 +35,7 @@ import com.andwho.myplan.constants.PlanType;
 import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.contentprovider.MyPlanDBOpenHelper;
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.MyPlanUtil;
 import com.andwho.myplan.view.myexpandablelistview.PinnedExpandableListView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
@@ -296,7 +297,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                     .getColumnIndex(MyPlanDBOpenHelper.CONTENT)));
             if (CompleteStatus.IS_COMPLETED.equals(cursor.getString(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.ISCOMPLETED)))) {
-                ll.setBackgroundResource(R.color.transparent_black);
+                ll.setBackgroundResource(R.color.complete_bg);
                 tv_name.getPaint().setFlags(
                         Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 tv_name.setTextColor(Color.parseColor("#909090"));
@@ -342,7 +343,11 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             String createTime = cursor.getString(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
 
-            tv_name.setText(createTime);
+            if (DateUtil.isToday(createTime)) {
+                tv_name.setText(createTime + " .今天");
+            } else {
+                tv_name.setText(createTime);
+            }
 
             if (!isExpanded) {
                 iv_group_indicator
@@ -450,8 +455,12 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             String createDate = groupCursor.getString(groupCursor
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
 
-            tv_name.setText(createDate);
-            tv_name.setTextColor(Color.argb(alpha, 76, 76, 76)); // #767676
+            if (DateUtil.isToday(createDate)) {
+                tv_name.setText(createDate + " .今天");
+            } else {
+                tv_name.setText(createDate);
+            }
+//            tv_name.setTextColor(Color.argb(alpha, 76, 76, 76)); // #767676
 
             ImageView iv_group_indicator = (ImageView) header
                     .findViewById(R.id.iv_group_indicator);
@@ -558,7 +567,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             String iscompleted = cursor.getString(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.ISCOMPLETED));
             if (CompleteStatus.IS_COMPLETED.equals(iscompleted)) {
-                ll.setBackgroundResource(R.color.transparent_black);
+                ll.setBackgroundResource(R.color.complete_bg);
                 tv_name.getPaint().setFlags(
                         Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 tv_name.setTextColor(Color.parseColor("#909090"));
@@ -571,7 +580,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             TextView tv_date = (TextView) view
                     .findViewById(R.id.tv_date);
             tv_date.setVisibility(View.VISIBLE);
-            tv_date.setText("创建时间：" + cursor.getString(cursor
+            tv_date.setText(cursor.getString(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME)));
 
 
@@ -581,7 +590,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
         public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
             LayoutInflater vi = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            LinearLayout view = (LinearLayout) vi.inflate(R.layout.plans_child_item, parent, false);
+            LinearLayout view = (LinearLayout) vi.inflate(R.layout.longterm_plan_item, parent, false);
 
             return view;
 

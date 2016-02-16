@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_gravity="center_vertical"
-    android:background="#F6F6F6"
+    android:background="#57A4FE"
     android:orientation="horizontal" >
 
     <TextView
@@ -16,8 +16,8 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:text="油品(20)"
-        android:textColor="#333333"
+        android:text=""
+        android:textColor="@color/plan_group_text"
         android:textSize="15dp" />
 
     <ImageView

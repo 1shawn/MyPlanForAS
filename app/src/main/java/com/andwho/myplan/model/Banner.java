@@ -11,7 +11,7 @@ public class Banner extends BmobObject implements Serializable {
 
 
     public String title;//
-    public String isDeleted;//
+    public String isDeleted;//是否已经删除 1是 0否
     public String detailURL;//
     public String imgURL;
     public String readTimes;

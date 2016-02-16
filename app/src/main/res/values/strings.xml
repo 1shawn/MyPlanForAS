@@ -14,6 +14,8 @@
     <string name="mine_left1_text">你仅剩<Data><![CDATA[<b><font color="#DA1C1C">%s</font></b>]]></Data>天</string>
     <string name="mine_left2_text">你的今天仅剩<Data><![CDATA[<b><font color="#DA1C1C">%s</font></b>]]></Data>秒</string>
 
+    <string name="sending_msg">正在发送请求，请稍等...</string>
+
     <string-array name="mine_icon_sel_array">
         <item>拍照</item>
         <item>相册</item>
@@ -38,5 +40,6 @@
     <string name="str_fail">请求失败！</string>
     <string name="login_fail">登录失败！</string>
     <string name="commone_fail">网络链接失败，请稍后再试！</string>
+
 
 </resources>

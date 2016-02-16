@@ -187,6 +187,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                             + banner.imgURL);
                     Log.e(TAG, "@@...smpp...banner  detailURL = "
                             + banner.detailURL);
+                    Log.e(TAG, "@@...smpp...banner  isDeleted = "
+                            + banner.isDeleted);
 
                 }
                 myselfContext.runOnUiThread(new Runnable() {
