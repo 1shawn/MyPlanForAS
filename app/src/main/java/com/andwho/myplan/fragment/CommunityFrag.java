@@ -117,6 +117,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 
     private void initPostList() {
 
+        Log.e(TAG, "@@...smpp...initPostList " );
+
         BmobQuery<Posts> query = new BmobQuery<Posts>();
         query.findObjects(myselfContext, new FindListener<Posts>() {
             @Override
@@ -155,6 +157,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             @Override
             public void onError(int arg0, String arg1) {
                 // TODO Auto-generated method stub
+
+                Log.e(TAG, "@@...smpp...报错了onError = " + arg1);
 
             }
         });
@@ -292,24 +296,29 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                 holder.tv_name.setText(post.author.nickName);
             }
 
-            holder.tv_time.setText(post.createdAt);
+            //holder.tv_time.setText(post.createdAt);
             holder.tv_content.setText(post.content);
 
+            holder.iv_post_img1.setVisibility(View.GONE);
+            holder.iv_post_img2.setVisibility(View.GONE);
             holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
             holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
             ArrayList<String> imgs = post.imgURLArray;
             if (imgs != null && imgs.size() > 0) {
                 if (imgs.size() == 1) {
+                    holder.iv_post_img1.setVisibility(View.VISIBLE);
                     holder.iv_post_img1.setImageUrl(imgs.get(0));
                 } else if (imgs.size() == 2) {
+                    holder.iv_post_img1.setVisibility(View.VISIBLE);
+                    holder.iv_post_img2.setVisibility(View.VISIBLE);
                     holder.iv_post_img1.setImageUrl(imgs.get(0));
                     holder.iv_post_img2.setImageUrl(imgs.get(1));
                 }
             }
 
-            holder.tv_read_times.setText(post.readTimes);
-            holder.tv_comments_count.setText(post.commentsCount);
-            holder.tv_likes_count.setText(post.likesCount);
+            holder.tv_read_times.setText(String.valueOf(post.readTimes));
+            holder.tv_comments_count.setText(String.valueOf(post.commentsCount));
+            holder.tv_likes_count.setText(String.valueOf(post.likesCount));
 
             return convertView;
         }

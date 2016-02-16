@@ -18,11 +18,10 @@ public class Posts extends BmobObject implements Serializable {
     public UserSettings author;
     public UserSettings likes;
 
-    public String readTimes;
-    public String likesCount;
-    public String commentsCount;
+    public int readTimes;
+    public int likesCount;
+    public int commentsCount;
 
-    public String updatedTime;
-    public String createdAt;
-    public String updatedAt;
+//    public String updatedTime;
+
 }
