@@ -61,6 +61,26 @@ public class DateUtil {
 		return map;
 	}
 
+	//yyyy-MM-dd
+	public static String getNextMonthDate(String date){
+		if (date == null) {
+			return null;
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		Date time = null;
+		try {
+			time = format.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(time);
+		calendar.add(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
+		return format.format(calendar.getTime());
+	}
+
 	public static String formatNumber(int number) {
 		if (number < 10) {
 			return "0" + String.valueOf(number);

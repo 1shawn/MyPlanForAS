@@ -121,12 +121,14 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
             @Override
             public void onSuccess(List<BmobUser> list) {
                 if (null != list && list.size() > 0) {
+                    final String userId=list.get(0).getObjectId().toString();
                     //是否验证了邮箱
                     if (list.get(0).getEmailVerified()) {
                         BmobAgent.loginIn(LoginAct.this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new SaveListener() {
                             @Override
                             public void onSuccess() {
                                 MyPlanPreference.getInstance(myselfContext).setUsername(mAccountView.getEditViewContent());
+                                MyPlanPreference.getInstance(myselfContext).setUserId(userId);
                                 IntentHelper.showMain(myselfContext);
                             }
 
@@ -137,7 +139,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                         });
                     }
                 } else {
-                    ToastUtil.showLongToast(LoginAct.this, getResources().getString(R.string.str_Register_Tips5));
+                    ToastUtil.showLongToast(LoginAct.this, getResources().getString(R.string.str_Login_Tips4));
                 }
             }
 

@@ -33,6 +33,7 @@
     <string name="str_Register_Tips1">邮箱地址Email</string>
     <string name="str_Register_Tips2">请输入邮箱地址</string>
     <string name="str_Register_Tips3">邮箱地址格式不正确</string>
+    <string name="str_Login_Tips4">账号不存在，请注册</string>
     <string name="str_Register_Tips5">该邮箱账号已经注册，如果密码丢失，可通过“忘记密码”找回</string>
     <string name="str_Register_Tips6">我们给你的邮箱发了一封验证邮件，请先验证邮件后再登录使用</string>
     <string name="str_Register_Tips8">温馨提示：注册邮箱需要接收系统的验证邮件，请填写真实有效的邮箱地址。</string>

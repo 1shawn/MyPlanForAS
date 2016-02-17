@@ -9,7 +9,9 @@ public class UserSettings  extends BmobObject {
 
     public String nickName;
     public String birthday;
+    public String userObjectId;
     public String gender;
+    public String lifespan;
     public String liespan;
     public String avatarURL;
     public String centerTopURL;

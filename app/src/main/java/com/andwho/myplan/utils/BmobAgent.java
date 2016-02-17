@@ -54,8 +54,10 @@ public class BmobAgent {
         MyPlanPreference.getInstance(context).setUsername("");
 //        BmobUser currentUser = BmobUser.getCurrentUser(context); // 现在的currentUser是null了
     }
-    public static void uploadFile(Context context,String filePath,UploadListener listener){
-        BmobProFile.getInstance(context).upload(filePath, listener);
+    public static void uploadPicFile(Context context,String picPath, UploadListener listener){
+       BmobProFile.getInstance(context).upload(picPath, listener);
+       /* BmobFile bmobFile = new BmobFile(new File(picPath));
+        bmobFile.uploadblock(context,listener);*/
     }
     public static void checkUserSettingInfo(Context context,String userObjectId,FindListener<UserSettings> listener){
         BmobQuery<UserSettings> query = new BmobQuery<UserSettings>();
@@ -71,6 +73,15 @@ public class BmobAgent {
     }
 
     public static void saveUserInfo(Context context, UserSettings userInfo,SaveListener listener){
-        userInfo.save(context,listener);
+        userInfo.save(context, listener);
     }
+
+    public static void updateAllDate(Context context){
+        String picUrl=MyPlanPreference.getInstance(context)
+                .getTempPicUrl();
+    }
+
+
+
+
 }

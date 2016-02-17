@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by zhouf on 2016/1/21.
  */
@@ -33,5 +36,43 @@ public class AndroidUtil {
             return true;
         }
         return false;
+    }
+
+    public static final String headName = ".avatar";
+    static public File getHeadDir(Context context) {
+        File dir = new File(getAppExternalStorage(context), headName);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        createNomediaFile(dir,context);
+        return dir;
+    }
+    private static File mRootDir = null;
+    static public File getAppExternalStorage(Context context) {
+        return new File(mRootDir, context.getPackageName());
+    }
+
+
+    private static void createNomediaFile(File dir,Context context) {
+        File file = new File(dir, ".nomedia");
+        try {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdir();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static public File getLocalAvatarDir(Context context) {
+        File dir = new File(getHeadDir(context).getAbsoluteFile(), ".l_avatar");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        createNomediaFile(dir,context);
+        return dir;
     }
 }
