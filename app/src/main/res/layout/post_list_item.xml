@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <com.andwho.myplan.view.RemoteImageView
+        <com.andwho.myplan.view.RoundedImageView
             android:id="@+id/iv_headicon"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -33,11 +33,10 @@
                 android:id="@+id/tv_name"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="这座城市流行寂寞"
+                android:text=""
                 android:textColor="@color/normal_tv"
                 android:textSize="14dp" />
 
@@ -46,7 +45,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="10dp"
-                android:text="2天前"
+                android:text=""
                 android:textColor="@color/normal_tv"
                 android:textSize="12dp" />
 
@@ -64,7 +63,7 @@
         android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="asdas"
+        android:text=""
         android:textColor="@color/normal_tv"
         android:textSize="14dp" />
 
@@ -128,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="12"
+                android:text=""
                 android:textColor="#8F8F8F" />
 
         </LinearLayout>
@@ -154,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="12312"
+                android:text=""
                 android:textColor="#8F8F8F" />
 
         </LinearLayout>
@@ -180,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="1232"
+                android:text=""
                 android:textColor="#8F8F8F" />
 
         </LinearLayout>

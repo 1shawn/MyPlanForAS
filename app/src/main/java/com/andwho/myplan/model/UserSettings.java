@@ -1,11 +1,11 @@
 package com.andwho.myplan.model;
 
-import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by ys_1shawn on 2016/2/16.
  */
-public class UserSettings  extends BmobObject {
+public class UserSettings extends BmobUser {
 
     public String nickName;
     public String birthday;

@@ -15,11 +15,6 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <com.andwho.myplan.view.AdView
-            android:id="@+id/ad"
-            android:layout_width="fill_parent"
-            android:layout_height="190dp" />
-
         <TextView
             android:id="@+id/tv_nocontent"
             android:layout_width="match_parent"

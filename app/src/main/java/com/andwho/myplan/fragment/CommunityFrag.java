@@ -1,7 +1,9 @@
 package com.andwho.myplan.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,12 +19,13 @@ import android.widget.TextView;
 import com.andwho.myplan.R;
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Posts;
-import com.andwho.myplan.utils.Log;
+import com.andwho.myplan.utils.DateUtil;
+import com.andwho.myplan.utils.ToastUtil;
 import com.andwho.myplan.view.AdView;
 import com.andwho.myplan.view.RemoteImageView;
+import com.andwho.myplan.view.RoundedImageView;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Mode;
-import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.OnRefreshListener;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView;
 
 import java.util.ArrayList;
@@ -75,7 +78,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     private void setListener() {
 
         listview.setMode(Mode.BOTH);
-        listview.setOnRefreshListener(mOnRefreshListener);
+        listview.setOnRefreshListener2(onRefreshListener2);
     }
 
     private void initHeader(View view) {
@@ -87,14 +90,17 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         iv_rightIcon.setOnClickListener(this);
     }
 
-    private OnRefreshListener<ListView> mOnRefreshListener = new OnRefreshListener<ListView>() {
+    private PullToRefreshBase.OnRefreshListener2<ListView> onRefreshListener2 = new PullToRefreshBase.OnRefreshListener2<ListView>() {
 
         @Override
-        public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-            // TODO Auto-generated method sub
-            listview.onRefreshComplete();
+        public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            pullDownListData();
         }
 
+        @Override
+        public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            pullUpListData();
+        }
     };
 
     private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
@@ -110,36 +116,27 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     };
 
     private void init() {
-        addHeader();
-
-        initPostList();
+        initAdView();
+        pullDownListData();
     }
 
-    private void initPostList() {
-
-        Log.e(TAG, "@@...smpp...initPostList " );
-
+    private void pullDownListData() {
         BmobQuery<Posts> query = new BmobQuery<Posts>();
+        query.include("author");
+        query.addWhereEqualTo("isDeleted", "0");
+        query.order("-isTop");
+        query.order("-createdAt");// 降序排列
+        query.setLimit(10);
         query.findObjects(myselfContext, new FindListener<Posts>() {
             @Override
             public void onSuccess(final List<Posts> list) {
                 // TODO Auto-generated method stub
 
-                Log.e(TAG, "@@...smpp...Posts size = " + list);
-
-                for (Posts banner : list) {
-                    Log.e(TAG, "@@...smpp..-----------------> ");
-                    Log.e(TAG, "@@...smpp...  content = "
-                            + banner.content);
-                    Log.e(TAG, "@@...smpp...  nickName = "
-                            + banner.author.nickName);
-                    Log.e(TAG, "@@...smpp...  likesCount = "
-                            + banner.likesCount);
-
-
-                }
+                listview.onRefreshComplete();
 
                 if (list != null && list.size() > 0) {
+                    postListData = list;
+
                     tv_nocontent.setVisibility(View.GONE);
                     listview.setVisibility(View.VISIBLE);
 
@@ -157,8 +154,42 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             @Override
             public void onError(int arg0, String arg1) {
                 // TODO Auto-generated method stub
+                ToastUtil.showLongToast(myselfContext, arg1);
+            }
+        });
 
-                Log.e(TAG, "@@...smpp...报错了onError = " + arg1);
+    }
+
+    private List<Posts> postListData = new ArrayList<Posts>();
+
+    private void pullUpListData() {
+        BmobQuery<Posts> query = new BmobQuery<Posts>();
+        query.include("author");
+        query.addWhereEqualTo("isDeleted", "0");
+        query.order("-isTop");
+        query.order("-createdAt");// 降序排列
+        if (postListData != null && postListData.size() > 0) {
+            query.setSkip(postListData.size());
+        }
+        query.setLimit(10);
+        query.findObjects(myselfContext, new FindListener<Posts>() {
+            @Override
+            public void onSuccess(final List<Posts> list) {
+                // TODO Auto-generated method stub
+
+                listview.onRefreshComplete();
+
+                if (list != null && list.size() > 0) {
+                    listAdapter.addList(list);
+                }
+
+            }
+
+            @Override
+            public void onError(int arg0, String arg1) {
+                // TODO Auto-generated method stub
+
+                ToastUtil.showLongToast(myselfContext, arg1);
 
             }
         });
@@ -166,39 +197,21 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     }
 
 
-    private void addHeader() {
-//        LayoutInflater vi = (LayoutInflater) myselfContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        ad = (AdView) vi.inflate(R.layout.ad_header, null, false);
-        ad.showDefaultImg();
+    private void initAdView() {
 
         BmobQuery<Banner> query = new BmobQuery<Banner>();
         query.findObjects(myselfContext, new FindListener<Banner>() {
             @Override
             public void onSuccess(final List<Banner> listBanner) {
                 // TODO Auto-generated method stub
-
-                Log.e(TAG, "@@...smpp...CheckUpdate size = " + listBanner);
-
-                for (Banner banner : listBanner) {
-                    Log.e(TAG, "@@...smpp..-----------------> ");
-                    Log.e(TAG, "@@...smpp...banner title = "
-                            + banner.title);
-                    Log.e(TAG, "@@...smpp...banner imgURL = "
-                            + banner.imgURL);
-                    Log.e(TAG, "@@...smpp...banner  detailURL = "
-                            + banner.detailURL);
-                    Log.e(TAG, "@@...smpp...banner  isDeleted = "
-                            + banner.isDeleted);
-
+                if (listBanner != null && listBanner.size() > 0) {
+                    LayoutInflater inflater = (LayoutInflater) myselfContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    ad = (AdView) inflater.inflate(R.layout.ad_header, null, false);
+                    ad.showDefaultImg();
+                    ad.init(listBanner);
+                    listview.setVisibility(View.VISIBLE);
+                    listview.addHeaderView(ad, null, false);
                 }
-                myselfContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ad.init(listBanner);
-                    }
-                });
-
-                //listview.addHeaderView(ad , null, false);
             }
 
             @Override
@@ -225,6 +238,13 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             inflater = mActivity.getLayoutInflater();
         }
 
+        public void addList(List<Posts> addedData) {
+            if (data != null && data.size() > 0) {
+                this.data.addAll(addedData);
+                notifyDataSetChanged();
+            }
+        }
+
         @Override
         public int getCount() {
             return data.size();
@@ -248,7 +268,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                 convertView = (LinearLayout) inflater.inflate(
                         R.layout.post_list_item, null);
 
-                holder.iv_headicon = (RemoteImageView) convertView
+                holder.iv_headicon = (RoundedImageView) convertView
                         .findViewById(R.id.iv_headicon);
                 holder.iv_post_img1 = (RemoteImageView) convertView
                         .findViewById(R.id.iv_post_img1);
@@ -293,27 +313,39 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             holder.iv_headicon.setDefaultImage(R.drawable.default_headicon);
             if (post.author != null) {
                 holder.iv_headicon.setImageUrl(post.author.avatarURL);
-                holder.tv_name.setText(post.author.nickName);
+                if (!TextUtils.isEmpty(post.author.nickName)) {
+//                    holder.tv_name.setText(post.author.nickName + "   " + position);
+                    holder.tv_name.setText(post.author.nickName);
+                } else {
+                    holder.tv_name.setText("昵称" + "   " + position);
+                }
             }
-
-            //holder.tv_time.setText(post.createdAt);
+            String createDate = post.getCreatedAt().toString();
+//            holder.tv_time.setText(DateUtil.getPostFormatDate(cDate) +  "  实际: " + cDate);
+            holder.tv_time.setText(DateUtil.getPostFormatDate(createDate));
             holder.tv_content.setText(post.content);
 
-            holder.iv_post_img1.setVisibility(View.GONE);
-            holder.iv_post_img2.setVisibility(View.GONE);
+
             holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
-            holder.iv_post_img1.setDefaultImage(R.drawable.def_activity_bar);
+            holder.iv_post_img2.setDefaultImage(R.drawable.def_activity_bar);
             ArrayList<String> imgs = post.imgURLArray;
             if (imgs != null && imgs.size() > 0) {
                 if (imgs.size() == 1) {
                     holder.iv_post_img1.setVisibility(View.VISIBLE);
+                    holder.iv_post_img2.setVisibility(View.GONE);
                     holder.iv_post_img1.setImageUrl(imgs.get(0));
                 } else if (imgs.size() == 2) {
                     holder.iv_post_img1.setVisibility(View.VISIBLE);
                     holder.iv_post_img2.setVisibility(View.VISIBLE);
                     holder.iv_post_img1.setImageUrl(imgs.get(0));
                     holder.iv_post_img2.setImageUrl(imgs.get(1));
+                } else {
+                    holder.iv_post_img1.setVisibility(View.GONE);
+                    holder.iv_post_img2.setVisibility(View.GONE);
                 }
+            } else {
+                holder.iv_post_img1.setVisibility(View.GONE);
+                holder.iv_post_img2.setVisibility(View.GONE);
             }
 
             holder.tv_read_times.setText(String.valueOf(post.readTimes));
@@ -324,7 +356,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         }
 
         class ViewHolder {
-            RemoteImageView iv_headicon, iv_post_img1, iv_post_img2;
+            RoundedImageView iv_headicon;
+            RemoteImageView iv_post_img1, iv_post_img2;
             TextView tv_name, tv_time, tv_content;
 
             LinearLayout ll_read, ll_comments, ll_likes;
@@ -352,14 +385,16 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        // StatService.onResume(this);
-        ad.startAdAutoSwitch();
+        if (ad != null) {
+            ad.startAdAutoSwitch();
+        }
     }
 
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // StatService.onPause(this);
-        ad.stopAdAutoSwitch();
+        if (ad != null) {
+            ad.stopAdAutoSwitch();
+        }
     }
 }

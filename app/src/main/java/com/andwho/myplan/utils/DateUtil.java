@@ -197,4 +197,62 @@ public class DateUtil {
 		}
 		return isToday;
 	}
+	/**
+	 * 几分钟前，几天前等提示
+	 **/
+	public static String getPostFormatDate(String rawDate) {
+		String tip = "";
+		try {
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			Date date = null;
+			try {
+				date = format.parse(rawDate);
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			long timeInMills = calendar.getTimeInMillis();
+
+			Calendar curCalendar = Calendar.getInstance();
+			int curHour = curCalendar.get(Calendar.HOUR_OF_DAY);
+			int curMin = curCalendar.get(Calendar.MINUTE);
+			long curTimeInMills = Calendar.getInstance().getTimeInMillis();
+
+			//Log.e("", "@@...mp...timeInMills = " + timeInMills);
+			//Log.e("", "@@...mp...curTimeInMills = " + curTimeInMills);
+
+			long MINUTE = 1000 * 60;
+			long delta = (curTimeInMills - timeInMills) / MINUTE;
+			//Log.e("", "@@...mp...delta = " + delta);
+			if (delta < 1) {
+				tip = "刚刚";
+			} else if (delta < 60) {
+				tip = delta + "分钟前";
+			} else if (delta < (curHour * 60)) {
+				long deltaHour = delta / 60;
+				tip = deltaHour + "小时前";
+			} else if (delta < (24 + curHour) * 60) {
+				tip = "昨天";
+			} else if (delta < (30 * 24 * 60)) {
+				if (delta > ((24 + curHour) * 60)) {
+					long deltaDay = ((delta - (curHour * 60)) / (24 * 60)) + 1;
+					tip = deltaDay + "天前";
+				} else {
+					tip = "昨天";
+				}
+			} else if (delta < (12 * 30 * 24 * 60)) {
+				long deltaMonth = delta / (30 * 24 * 60);
+				tip = deltaMonth + "个月前";
+			} else {
+				tip = rawDate;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return tip;
+	}
 }
