@@ -5,5 +5,7 @@ package com.andwho.myplan.constants;
  */
 public class ConfigParam {
     // bomb application id
-    public static final String BOMB_APPLICATION_ID = "c2d17819bc025e90e998210ee07d5b4c";
+    // ed10fc9a05fd6fd5c37be211bc0726b2 生产
+    // c2d17819bc025e90e998210ee07d5b4c 测试
+    public static final String BOMB_APPLICATION_ID = "ed10fc9a05fd6fd5c37be211bc0726b2";
 }

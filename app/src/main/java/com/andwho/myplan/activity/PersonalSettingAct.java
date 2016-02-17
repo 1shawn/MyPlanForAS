@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.model.UserSettings;
+import com.andwho.myplan.model.UserSettingss;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
@@ -432,12 +432,12 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
                     // url        ：文件地址
                     // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
 //					注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），需要经过`URL签名`得到真正的可访问的URL地址,当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
-                    BmobAgent.checkUserSettingInfo(PersonalSettingAct.this, "", new FindListener<UserSettings>() {
+                    BmobAgent.checkUserSettingInfo(PersonalSettingAct.this, "", new FindListener<UserSettingss>() {
                         @Override
-                        public void onSuccess(List<UserSettings> object) {
+                        public void onSuccess(List<UserSettingss> object) {
                             // TODO Auto-generated method stub
 //						toast("查询成功：共" + object.size() + "条数据。");
-                            for (UserSettings userInfo : object) {
+                            for (UserSettingss userInfo : object) {
                                 userInfo.avatarURL = file.getUrl();
                                 BmobAgent.updateUserInfo(PersonalSettingAct.this, userInfo, new UpdateListener() {
                                     @Override

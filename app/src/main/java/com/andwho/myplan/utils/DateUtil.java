@@ -13,168 +13,227 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class DateUtil {
-	public static String getCurTimeInMillis() {
-		return String.valueOf(Calendar.getInstance().getTimeInMillis());
-	}
+    public static String getCurTimeInMillis() {
+        return String.valueOf(Calendar.getInstance().getTimeInMillis());
+    }
 
-	public static String getCurDateYYYYMMDD() {
-		Date date = new Date();
-		date.setTime(Calendar.getInstance().getTimeInMillis());
+    public static String getCurDateYYYYMMDD() {
+        Date date = new Date();
+        date.setTime(Calendar.getInstance().getTimeInMillis());
 
-		String strDate = "";
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		strDate = format.format(date);
-		return strDate;
-	}
+        String strDate = "";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        strDate = format.format(date);
+        return strDate;
+    }
 
-	public static String getCurDateYYYYMMDDHHMM() {
-		Locale.setDefault(Locale.getDefault());
-		Date date = new Date();
-		date.setTime(Calendar.getInstance().getTimeInMillis());
+    public static String getCurDateYYYYMMDDHHMM() {
+        Locale.setDefault(Locale.getDefault());
+        Date date = new Date();
+        date.setTime(Calendar.getInstance().getTimeInMillis());
 
-		String strDate = "";
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		strDate = format.format(date);
-		return strDate;
-	}
-	
-	public static HashMap<String, Integer> getYearMonthDayMap2(String date) {
-		if (date == null) {
-			return null;
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = "";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        strDate = format.format(date);
+        return strDate;
+    }
 
-		Date time = null;
-		try {
-			time = format.parse(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(time);
+    public static HashMap<String, Integer> getYearMonthDayMap2(String date) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("year", calendar.get(Calendar.YEAR));
-		map.put("month", calendar.get(Calendar.MONTH));
-		map.put("day", calendar.get(Calendar.DAY_OF_MONTH));
-		return map;
-	}
+        Date time = null;
+        try {
+            time = format.parse(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
 
-	public static String formatNumber(int number) {
-		if (number < 10) {
-			return "0" + String.valueOf(number);
-		} else {
-			return String.valueOf(number);
-		}
-	}
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        map.put("year", calendar.get(Calendar.YEAR));
+        map.put("month", calendar.get(Calendar.MONTH));
+        map.put("day", calendar.get(Calendar.DAY_OF_MONTH));
+        return map;
+    }
 
-	public static boolean isDate1Earlier(String date1, String date2) {
-		if (date1 == null || date2 == null) {
-			return false;
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public static String formatNumber(int number) {
+        if (number < 10) {
+            return "0" + String.valueOf(number);
+        } else {
+            return String.valueOf(number);
+        }
+    }
 
-		Date time1 = null;
-		Date time2 = null;
-		try {
-			time1 = format.parse(date1);
-			time2 = format.parse(date2);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Calendar calendar1 = Calendar.getInstance();
-		calendar1.setTime(time1);
-		Calendar calendar2 = Calendar.getInstance();
-		calendar2.setTime(time2);
+    public static boolean isDate1Earlier(String date1, String date2) {
+        if (date1 == null || date2 == null) {
+            return false;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		return calendar1.before(calendar2);
-	}
+        Date time1 = null;
+        Date time2 = null;
+        try {
+            time1 = format.parse(date1);
+            time2 = format.parse(date2);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(time1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(time2);
 
-	public static Calendar getClendarByDate(String date) {
+        return calendar1.before(calendar2);
+    }
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public static Calendar getClendarByDate(String date) {
 
-		Date time = null;
-		try {
-			time = format.parse(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(time);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-		return calendar;
-	}
+        Date time = null;
+        try {
+            time = format.parse(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(time);
 
-	public static String getLeftDays(Activity act) {
+        return calendar;
+    }
 
-		String birthday = MyPlanPreference.getInstance(act).getBirthday();
-		String lifespan = MyPlanPreference.getInstance(act).getLifeSpan();
+    public static String getLeftDays(Activity act) {
 
-		Calendar startCalendar = getClendarByDate(birthday);
-		startCalendar.add(Calendar.YEAR, Integer.parseInt(lifespan));
+        String birthday = MyPlanPreference.getInstance(act).getBirthday();
+        String lifespan = MyPlanPreference.getInstance(act).getLifeSpan();
 
-		long endlifeTimeInMillis = startCalendar.getTimeInMillis();
-		long nowTimeInMillis = Calendar.getInstance().getTimeInMillis();
+        Calendar startCalendar = getClendarByDate(birthday);
+        startCalendar.add(Calendar.YEAR, Integer.parseInt(lifespan));
 
-		long leftTimeInMillis = endlifeTimeInMillis - nowTimeInMillis;
+        long endlifeTimeInMillis = startCalendar.getTimeInMillis();
+        long nowTimeInMillis = Calendar.getInstance().getTimeInMillis();
 
-		long leftDays = leftTimeInMillis / (3600 * 24 * 1000);
-		return String.valueOf(leftDays > 0 ? leftDays : 0);
-	}
+        long leftTimeInMillis = endlifeTimeInMillis - nowTimeInMillis;
 
-	public static String getTodayLeftSeconds() {
-		Calendar calendar = Calendar.getInstance();
-		long nowTimeInMillis = calendar.getTimeInMillis();
+        long leftDays = leftTimeInMillis / (3600 * 24 * 1000);
+        return String.valueOf(leftDays > 0 ? leftDays : 0);
+    }
 
-		calendar.add(Calendar.DAY_OF_YEAR, 1);
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		long nextdayTimeInMillis = calendar.getTimeInMillis();
+    public static String getTodayLeftSeconds() {
+        Calendar calendar = Calendar.getInstance();
+        long nowTimeInMillis = calendar.getTimeInMillis();
 
-		long delta = nextdayTimeInMillis - nowTimeInMillis;
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long nextdayTimeInMillis = calendar.getTimeInMillis();
 
-		return String.valueOf(delta / 1000);
-	}
+        long delta = nextdayTimeInMillis - nowTimeInMillis;
 
-	public static boolean isToday(String rawDate) {
-		boolean isToday = false;
-		try {
-			SimpleDateFormat format = new SimpleDateFormat(
-					"yyyy-MM-dd");
-			Date date = null;
-			try {
-				date = format.parse(rawDate);
-			} catch (java.text.ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			calendar.set(Calendar.HOUR_OF_DAY, 0);
-			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.SECOND, 0);
+        return String.valueOf(delta / 1000);
+    }
 
-			Calendar todayCalendar = Calendar.getInstance();
-			todayCalendar.set(Calendar.HOUR_OF_DAY, 0);
-			todayCalendar.set(Calendar.MINUTE, 0);
-			todayCalendar.set(Calendar.SECOND, 0);
+    public static boolean isToday(String rawDate) {
+        boolean isToday = false;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(
+                    "yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = format.parse(rawDate);
+            } catch (java.text.ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
 
-			Calendar yestodayCalendar = Calendar.getInstance();
-			yestodayCalendar.set(Calendar.HOUR_OF_DAY, -1);
-			yestodayCalendar.set(Calendar.MINUTE, 0);
-			yestodayCalendar.set(Calendar.SECOND, 0);
+            Calendar todayCalendar = Calendar.getInstance();
+            todayCalendar.set(Calendar.HOUR_OF_DAY, 0);
+            todayCalendar.set(Calendar.MINUTE, 0);
+            todayCalendar.set(Calendar.SECOND, 0);
 
-			isToday = calendar.before(todayCalendar)
-					&& calendar.after(yestodayCalendar);
+            Calendar yestodayCalendar = Calendar.getInstance();
+            yestodayCalendar.set(Calendar.HOUR_OF_DAY, -1);
+            yestodayCalendar.set(Calendar.MINUTE, 0);
+            yestodayCalendar.set(Calendar.SECOND, 0);
 
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return isToday;
-	}
+            isToday = calendar.before(todayCalendar)
+                    && calendar.after(yestodayCalendar);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return isToday;
+    }
+
+    /**
+     * 几分钟前，几天前等提示
+     **/
+    public static String getPostFormatDate(String rawDate) {
+        String tip = "";
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss");
+            Date date = null;
+            try {
+                date = format.parse(rawDate);
+            } catch (java.text.ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            long timeInMills = calendar.getTimeInMillis();
+
+            Calendar curCalendar = Calendar.getInstance();
+            int curHour = curCalendar.get(Calendar.HOUR_OF_DAY);
+            int curMin = curCalendar.get(Calendar.MINUTE);
+            long curTimeInMills = Calendar.getInstance().getTimeInMillis();
+
+            //Log.e("", "@@...mp...timeInMills = " + timeInMills);
+            //Log.e("", "@@...mp...curTimeInMills = " + curTimeInMills);
+
+            long MINUTE = 1000 * 60;
+            long delta = (curTimeInMills - timeInMills) / MINUTE;
+            //Log.e("", "@@...mp...delta = " + delta);
+            if (delta < 1) {
+                tip = "刚刚";
+            } else if (delta < 60) {
+                tip = delta + "分钟前";
+            } else if (delta < (curHour * 60)) {
+                long deltaHour = delta / 60;
+                tip = deltaHour + "小时前";
+            } else if (delta < (24 + curHour) * 60) {
+                tip = "昨天";
+            } else if (delta < (30 * 24 * 60)) {
+                if (delta > ((24 + curHour) * 60)) {
+                    long deltaDay = ((delta - (curHour * 60)) / (24 * 60)) + 1;
+                    tip = deltaDay + "天前";
+                } else {
+                    tip = "昨天";
+                }
+            } else if (delta < (12 * 30 * 24 * 60)) {
+                long deltaMonth = delta / (30 * 24 * 60);
+                tip = deltaMonth + "个月前";
+            } else {
+                tip = rawDate;
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return tip;
+    }
 }

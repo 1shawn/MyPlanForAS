@@ -456,7 +456,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 	}
 
 	@Override
-	public final void setOnRefreshListener(OnRefreshListener2<T> listener) {
+	public final void setOnRefreshListener2(OnRefreshListener2<T> listener) {
 		mOnRefreshListener2 = listener;
 		mOnRefreshListener = null;
 	}
