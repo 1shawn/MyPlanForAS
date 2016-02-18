@@ -283,6 +283,7 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
                 break;
             case R.id.img_synchroData://同步数据
 //                IntentHelper.showLogin(myselfContext);
+                BmobAgent.updateAllDate(myselfContext,userInfo);
                 break;
             default:
                 break;
@@ -615,5 +616,7 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         }
 
     }
+
+
 
 }
