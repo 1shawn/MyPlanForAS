@@ -8,34 +8,48 @@
 
     <include layout="@layout/layout_title_bar" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/tv_nocontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="暂无计划"
-            android:textColor="#909090"
-            android:textSize="14dp"
-            android:visibility="gone" />
-
-        <com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView
-            android:id="@+id/listview"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#ffffff"
-            android:cacheColorHint="#00000000"
-            android:divider="@color/divider"
-            android:dividerHeight="@dimen/divider"
-            android:listSelector="@drawable/common_btn_selector"
-            android:scrollbars="none"
-            android:visibility="visible" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
 
+            <TextView
+                android:id="@+id/tv_nocontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="暂无计划"
+                android:textColor="#909090"
+                android:textSize="14dp"
+                android:visibility="gone" />
+
+            <com.andwho.myplan.view.myexpandablelistview.PullToRefreshListView
+                android:id="@+id/listview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#ffffff"
+                android:cacheColorHint="#00000000"
+                android:divider="@color/divider"
+                android:dividerHeight="@dimen/divider"
+                android:listSelector="@drawable/common_btn_selector"
+                android:scrollbars="none"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_back_to_top"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="40dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/icon_back_to_top"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>

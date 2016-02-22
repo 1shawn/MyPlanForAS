@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.model.Posts;
 
 public class IntentHelper {
 
@@ -47,6 +48,12 @@ public class IntentHelper {
 
     public static final void showProblems(Activity act) {
         Intent intent = new Intent(act, ProblemsAct.class);
+        act.startActivity(intent);
+    }
+
+    public static final void showCommunityDetail(Activity act, Posts post) {
+        Intent intent = new Intent(act, CommunityDetailAct.class);
+        intent.putExtra("Posts", post);
         act.startActivity(intent);
     }
 

@@ -76,6 +76,12 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
+            android:name=".activity.CommunityDetailAct"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+
+        <activity
             android:name=".activity.LoginAct"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"

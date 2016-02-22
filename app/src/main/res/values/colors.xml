@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
-     <color name="bg_color">#ffffff</color>
-     
-     
+
+    <color name="bg_color">#ffffff</color>
+
+
     <!-- Even添加 开始 -->
 
 
@@ -12,9 +12,11 @@
     <color name="unclickable_btx">#dddddd</color>
     <color name="day_picker_btn">#2198e8</color>
     <color name="patch_tv">#ed8080</color>
-    
+
     <color name="praise_tv">#ffb643</color>
-    
+
+
+    <color name="normal_gray_tv">#6C6C6C</color>
     <color name="normal_tv">#333333</color>
     <color name="group_divider_normal">#44c492</color>
     <color name="group_divider_selected">#64e4b2</color>
@@ -25,23 +27,23 @@
     <color name="groupbtn_stroke">#999999</color>
     <color name="title_edit">#0e627a</color>
     <color name="title_cancel">#d32330</color>
-    
+
     <color name="delete_content">#15ff0000</color>
     <color name="title_complete">#006f37</color>
     <color name="list_item_selected_color">#f0f3f5</color>
     <color name="main_bottom_bg">#ebf3f6</color>
     <color name="child_title_bg">#f6f8f7</color>
-  <!--   <color name="body_bg">#fcfcfe</color> -->
+    <!--   <color name="body_bg">#fcfcfe</color> -->
     <color name="body_light_bg">#fdfdff</color>
-    
+
     <color name="body_bg">#ededf2</color>
-    
+
     <color name="body_dark_bg">#e0e0e0</color>
     <color name="title_bg">#f5f5f5</color>
     <color name="form_line">#dedede</color>
     <color name="tryagain_btnbg_pressed_color">#999999</color>
-    <color name="divider">#dddddd</color>
-    
+    <color name="divider">#D7D7D7</color>
+
     <color name="dialog_stroke">#bbbbbb</color>
     <color name="group_stroke">#666666</color>
     <color name="edit_text_tag">#a0a0a0</color>
@@ -55,12 +57,12 @@
     <color name="contrary_btn_color">#ffffff</color>
     <color name="black_btn_color">#666666</color>
     <color name="green_btn_color">#20c892</color>
-    
+
     <color name="green_btn_unclickable_color">#d0f0e2</color>
     <color name="red_btn_color">#fb5f54</color>
     <color name="title_line">#bbbbbb</color>
     <!-- title_bg 蓝：72c4ff -->
-    
+
     <color name="dialog_title">#000000</color>
     <color name="titletext_normal">#000000</color>
     <color name="titletext_selected">#999999</color>
@@ -252,23 +254,22 @@
     <color name="transparent_background">#00ffffff</color>
     <color name="tab_header_blue">#157EFB</color>
 
-  <color name="white">#ffffff</color>
-  <color name="white_e5">#e5ffffff</color>
-  <color name="black">#000000</color>
-  <color name="half_transparent_black">#7f000000</color>
-  <color name="secondblack">#333333</color>
-  <color name="green">#64ccb4</color>
-  <color name="red">#ed1c24</color>
-  <color name="light_red">#ff4200</color>
+    <color name="white">#ffffff</color>
+    <color name="white_e5">#e5ffffff</color>
+    <color name="black">#000000</color>
+    <color name="half_transparent_black">#7f000000</color>
+    <color name="secondblack">#333333</color>
+    <color name="green">#64ccb4</color>
+    <color name="red">#ed1c24</color>
+    <color name="light_red">#ff4200</color>
 
-  <color name="my_item_small_right_tv">#BCBCBC</color>
-  <color name="more_item_bg">#444444</color>
-  <color name="main_blue">#5191E8</color>
-  <color name="toast_bg_color">#CC000000</color>
+    <color name="my_item_small_right_tv">#BCBCBC</color>
+    <color name="more_item_bg">#444444</color>
+    <color name="main_blue">#5191E8</color>
+    <color name="toast_bg_color">#CC000000</color>
 
-  <color name="complete_bg">#BDFCC9</color>
-  <color name="plan_group_text">#FFFF01</color>
-
+    <color name="complete_bg">#BDFCC9</color>
+    <color name="plan_group_text">#FFFF01</color>
 
 
 </resources>

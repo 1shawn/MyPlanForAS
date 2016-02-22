@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.activity.IntentHelper;
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Posts;
 import com.andwho.myplan.utils.DateUtil;
@@ -51,6 +52,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     private PullToRefreshListView listview;
     private ListAdapter listAdapter;
 
+    private ImageView iv_back_to_top;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         ad = (AdView) view.findViewById(R.id.ad);
         tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);
         listview = (PullToRefreshListView) view.findViewById(R.id.listview);
+        iv_back_to_top = (ImageView) view.findViewById(R.id.iv_back_to_top);
         return view;
     }
 
@@ -79,6 +83,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 
         listview.setMode(Mode.BOTH);
         listview.setOnRefreshListener2(onRefreshListener2);
+        iv_back_to_top.setOnClickListener(this);
     }
 
     private void initHeader(View view) {
@@ -109,8 +114,8 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                 long arg3) {
             // TODO Auto-generated method stub
-//            final Plan plan = listAdapter.getItem(arg2 - 1);
-//            IntentHelper.showPlanEdit(myselfContext, "0", plan);
+            final Posts post = listAdapter.getItem(arg2 - 2);
+            IntentHelper.showCommunityDetail(myselfContext, post);
         }
 
     };
@@ -317,7 +322,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 //                    holder.tv_name.setText(post.author.nickName + "   " + position);
                     holder.tv_name.setText(post.author.nickName);
                 } else {
-                    holder.tv_name.setText("昵称" + "   " + position);
+                    holder.tv_name.setText("昵称");
                 }
             }
             String createDate = post.getCreatedAt().toString();
@@ -376,6 +381,15 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
             case R.id.iv_rightIcon:
 //                IntentHelper.showPlanEdit(myselfContext, curPlanType);
                 break;
+            case R.id.iv_back_to_top:
+                if (listview != null) {
+//                    listview.setsele(0);
+//                    listview.scrollBy(0, 500);//.smothScrollToTop();
+                    // listview.smothScrollToTop();
+                }
+//                IntentHelper.showPlanEdit(myselfContext, curPlanType);
+                break;
+
             default:
                 break;
         }
