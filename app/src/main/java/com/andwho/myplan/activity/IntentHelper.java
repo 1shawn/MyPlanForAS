@@ -57,6 +57,12 @@ public class IntentHelper {
         act.startActivity(intent);
     }
 
+    public static final void showImageGallery(Activity act, Posts post) {
+        Intent intent = new Intent(act, ImageGalleryAct.class);
+        intent.putExtra("Posts", post);
+        act.startActivity(intent);
+    }
+
     public static final void showLogin(Activity act) {
         Intent intent = new Intent(act, LoginAct.class);
         act.startActivity(intent);

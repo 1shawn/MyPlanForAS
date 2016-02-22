@@ -134,6 +134,8 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
         rl_like.setOnClickListener(this);
         rl_comment.setOnClickListener(this);
         sv.setScrollViewListener(onScrollChangeListener);
+        iv_post_img1.setOnClickListener(this);
+        iv_post_img2.setOnClickListener(this);
 
     }
 
@@ -205,6 +207,10 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 break;
             case R.id.iv_rightIcon:
 
+                break;
+            case R.id.iv_post_img1:
+            case R.id.iv_post_img2:
+                IntentHelper.showImageGallery(myselfContext, post);
                 break;
             case R.id.rl_like:
 

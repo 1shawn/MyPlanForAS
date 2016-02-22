@@ -80,7 +80,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
         </activity>
-
+        <activity
+            android:name=".activity.ImageGalleryAct"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <activity
             android:name=".activity.LoginAct"
             android:screenOrientation="portrait"

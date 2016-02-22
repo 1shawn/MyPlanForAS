@@ -147,6 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
                 android:layout_marginTop="30dp"
                 android:text="暂无评论，快占沙发~"
                 android:textColor="@color/normal_gray_tv"
