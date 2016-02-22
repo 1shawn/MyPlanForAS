@@ -16,8 +16,8 @@ public class Posts extends BmobObject implements Serializable {
     public String isTop;
     public String isHighlight;
 
-    public UserSettingss author;
-    public UserSettingss likes;
+    public UserSettings author;
+    public UserSettings likes;
 
     public int readTimes;
     public int likesCount;

@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.andwho.myplan.R;
 import com.andwho.myplan.utils.AndroidUtil;
@@ -28,6 +29,7 @@ public class FindPswAct extends BaseAct implements View.OnClickListener {
 
     private Button mLoginBtn;
     private Activity myselfContext;
+    private LinearLayout ll_leftIcon,ll_life;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,11 @@ public class FindPswAct extends BaseAct implements View.OnClickListener {
         findViewById(R.id.tv_forget).setVisibility(View.GONE);
         findViewById(R.id.tv_sign).setVisibility(View.GONE);
         findViewById(R.id.tv_tips).setVisibility(View.GONE);
+
+        ll_leftIcon = (LinearLayout) this.findViewById(R.id.ll_leftIcon);
+
+        ll_leftIcon.setVisibility(View.VISIBLE);
+        ll_leftIcon.setOnClickListener(this);
     }
 
     @Override
@@ -63,7 +70,9 @@ public class FindPswAct extends BaseAct implements View.OnClickListener {
             case R.id.btn_login:
                 findPsw();
                 break;
-
+            case R.id.ll_leftIcon:
+                finish();
+                break;
             default:
                 break;
         }
@@ -110,6 +119,7 @@ public class FindPswAct extends BaseAct implements View.OnClickListener {
             @Override
             public void onSuccess() {
                 ToastUtil.showShortToast(FindPswAct.this, getResources().getString(R.string.str_find_psw));
+                finish();
             }
 
             @Override

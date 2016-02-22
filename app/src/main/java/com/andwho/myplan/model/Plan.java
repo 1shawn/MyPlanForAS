@@ -2,7 +2,9 @@ package com.andwho.myplan.model;
 
 import java.io.Serializable;
 
-public class Plan implements Serializable {
+import cn.bmob.v3.BmobObject;
+
+public class Plan extends BmobObject implements Serializable {
 	public String planid;// 表键
 	public String content;// 内容
 	public String createtime;// 创建时间

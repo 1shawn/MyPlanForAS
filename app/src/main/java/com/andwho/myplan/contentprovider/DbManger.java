@@ -11,6 +11,8 @@ import com.andwho.myplan.model.Plan;
 
 import java.util.ArrayList;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * @author ouyyx
  */
@@ -101,7 +103,41 @@ public class DbManger {
 
         return listPlan;
     }
+    //查询所有的
+    public ArrayList<BmobObject> queryPlans() {
+        ArrayList<BmobObject> listPlan = new ArrayList<BmobObject>();
 
+        Cursor cursor = getPlanCursor();
+        while (cursor.moveToNext()) {
+            Plan plan = new Plan();
+            plan.planid = String.valueOf(cursor.getInt(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.PLANID)));
+            plan.content = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.CONTENT));
+            plan.createtime = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
+            plan.completetime = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.COMPLETETIME));
+            plan.updatetime = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.UPDATETIME));
+            plan.iscompleted = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.ISCOMPLETED));
+            plan.isnotify = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.ISNOTIFY));
+            plan.notifytime = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.NOTIFYTIME));
+            plan.plantype = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.PLANTYPE));
+            plan.isdeleted = cursor.getString(cursor
+                    .getColumnIndex(MyPlanDBOpenHelper.ISDELETED));
+
+            listPlan.add(plan);
+        }
+
+        cursor.close();
+
+        return listPlan;
+    }
 
     public void updatePlan(Plan plan) {
 
@@ -153,7 +189,6 @@ public class DbManger {
         return queryPlans(planType, null);
     }
 
-
     public Cursor getPlanCursor(String planType, String iscompleted) {
         String where = null;
         if (!TextUtils.isEmpty(iscompleted)) {
@@ -170,6 +205,19 @@ public class DbManger {
         Cursor cursor = mContentResolver.query(
                 Uri.parse(MyPlanDBOpenHelper.CONTENT_URI), null, where, null,
                 null);
+
+        return cursor;
+    }
+
+    //查询所有的计划
+   public Cursor getPlanCursor() {
+       String where = null;
+
+       where =MyPlanDBOpenHelper.CREATETIME + " DESC";
+
+        Cursor cursor = mContentResolver.query(
+                Uri.parse(MyPlanDBOpenHelper.CONTENT_URI), null, null, null,
+                where);
 
         return cursor;
     }

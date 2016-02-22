@@ -5,11 +5,13 @@ import cn.bmob.v3.BmobUser;
 /**
  * Created by ys_1shawn on 2016/2/16.
  */
-public class UserSettingss extends BmobUser {
+public class UserSettings extends BmobUser {
 
     public String nickName;
     public String birthday;
+    public String userObjectId;
     public String gender;
+    public String lifespan;
     public String liespan;
     public String avatarURL;
     public String centerTopURL;

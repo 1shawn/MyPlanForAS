@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -22,11 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.model.UserSettingss;
+import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.StringUtil;
+import com.andwho.myplan.utils.ToastUtil;
 import com.andwho.myplan.view.MpDatePickerDialog;
 import com.andwho.myplan.view.RoundedImageView;
 import com.bmob.btp.callback.UploadListener;
@@ -34,12 +36,12 @@ import com.bmob.btp.callback.UploadListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
@@ -63,7 +65,9 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
     private TextView tv_nickname, tv_birthday, tv_lifespan;
 
     private Button btn_login;
-
+   /* private static final int IMAGE_REQUEST_CODE = 0;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int RESIZE_REQUEST_CODE = 2;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,12 +153,14 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         super.onStart();
         initData();
     }
-
+    UserSettings userInfo;
     public void initData() {
+        userInfo=new UserSettings();
         new LoadImageAsyncTask().execute();
         /*String nickname = MyPlanPreference.getInstance(myselfContext)
 				.getNickname();
 		tv_nickname.setText(nickname);*/
+
         String userName = MyPlanPreference.getInstance(myselfContext).getUsername();
         if (!TextUtils.isEmpty(userName)) {
             // 允许用户使用应用
@@ -175,6 +181,10 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         String lifeSpan = MyPlanPreference.getInstance(myselfContext)
                 .getLifeSpan();
         tv_lifespan.setText(lifeSpan);
+        userInfo.nickName=tv_nickname.getText().toString();
+        userInfo.gender=MyPlanPreference.getInstance(myselfContext).getGender();
+        userInfo.birthday=tv_birthday.getText().toString();
+        userInfo.liespan=tv_lifespan.getText().toString();
     }
 
     private class LoadImageAsyncTask extends AsyncTask<Void, Void, Bitmap> {
@@ -262,15 +272,19 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
                 String userName = MyPlanPreference.getInstance(myselfContext).getUsername();
                 if (!TextUtils.isEmpty(userName)) {
                     BmobAgent.loginOut(myselfContext);
+                    ll_changePsw.setVisibility(View.GONE);
                     btn_login.setText("登录");
                 } else {
                     IntentHelper.showLogin(myselfContext);
                 }
-
+                break;
             case R.id.img_changePsw://忘记密码
                 IntentHelper.showFindPsw(myselfContext);
+                break;
             case R.id.img_synchroData://同步数据
-                IntentHelper.showLogin(myselfContext);
+//                IntentHelper.showLogin(myselfContext);
+                BmobAgent.updateAllDate(myselfContext,userInfo);
+                break;
             default:
                 break;
         }
@@ -295,23 +309,27 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         String birthday = MyPlanPreference.getInstance(myselfContext)
                 .getBirthday();
         if (!TextUtils.isEmpty(birthday)) {
-            HashMap<String, Integer> startTimeMap = DateUtil
+           /* HashMap<String, Integer> startTimeMap = DateUtil
                     .getYearMonthDayMap2(birthday);
             startYear = startTimeMap.get("year");
             startMonth = startTimeMap.get("month") + 1;
             startDay = startTimeMap.get("day");
 
-            tv_birthday.setText(startYear + "年"
-                    + DateUtil.formatNumber(startMonth) + "月"
-                    + DateUtil.formatNumber(startDay) + "日");
+
+            tv_birthday.setText(startYear + "-"
+                    + DateUtil.formatNumber(startMonth) + "-"
+                    + DateUtil.formatNumber(startDay) );*/
+            tv_birthday.setText(DateUtil.getNextMonthDate(birthday));
         } else {
-            startYear = Calendar.getInstance().get(Calendar.YEAR);
+           /* startYear = Calendar.getInstance().get(Calendar.YEAR);
             startMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
             startDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-            tv_birthday.setText(startYear + "年"
-                    + DateUtil.formatNumber(startMonth) + "月"
-                    + DateUtil.formatNumber(startDay) + "日");
+            tv_birthday.setText(startYear + "-"
+                    + DateUtil.formatNumber(startMonth) + "-"
+                    + DateUtil.formatNumber(startDay) );*/
+            birthday=DateUtil.getCurDateYYYYMMDD();
+            tv_birthday.setText(DateUtil.getNextMonthDate(birthday));
         }
 
     }
@@ -412,84 +430,85 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
     }
 
     private void takePicture() {
-        if (Environment.getExternalStorageState().equals(
+        if (isSdcardExisting()) {
+            Intent cameraIntent = new Intent(
+                    "android.media.action.IMAGE_CAPTURE");//拍照
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+            cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+            MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
+                    getImageUri().toString());
+           startActivityForResult(cameraIntent, REQUEST_CODE_CROP);
+
+        } else {
+            Toast.makeText(myselfContext, "请插入sd卡", Toast.LENGTH_LONG)
+                    .show();
+        }
+       /* if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)
                 && Environment.getExternalStorageDirectory().exists()) {
             String fileName = String.valueOf(System.currentTimeMillis())
                     + ".jpg";
             Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-            Uri pictureUri = Uri.fromFile(new File(Environment
-                    .getExternalStorageDirectory(), fileName));
+            *//*Uri pictureUri = Uri.fromFile(new File(Environment
+                    .getExternalStorageDirectory(), fileName));*//*
+            Uri pictureUri=Uri.fromFile(new File(AndroidUtil.getLocalAvatarDir(PersonalSettingAct.this).getAbsoluteFile(),fileName));
             MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
                     pictureUri.toString());
-            BmobAgent.uploadFile(myselfContext, pictureUri.toString(), new UploadListener() {
 
-                @Override
-                public void onSuccess(String fileName, String url, final BmobFile file) {
-//					Log.i("bmob","文件上传成功："+fileName+",可访问的文件地址："+file.getUrl());
-                    // TODO Auto-generated method stub
-                    // fileName ：文件名（带后缀），这个文件名是唯一的，开发者需要记录下该文件名，方便后续下载或者进行缩略图的处理
-                    // url        ：文件地址
-                    // file        :BmobFile文件类型，`V3.4.1版本`开始提供，用于兼容新旧文件服务。
-//					注：若上传的是图片，url地址并不能直接在浏览器查看（会出现404错误），需要经过`URL签名`得到真正的可访问的URL地址,当然，`V3.4.1`的版本可直接从'file.getUrl()'中获得可访问的文件地址。
-                    BmobAgent.checkUserSettingInfo(PersonalSettingAct.this, "", new FindListener<UserSettingss>() {
-                        @Override
-                        public void onSuccess(List<UserSettingss> object) {
-                            // TODO Auto-generated method stub
-//						toast("查询成功：共" + object.size() + "条数据。");
-                            for (UserSettingss userInfo : object) {
-                                userInfo.avatarURL = file.getUrl();
-                                BmobAgent.updateUserInfo(PersonalSettingAct.this, userInfo, new UpdateListener() {
-                                    @Override
-                                    public void onSuccess() {
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(int i, String s) {
-
-                                    }
-                                });
-                            }
-                        }
-
-                        @Override
-                        public void onError(int code, String msg) {
-                            // TODO Auto-generated method stub
-//						toast("查询失败：" + msg);
-                        }
-                    });
-                }
-
-                @Override
-                public void onProgress(int progress) {
-                    // TODO Auto-generated method stub
-//					Log.i("bmob","onProgress :"+progress);
-                }
-
-                @Override
-                public void onError(int statuscode, String errormsg) {
-                    // TODO Auto-generated method stub
-//					Log.i("bmob","文件上传失败："+errormsg);
-                }
-            });
             intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
             myselfContext.startActivityForResult(intent, REQUEST_CODE_CROP);
 
         } else {
             Toast.makeText(myselfContext, R.string.take_photo_msg_no_sdcard,
                     Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     private void openAlbum() {
-        Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+       /* Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         openAlbumIntent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image*//*");*/
+        Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        openAlbumIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        openAlbumIntent.setType("image/*");//图片
         myselfContext
                 .startActivityForResult(openAlbumIntent, REQUEST_CODE_CROP);
+
+    }
+    private boolean isSdcardExisting() {//判断SD卡是否存在
+        final String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    public void resizeImage(Uri uri) {//重塑图片大小
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");//可以裁剪
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 15);
+        intent.putExtra("outputY", 15);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, REQUEST_CODE_CROP);
+    }
+
+    /* private void showResizeImage(Intent data) {//显示图片
+         Bundle extras = data.getExtras();
+         if (extras != null) {
+             Bitmap photo = extras.getParcelable("data");
+             Drawable drawable = new BitmapDrawable(photo);
+             mImageHeader.setImageDrawable(drawable);
+         }
+     }*/
+    private static final String IMAGE_FILE_NAME = "header.jpg";
+    private Uri getImageUri() {//获取路径
+        return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+                IMAGE_FILE_NAME));
+    }
     private static final int REQUEST_CODE_CROP = 1245;
 
     @Override
@@ -499,19 +518,97 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         switch (requestCode) {
             case REQUEST_CODE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
+                    String picUrl=MyPlanPreference.getInstance(myselfContext)
+                            .getTempPicUrl();
                     // 拍照
-                    Uri uri = Uri.parse(MyPlanPreference.getInstance(myselfContext)
-                            .getTempPicUrl());
+                    Uri uri = Uri.parse(picUrl);
 
                     // 相册取图片
                     if (data != null) {
                         uri = data.getData();
                     }
 
+                    //下面方法将获取的uri转为String类型哦！
+                    String []imgs1={MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
+                    Cursor cursor=this.managedQuery(uri, imgs1, null, null, null);
+                    int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String img_url=cursor.getString(index);
+
                     MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(
                             uri.toString());
-                    new LoadImageAsyncTask().execute();
-                }
+
+                    final String userId=MyPlanPreference.getInstance(myselfContext).getUserId();
+
+                    if(!TextUtils.isEmpty(userId)){
+                        BmobAgent.uploadPicFile(myselfContext, img_url, new UploadListener() {
+                            @Override
+                            public void onSuccess(String fileName, String url, final BmobFile file) {
+                                userInfo.avatarURL = file.getUrl();
+                                BmobAgent.checkUserSettingInfo(PersonalSettingAct.this, userId, new FindListener<UserSettings>() {
+                                    @Override
+                                    public void onSuccess(List<UserSettings> object) {
+                                        // TODO Auto-generated method stub
+                                        if(object!=null&&object.size()>0){
+                                            for (UserSettings userInfodate : object) {
+                                                userInfodate.avatarURL=file.getUrl();
+                                                BmobAgent.updateUserInfo(PersonalSettingAct.this, userInfodate, new UpdateListener() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        ToastUtil.showLongToast(PersonalSettingAct.this, "更新成功");
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(int i, String s) {
+                                                        ToastUtil.showLongToast(PersonalSettingAct.this, "更新失败：" + s);
+                                                    }
+                                                });
+                                            }
+                                        }else{
+
+                                            userInfo.userObjectId=userId;
+                                            userInfo.createdTime=DateUtil.getCurDateYYYYMMDD();
+                                            userInfo.updatedTime=userInfo.createdTime;
+                                            BmobAgent.saveUserInfo(myselfContext, userInfo, new SaveListener() {
+                                                @Override
+                                                public void onSuccess() {
+                                                    ToastUtil.showLongToast(PersonalSettingAct.this, "更新成功");
+                                                }
+
+                                                @Override
+                                                public void onFailure(int i, String s) {
+                                                    ToastUtil.showLongToast(PersonalSettingAct.this, "更新失败：" + s);
+                                                }
+                                            });
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(int code, String msg) {
+                                        // TODO Auto-generated method stub
+//						toast("查询失败：" + msg);
+                                        ToastUtil.showLongToast(PersonalSettingAct.this, "查询失败：" + msg);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+                                // TODO Auto-generated method stub
+//					Log.i("bmob","onProgress :"+progress);
+                                ToastUtil.showLongToast(PersonalSettingAct.this, "进度：" + progress);
+                            }
+
+                            @Override
+                            public void onError(int statuscode, String errormsg) {
+                                // TODO Auto-generated method stub
+//					Log.i("bmob","文件上传失败："+errormsg);
+                                ToastUtil.showLongToast(PersonalSettingAct.this, "文件上传失败：" + errormsg);
+                            }
+                        });
+                    }}
+                new LoadImageAsyncTask().execute();
                 break;
 
             default:
@@ -519,5 +616,7 @@ public class PersonalSettingAct extends BaseAct implements OnClickListener {
         }
 
     }
+
+
 
 }
