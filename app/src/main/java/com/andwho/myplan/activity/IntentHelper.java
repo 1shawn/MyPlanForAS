@@ -63,6 +63,11 @@ public class IntentHelper {
         act.startActivity(intent);
     }
 
+    public static final void showEditPost(Activity act) {
+        Intent intent = new Intent(act, EditPostAct.class);
+        act.startActivity(intent);
+    }
+
     public static final void showLogin(Activity act) {
         Intent intent = new Intent(act, LoginAct.class);
         act.startActivity(intent);

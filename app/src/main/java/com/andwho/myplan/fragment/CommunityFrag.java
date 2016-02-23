@@ -59,11 +59,24 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                              Bundle savedInstanceState) {
 
         myselfContext = this.getActivity();
-        View view = findViews(inflater, container);
-        setListener();
-        init();
 
-        return view;
+        if (null == fragmentView) {
+            fragmentView = findViews(inflater, container);
+            setListener();
+            init();
+        }
+
+        return fragmentView;
+    }
+
+    private View fragmentView;
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (null != fragmentView) {
+            ((ViewGroup) fragmentView.getParent()).removeView(fragmentView);
+        }
     }
 
     private View findViews(LayoutInflater inflater, ViewGroup container) {
@@ -379,7 +392,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         int id = view.getId();
         switch (id) {
             case R.id.iv_rightIcon:
-//                IntentHelper.showPlanEdit(myselfContext, curPlanType);
+                IntentHelper.showEditPost(myselfContext);
                 break;
             case R.id.iv_back_to_top:
                 if (listview != null) {

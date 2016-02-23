@@ -30,6 +30,7 @@ public abstract class MyPlanViewPagerFrag extends BaseFrag {
 		tabPager.setOnPageChangeListener(pageChangeListener);
 
 		getContainer(view).addView(tabPager);
+//		tabPager.setOffscreenPageLimit(3);
 
 		setTabSelected(0);
 		setPageSelected(0);

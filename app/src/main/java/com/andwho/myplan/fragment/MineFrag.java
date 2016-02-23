@@ -59,11 +59,24 @@ public class MineFrag extends BaseFrag implements OnClickListener {
                              Bundle savedInstanceState) {
 
         myselfContext = this.getActivity();
-        View view = findViews(inflater, container);
-        setListener();
-        init();
 
-        return view;
+        if (null == fragmentView) {
+            fragmentView = findViews(inflater, container);
+            setListener();
+            init();
+        }
+
+        return fragmentView;
+    }
+
+    private View fragmentView;
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (null != fragmentView) {
+            ((ViewGroup) fragmentView.getParent()).removeView(fragmentView);
+        }
     }
 
     private View findViews(LayoutInflater inflater, ViewGroup container) {
