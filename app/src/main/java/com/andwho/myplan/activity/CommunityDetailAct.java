@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -14,7 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
@@ -58,7 +61,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
     private ObservableScrollView sv;
 
     private LinearLayout ll_bottom;
-    private RelativeLayout rl_like, rl_comment;
+    private LinearLayout ll_like, ll_comment;
     private TextView tv_like;
     private EditText et_comment;
 
@@ -119,10 +122,10 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
 
         ll_bottom = (LinearLayout)
                 findViewById(R.id.ll_bottom);
-        rl_comment = (RelativeLayout)
-                findViewById(R.id.rl_comment);
-        rl_like = (RelativeLayout)
-                findViewById(R.id.rl_like);
+        ll_comment = (LinearLayout)
+                findViewById(R.id.ll_comment);
+        ll_like = (LinearLayout)
+                findViewById(R.id.ll_like);
         tv_like = (TextView)
                 findViewById(R.id.tv_like);
         et_comment = (EditText)
@@ -131,8 +134,8 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
 
     private void setListener() {
         ll_root.setOnSoftKeyboardListener(imListener);
-        rl_like.setOnClickListener(this);
-        rl_comment.setOnClickListener(this);
+        ll_like.setOnClickListener(this);
+        ll_comment.setOnClickListener(this);
         sv.setScrollViewListener(onScrollChangeListener);
         iv_post_img1.setOnClickListener(this);
         iv_post_img2.setOnClickListener(this);
@@ -206,16 +209,16 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 finish();
                 break;
             case R.id.iv_rightIcon:
-
+                initPopuptWindow();
                 break;
             case R.id.iv_post_img1:
             case R.id.iv_post_img2:
                 IntentHelper.showImageGallery(myselfContext, post);
                 break;
-            case R.id.rl_like:
+            case R.id.ll_like:
 
                 break;
-            case R.id.rl_comment:
+            case R.id.ll_comment:
                 et_comment.setHint("评论一下");
                 showInputEdit(true);
                 showInputMethod();
@@ -440,4 +443,46 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
 
     };
 
+
+    protected void initPopuptWindow() {
+        // TODO Auto-generated method stub
+
+        View popupWindow_view = ((LayoutInflater) myselfContext
+                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE)).inflate(
+                R.layout.community_detail_popupwindow, null);
+        final PopupWindow popupWindow = new PopupWindow(popupWindow_view,
+                ViewPager.LayoutParams.MATCH_PARENT, ViewPager.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setFocusable(true);
+        popupWindow_view.setFocusableInTouchMode(true);// 不然按KEYCODE_BACK不生效
+        popupWindow_view.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK && popupWindow != null
+                        && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        popupWindow_view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                }
+                return false;
+            }
+        });
+
+        LinearLayout ll_refresh = (LinearLayout) popupWindow_view.findViewById(R.id.ll_refresh);
+        LinearLayout ll_share = (LinearLayout) popupWindow_view.findViewById(R.id.ll_share);
+        LinearLayout ll_report = (LinearLayout) popupWindow_view.findViewById(R.id.ll_report);
+        popupWindow.showAsDropDown(findViewById(R.id.rl_titleBar), 0, 0);
+
+    }
 }

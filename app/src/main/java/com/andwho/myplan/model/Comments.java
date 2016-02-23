@@ -10,11 +10,11 @@ import cn.bmob.v3.BmobObject;
 public class Comments extends BmobObject implements Serializable {
     public String content;//
     public Posts posts;
-    public UserSettingss author;
-    public UserSettingss likes;
+    public UserSettings author;
+    public UserSettings likes;
     public String imgURL;//
     public int likesCount;
     public String isDeleted;//
-    public UserSettingss replyAuthor;
+    public UserSettings replyAuthor;
 
 }

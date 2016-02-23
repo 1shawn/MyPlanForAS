@@ -174,74 +174,63 @@
         android:background="#E8EEF0"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/rl_like"
+        <LinearLayout
+            android:id="@+id/ll_like"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@drawable/common_btn_selector"
             android:gravity="center">
 
-            <LinearLayout
+
+            <ImageView
+                android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:src="@drawable/icon_praise" />
 
-                <ImageView
-                    android:id="@+id/iv_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_praise" />
+            <TextView
+                android:id="@+id/tv_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=""
+                android:textColor="@color/normal_gray_tv"
+                android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/tv_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text=""
-                    android:textColor="@color/normal_gray_tv"
-                    android:textSize="14dp" />
 
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="fill_parent"
             android:background="#D7D7D7" />
 
-        <RelativeLayout
-            android:id="@+id/rl_comment"
+        <LinearLayout
+            android:id="@+id/ll_comment"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@drawable/common_btn_selector"
             android:gravity="center">
 
-            <LinearLayout
+
+            <ImageView
+                android:id="@+id/iv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:src="@drawable/icon_comment" />
 
-                <ImageView
-                    android:id="@+id/iv_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_comment" />
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="回复"
+                android:textColor="@color/normal_gray_tv"
+                android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/tv_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="回复"
-                    android:textColor="@color/normal_gray_tv"
-                    android:textSize="14dp" />
-
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <EditText

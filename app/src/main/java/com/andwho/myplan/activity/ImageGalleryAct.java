@@ -12,13 +12,12 @@ import android.widget.TextView;
 import com.andwho.myplan.R;
 import com.andwho.myplan.model.Posts;
 import com.andwho.myplan.utils.Log;
+import com.andwho.myplan.view.touchGallery.GalleryWidget.GalleryViewPager;
+import com.andwho.myplan.view.touchGallery.GalleryWidget.UrlPagerAdapter;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import java.lang.reflect.Field;
 import java.util.List;
-
-import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
-import ru.truba.touchgallery.GalleryWidget.UrlPagerAdapter;
 
 /**
  * Created by ys_1shawn on 2016/2/22.

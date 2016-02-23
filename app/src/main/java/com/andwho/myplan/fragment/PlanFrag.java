@@ -25,7 +25,6 @@ import android.widget.CursorTreeAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
@@ -56,7 +55,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
     private FragmentActivity myselfContext;
     private TextView tv_title;
     private ImageView iv_rightIcon;
-    private RelativeLayout rl_everyday_plan, rl_longterm_plan;
+    private LinearLayout ll_everyday_plan, ll_longterm_plan;
     private View v_everyday_plan, v_longterm_plan;
 
     private TextView tv_nocontent;
@@ -83,10 +82,10 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
         View view = inflater.inflate(R.layout.plan_frag, container, false);
         initHeader(view);
 
-        rl_everyday_plan = (RelativeLayout) view
-                .findViewById(R.id.rl_everyday_plan);
-        rl_longterm_plan = (RelativeLayout) view
-                .findViewById(R.id.rl_longterm_plan);
+        ll_everyday_plan = (LinearLayout) view
+                .findViewById(R.id.ll_everyday_plan);
+        ll_longterm_plan = (LinearLayout) view
+                .findViewById(R.id.ll_longterm_plan);
         v_everyday_plan = (View) view.findViewById(R.id.v_everyday_plan);
         v_longterm_plan = (View) view.findViewById(R.id.v_longterm_plan);
         tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);
@@ -107,8 +106,8 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
     }
 
     private void setListener() {
-        rl_everyday_plan.setOnClickListener(this);
-        rl_longterm_plan.setOnClickListener(this);
+        ll_everyday_plan.setOnClickListener(this);
+        ll_longterm_plan.setOnClickListener(this);
 
         listview.setMode(PullToRefreshBase.Mode.DISABLED);
     }
@@ -123,10 +122,10 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
         // TODO Auto-generated method stub
         int id = view.getId();
         switch (id) {
-            case R.id.rl_everyday_plan:
+            case R.id.ll_everyday_plan:
                 switchItemSelected(0);
                 break;
-            case R.id.rl_longterm_plan:
+            case R.id.ll_longterm_plan:
                 switchItemSelected(1);
                 break;
             case R.id.iv_rightIcon:
@@ -177,8 +176,8 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
         switch (position) {
             case 0:
                 curPlanType = PlanType.EVERYDAY_PLAN;
-                rl_everyday_plan.setSelected(true);
-                rl_longterm_plan.setSelected(false);
+                ll_everyday_plan.setSelected(true);
+                ll_longterm_plan.setSelected(false);
                 v_everyday_plan.setVisibility(View.VISIBLE);
                 v_longterm_plan.setVisibility(View.INVISIBLE);
 
@@ -187,8 +186,8 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                 break;
             case 1:
                 curPlanType = PlanType.LONGTERM_PLAN;
-                rl_everyday_plan.setSelected(false);
-                rl_longterm_plan.setSelected(true);
+                ll_everyday_plan.setSelected(false);
+                ll_longterm_plan.setSelected(true);
                 v_everyday_plan.setVisibility(View.INVISIBLE);
                 v_longterm_plan.setVisibility(View.VISIBLE);
 
