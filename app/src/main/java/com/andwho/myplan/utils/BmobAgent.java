@@ -70,6 +70,7 @@ public class BmobAgent {
        /* BmobFile bmobFile = new BmobFile(new File(picPath));
         bmobFile.uploadblock(context,listener);*/
     }
+    //是否在UserSetting先形成了
     public static void checkUserSettingInfo(Context context,String userObjectId,FindListener<UserSettings> listener){
         BmobQuery<UserSettings> query = new BmobQuery<UserSettings>();
         //查询
@@ -91,78 +92,32 @@ public class BmobAgent {
         updatePlanDate(myselfContext);
         String picUrl=MyPlanPreference.getInstance(myselfContext)
                 .getTempPicUrl();
-        if(!TextUtils.isEmpty(picUrl)){
-        // 拍照
-        Uri uri = Uri.parse(picUrl);
+        final String userId = MyPlanPreference.getInstance(myselfContext).getUserId();
 
-        //下面方法将获取的uri转为String类型哦！
-        String []imgs1={MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
-        Cursor cursor=((BaseAct) myselfContext).managedQuery(uri, imgs1, null, null, null);
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-            String img_url=cursor.getString(index);
+        if(!TextUtils.isEmpty(picUrl)) {
+            // 拍照
+            Uri uri = Uri.parse(picUrl);
 
-        MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(
-                uri.toString());
+            //下面方法将获取的uri转为String类型哦！
+            String[] imgs1 = {MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
+            Cursor cursor = ((BaseAct) myselfContext).managedQuery(uri, imgs1, null, null, null);
+            int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String img_url = cursor.getString(index);
 
-        final String userId=MyPlanPreference.getInstance(myselfContext).getUserId();
+            MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(
+                    uri.toString());
 
-        if(!TextUtils.isEmpty(userId)) {
             BmobAgent.uploadPicFile(myselfContext, img_url, new UploadListener() {
                 @Override
                 public void onSuccess(String fileName, String url, final BmobFile file) {
                     userInfo.avatarURL = file.getUrl();
-                    BmobAgent.checkUserSettingInfo(myselfContext, userId, new FindListener<UserSettings>() {
-                        @Override
-                        public void onSuccess(List<UserSettings> object) {
-                            // TODO Auto-generated method stub
-                            if (object != null && object.size() > 0) {
-                                for (UserSettings userInfodate : object) {
-                                    userInfodate.avatarURL = file.getUrl();
-                                    BmobAgent.updateUserInfo(myselfContext, userInfodate, new UpdateListener() {
-                                        @Override
-                                        public void onSuccess() {
-                                            ToastUtil.showLongToast(myselfContext, "更新成功");
-                                        }
-
-                                        @Override
-                                        public void onFailure(int i, String s) {
-                                            ToastUtil.showLongToast(myselfContext, "更新失败：" + s);
-                                        }
-                                    });
-                                }
-                            } else {
-
-                                userInfo.userObjectId = userId;
-                                userInfo.createdTime = DateUtil.getCurDateYYYYMMDD();
-                                userInfo.updatedTime = userInfo.createdTime;
-                                BmobAgent.saveUserInfo(myselfContext, userInfo, new SaveListener() {
-                                    @Override
-                                    public void onSuccess() {
-                                        ToastUtil.showLongToast(myselfContext, "更新成功");
-                                    }
-
-                                    @Override
-                                    public void onFailure(int i, String s) {
-                                        ToastUtil.showLongToast(myselfContext, "更新失败：" + s);
-                                    }
-                                });
-
-                            }
-                        }
-
-                        @Override
-                        public void onError(int code, String msg) {
-                            // TODO Auto-generated method stub
-                            ToastUtil.showLongToast(myselfContext, "查询失败：" + msg);
-                        }
-                    });
                 }
 
                 @Override
                 public void onProgress(int progress) {
                     // TODO Auto-generated method stub
-                    ToastUtil.showLongToast(myselfContext, "进度：" + progress);
+//                        ToastUtil.showLongToast(myselfContext, "进度：" + progress);
                 }
 
                 @Override
@@ -171,12 +126,65 @@ public class BmobAgent {
                     ToastUtil.showLongToast(myselfContext, "文件上传失败：" + errormsg);
                 }
             });
-        }}
 
+        }
+        updateMineAndPlanData(myselfContext, userId, userInfo);
+//        updatePlanDate(myselfContext);
+
+    }
+    private static void updateMineAndPlanData(final Context myselfContext,final String userId,final UserSettings userInfo){
+        if(!TextUtils.isEmpty(userId)) {
+            BmobAgent.checkUserSettingInfo(myselfContext, userId, new FindListener<UserSettings>() {
+                @Override
+                public void onSuccess(List<UserSettings> object) {
+                    // TODO Auto-generated method stub
+                    if (object != null && object.size() > 0) {
+                        for (UserSettings userInfodate : object) {
+//                        userInfodate.avatarURL = file.getUrl();
+                            BmobAgent.updateUserInfo(myselfContext, userInfodate, new UpdateListener() {
+                                @Override
+                                public void onSuccess() {
+//                                    ToastUtil.showLongToast(myselfContext, "更新成功");
+                                }
+
+                                @Override
+                                public void onFailure(int i, String s) {
+//                                    ToastUtil.showLongToast(myselfContext, "更新失败：" + s);
+                                }
+                            });
+                            updatePlanDate(myselfContext);
+                        }
+                    } else {
+                        userInfo.userObjectId = userId;
+                        userInfo.createdTime = DateUtil.getCurDateYYYYMMDD();
+                        userInfo.updatedTime = userInfo.createdTime;
+                        BmobAgent.saveUserInfo(myselfContext, userInfo, new SaveListener() {
+                            @Override
+                            public void onSuccess() {
+//                                ToastUtil.showLongToast(myselfContext, "更新成功");
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+//                                ToastUtil.showLongToast(myselfContext, "更新失败：" + s);
+                            }
+                        });
+                        updatePlanDate(myselfContext);
+
+                    }
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    // TODO Auto-generated method stub
+                    ToastUtil.showLongToast(myselfContext, "查询失败：" + msg);
+                }
+            });
+        }
     }
 
     //用户的相关计划信息
-    public static void updatePlanDate(Context context){
+    private static void updatePlanDate(final Context context){
         try{
         ArrayList<BmobObject> listPlan = DbManger.getInstance(context)
                 .queryPlans();
@@ -185,6 +193,7 @@ public class BmobAgent {
                 public void onSuccess() {
                     // TODO Auto-generated method stub
 //                    toast("批量添加成功");
+                    ToastUtil.showLongToast(context, "更新成功");
                 }
                 @Override
                 public void onFailure(int code, String msg) {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.AndroidUtil;
 import com.andwho.myplan.utils.BmobAgent;
@@ -31,6 +32,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
 
     private Button mLoginBtn;
     private Activity myselfContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,14 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
             ToastUtil.showShortToast(this, getResources().getString(R.string.str_Register_Tips3));
             return;
         }
+
+//        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                cancel();
+//            }
+//        });
+        showProgressDialog(null,true,false);
         BmobAgent.checkUser(this, mAccountView.getEditViewContent(), new FindListener<BmobUser>() {
             @Override
             public void onSuccess(List<BmobUser> list) {
@@ -129,28 +139,33 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                             public void onSuccess() {
                                 MyPlanPreference.getInstance(myselfContext).setUsername(mAccountView.getEditViewContent());
                                 MyPlanPreference.getInstance(myselfContext).setUserId(userId);
-                                IntentHelper.showMain(myselfContext);
+                               /* IntentHelper.showMain(myselfContext);
+                                dismissProgressDialog();*/
+                                UserSettings userInfo=new UserSettings();
+                                BmobAgent.updateAllDate(LoginAct.this,userInfo);
                             }
 
                             @Override
                             public void onFailure(int i, String s) {
                                 ToastUtil.showLongToast(LoginAct.this, s);
+                                dismissProgressDialog();
                             }
                         });
                     }
                 } else {
                     ToastUtil.showLongToast(LoginAct.this, getResources().getString(R.string.str_Login_Tips4));
+                    dismissProgressDialog();
                 }
             }
 
             @Override
             public void onError(int i, String s) {
                 ToastUtil.showLongToast(LoginAct.this, getResources().getString(R.string.str_Register_Tips5));
+                dismissProgressDialog();
             }
         });
-
-
     }
+
     /**
      * 验证邮箱格式是否正确
      */

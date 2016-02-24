@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.preference.MyPlanPreference;
 
 import java.util.ArrayList;
 
@@ -110,6 +111,10 @@ public class DbManger {
         Cursor cursor = getPlanCursor();
         while (cursor.moveToNext()) {
             Plan plan = new Plan();
+            String userId=MyPlanPreference.getInstance(context).getUserId();
+            if(!TextUtils.isEmpty(userId)) {
+                plan.userObjectId = userId;
+            }
             plan.planid = String.valueOf(cursor.getInt(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.PLANID)));
             plan.content = cursor.getString(cursor
