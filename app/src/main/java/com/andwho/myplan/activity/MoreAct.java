@@ -21,7 +21,7 @@ import com.andwho.myplan.view.ScaleScrollView;
 /**
  * @author ouyyx 更多
  */
-public class MoreAct extends BaseAct implements OnClickListener {
+public class MoreAct extends SlideAct implements OnClickListener {
 
 	private static final String TAG = MoreAct.class.getSimpleName();
 

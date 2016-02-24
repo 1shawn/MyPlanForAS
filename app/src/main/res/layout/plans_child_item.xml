@@ -3,19 +3,20 @@
     android:id="@+id/ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/common_btn_selector"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:singleLine="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
-        android:text=""
         android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="2222"
         android:textColor="#333333"
         android:textSize="14dp" />
 
@@ -23,15 +24,17 @@
         android:id="@+id/tv_date"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:text=""
-        android:singleLine="true"
         android:ellipsize="end"
         android:gravity="center_vertical|right"
+        android:singleLine="true"
+        android:text="eqwe"
         android:textColor="#909090"
         android:textSize="12dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_iscompleted"
@@ -41,5 +44,11 @@
         android:layout_marginRight="20dp"
         android:src="@drawable/icon_iscompleted"
         android:visibility="gone" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@color/divider" />
 
 </LinearLayout>

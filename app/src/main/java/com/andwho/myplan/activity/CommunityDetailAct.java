@@ -3,7 +3,6 @@ package com.andwho.myplan.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -43,7 +42,7 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by ys_1shawn on 2016/2/21.
  */
-public class CommunityDetailAct extends BaseAct implements View.OnClickListener {
+public class CommunityDetailAct extends SlideAct implements View.OnClickListener {
 
     private static final String TAG = CommunityDetailAct.class.getSimpleName();
 
@@ -263,14 +262,14 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                     tv_nocontent.setVisibility(View.VISIBLE);
                 }
 
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        sv.scrollTo(0, 0);
-                    }
-                }, 500);
+//                new Handler().postDelayed(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        // TODO Auto-generated method stub
+//                        sv.scrollTo(0, 0);
+//                    }
+//                }, 500);
 
             }
 

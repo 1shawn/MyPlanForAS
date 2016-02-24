@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * 编辑计划 ouyyx
  */
-public class EditPlanAct extends BaseAct implements OnClickListener {
+public class EditPlanAct extends SlideAct implements OnClickListener {
 
     private static final String TAG = EditPlanAct.class.getSimpleName();
 

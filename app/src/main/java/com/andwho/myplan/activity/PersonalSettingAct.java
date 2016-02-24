@@ -47,7 +47,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * @author ouyyx 个人设置
  */
-public class PersonalSettingAct extends BaseAct implements OnClickListener {
+public class PersonalSettingAct extends SlideAct implements OnClickListener {
 
     private static final String TAG = PersonalSettingAct.class.getSimpleName();
 

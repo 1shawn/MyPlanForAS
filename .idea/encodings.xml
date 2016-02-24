@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/DemoActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/DetailActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/ImageActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/MainActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/PreferenceUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/SlidingActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/SlidingLayout.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/activity/slideLayout" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/view/slideLayout/BitmapItem.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/view/slideLayout/IntentUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/view/slideLayout/SlidingActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/andwho/myplan/view/slideLayout/SlidingLayout.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/anim/close_enter.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/anim/close_exit.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/anim/open_enter.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/anim/open_exit.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/sliding_back_shadow.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_demo.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_detail.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_image.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/slide_layout.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/title_layout.xml" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

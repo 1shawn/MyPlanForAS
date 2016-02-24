@@ -20,7 +20,7 @@ import com.andwho.myplan.preference.MyPlanPreference;
 /**
  * 编辑计划 ouyyx
  */
-public class ModifyInfoAct extends BaseAct implements OnClickListener {
+public class ModifyInfoAct extends SlideAct implements OnClickListener {
 
 	private static final String TAG = ModifyInfoAct.class.getSimpleName();
 

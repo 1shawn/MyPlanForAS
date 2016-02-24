@@ -15,7 +15,7 @@ import com.andwho.myplan.utils.MyPlanUtil;
  * @author ouyyx 关于我们
  */
 @SuppressWarnings("ALL")
-public class AboutUsAct extends BaseAct implements OnClickListener {
+public class AboutUsAct extends SlideAct implements OnClickListener {
 
 	private static final String TAG = AboutUsAct.class.getSimpleName();
 

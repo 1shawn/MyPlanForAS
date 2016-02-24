@@ -15,7 +15,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/circle"
+        android:background="@drawable/corner_gray_bg"
         android:gravity="left|top"
         android:hint="请输入你的计划内容"
         android:lines="8"

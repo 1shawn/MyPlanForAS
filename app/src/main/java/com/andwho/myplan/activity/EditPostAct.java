@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by ys_1shawn on 2016/2/21.
  */
-public class EditPostAct extends BaseAct implements View.OnClickListener {
+public class EditPostAct extends SlideAct implements View.OnClickListener {
 
     private static final String TAG = CommunityDetailAct.class.getSimpleName();
 
