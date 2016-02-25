@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/uni_loading_lyt"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:layout_gravity="center" >
+
+    <RelativeLayout
+        android:id="@+id/uni_loading_rl"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:background="@drawable/uni_progress_bg" >
+
+        <ImageView
+            android:id="@+id/uni_loading_drawable"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/loading_quan_pic_white"
+            android:layout_centerInParent="true" />
+
+        <LinearLayout
+            android:id="@+id/uni_loading_txt_drawable"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true" >
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="计"
+               android:gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/uni_loading_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="加载中…"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

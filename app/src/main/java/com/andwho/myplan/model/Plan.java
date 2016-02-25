@@ -5,6 +5,7 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobObject;
 
 public class Plan extends BmobObject implements Serializable {
+	public String userObjectId;//对应的userId
 	public String planid;// 表键
 	public String content;// 内容
 	public String createtime;// 创建时间

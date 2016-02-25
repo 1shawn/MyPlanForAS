@@ -105,7 +105,13 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-
+    <style name="uni_load_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
     <style name="ActivityTransitions" parent="@android:style/Animation">
         <item name="android:activityOpenEnterAnimation">@anim/open_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/open_exit</item>

@@ -29,6 +29,7 @@ import com.andwho.myplan.model.Plan;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.MyPlanUtil;
+import com.andwho.myplan.utils.StringUtil;
 import com.andwho.myplan.view.RoundedImageView;
 
 import java.io.FileNotFoundException;
@@ -130,9 +131,20 @@ public class MineFrag extends BaseFrag implements OnClickListener {
     private void initContent() {
         new LoadImageAsyncTask().execute();
 
-        String nickname = MyPlanPreference.getInstance(myselfContext)
+       /* String nickname = MyPlanPreference.getInstance(myselfContext)
                 .getNickname();
-        tv_name.setText(nickname);
+        tv_name.setText(nickname);*/
+        String userName= MyPlanPreference.getInstance(myselfContext).getUsername();
+        if(!TextUtils.isEmpty(userName)){
+            // 允许用户使用应用
+            String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
+            if(!TextUtils.isEmpty(nickname)){
+                tv_name.setText(nickname);
+            }else{
+                tv_name.setText(StringUtil.starStrFormatChange(userName));
+            }
+
+        }
 
         String lifespan = MyPlanPreference.getInstance(myselfContext)
                 .getLifeSpan();
