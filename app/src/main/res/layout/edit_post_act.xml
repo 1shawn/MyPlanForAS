@@ -3,52 +3,67 @@
     android:id="@+id/ll_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/bg_color"
+    android:background="#D7D7D7"
     android:orientation="vertical">
 
     <include layout="@layout/layout_title_bar" />
 
-    <EditText
-        android:id="@+id/et"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:background="@null"
-        android:gravity="left|top"
-        android:hint="请输入您要分享的内容"
-        android:padding="10dp"
-        android:textSize="14dp"
-        android:visibility="visible" />
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#D7D7D7"
-        android:orientation="vertical">
-
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="30dp">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-            <include layout="@layout/edit_post_gallery_item" />
+            <EditText
+                android:id="@+id/et"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:background="#ffffff"
+                android:gravity="left|top"
+                android:hint="请输入您要分享的内容"
+                android:padding="10dp"
+                android:textSize="14dp"
+                android:visibility="visible" />
 
-            <include layout="@layout/edit_post_gallery_item" />
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="30dp">
+
+                    <include
+                        android:id="@+id/image_layout1"
+                        layout="@layout/edit_post_gallery_item" />
+
+                    <include
+                        android:id="@+id/image_layout2"
+                        layout="@layout/edit_post_gallery_item" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="已选0张，还可以选2张图"
+                    android:textColor="#333333"
+                    android:textSize="14dp" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="已选2张，还可以选0张图"
-            android:textColor="#333333"
-            android:textSize="14dp" />
-    </LinearLayout>
 
 </LinearLayout>

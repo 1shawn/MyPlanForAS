@@ -46,6 +46,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
     private TextView tv_title;
     private ImageView iv_rightIcon;
 
+    private LinearLayout ll_progressBar;
     private TextView tv_nocontent;
 
     private AdView ad;
@@ -86,6 +87,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         initHeader(view);
 
         ad = (AdView) view.findViewById(R.id.ad);
+        ll_progressBar = (LinearLayout) view.findViewById(R.id.ll_progressBar);
         tv_nocontent = (TextView) view.findViewById(R.id.tv_nocontent);
         listview = (PullToRefreshListView) view.findViewById(R.id.listview);
         iv_back_to_top = (ImageView) view.findViewById(R.id.iv_back_to_top);
@@ -155,6 +157,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                 if (list != null && list.size() > 0) {
                     postListData = list;
 
+                    ll_progressBar.setVisibility(View.GONE);
                     tv_nocontent.setVisibility(View.GONE);
                     listview.setVisibility(View.VISIBLE);
 
@@ -227,6 +230,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
                     ad = (AdView) inflater.inflate(R.layout.ad_header, null, false);
                     ad.showDefaultImg();
                     ad.init(listBanner);
+                    ll_progressBar.setVisibility(View.GONE);
                     listview.setVisibility(View.VISIBLE);
                     listview.addHeaderView(ad, null, false);
                 }

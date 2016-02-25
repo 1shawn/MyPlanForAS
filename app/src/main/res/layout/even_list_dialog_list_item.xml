@@ -2,21 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="@null" >
+    android:background="@null">
 
-    <TextView
+   <!-- <TextView
         android:id="@+id/itemDivider"
-        style="@style/Divider.ListItem" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
- 
 
     <TextView
         android:id="@+id/itemBody"
         style="@style/ItemText"
-        
-        android:textColor="@drawable/even_select_btx_seletor" 
+
         android:layout_height="match_parent"
         android:background="@null"
-        android:text="客户类型"/>
+        android:text="客户类型"
+        android:textColor="@drawable/even_select_btx_seletor" />-->
 
 </FrameLayout>

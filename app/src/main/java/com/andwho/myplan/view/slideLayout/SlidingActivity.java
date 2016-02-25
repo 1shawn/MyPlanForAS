@@ -56,15 +56,17 @@ public class SlidingActivity extends FragmentActivity implements SlidingLayout.S
         slideLayout.setEdgeSize((int) (metrics.density * 20));
 
         mBitmapId = getIntent().getExtras().getString("bitmap_id");
-        Bitmap bitmap = IntentUtils.getInstance().getBitmap(mBitmapId);
-        if (null != bitmap) {
-            if (Build.VERSION.SDK_INT >= 16) {
-                mPreview.setBackground(new BitmapDrawable(bitmap));
-            } else {
-                mPreview.setBackgroundDrawable(new BitmapDrawable(bitmap));
-            }
+        if(mBitmapId != null) {
+            Bitmap bitmap = IntentUtils.getInstance().getBitmap(mBitmapId);
+            if (null != bitmap) {
+                if (Build.VERSION.SDK_INT >= 16) {
+                    mPreview.setBackground(new BitmapDrawable(bitmap));
+                } else {
+                    mPreview.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                }
 
-            IntentUtils.getInstance().setIsDisplayed(mBitmapId, true);
+                IntentUtils.getInstance().setIsDisplayed(mBitmapId, true);
+            }
         }
     }
 

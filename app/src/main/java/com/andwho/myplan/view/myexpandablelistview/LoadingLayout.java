@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Mode;
 import com.andwho.myplan.view.myexpandablelistview.PullToRefreshBase.Orientation;
 import com.andwho.myplan.view.myexpandablelistview.adapter.Utils;
@@ -227,6 +228,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 
 	public final void pullToRefresh() {
 		if (null != mHeaderText) {
+			Log.e("", "@@...mp..pullToRefresh ....mPullLabel = " + mPullLabel);
 			mHeaderText.setText(mPullLabel);
 		}
 

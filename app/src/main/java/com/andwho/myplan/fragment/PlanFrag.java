@@ -129,7 +129,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                 switchItemSelected(1);
                 break;
             case R.id.iv_rightIcon:
-                IntentHelper.showEditPost(myselfContext);
+                IntentHelper.showPlanEdit(myselfContext, curPlanType);
                 break;
             default:
                 break;
