@@ -20,6 +20,7 @@ import com.andwho.myplan.R;
 import com.andwho.myplan.activity.IntentHelper;
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Posts;
+import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.ToastUtil;
 import com.andwho.myplan.view.AdView;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 
 /**
@@ -284,7 +286,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+           final ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = (LinearLayout) inflater.inflate(
@@ -339,7 +341,22 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 //                    holder.tv_name.setText(post.author.nickName + "   " + position);
                     holder.tv_name.setText(post.author.nickName);
                 } else {
-                    holder.tv_name.setText("昵称");
+                    BmobAgent.checkUser(myselfContext, post.author.userObjectId, new FindListener<BmobUser>() {
+                                @Override
+                                public void onSuccess(List<BmobUser> list) {
+                                    if(list!=null&&list.size()==1&&!TextUtils.isEmpty(list.get(0).getUsername())){
+                                        holder.tv_name.setText(list.get(0).getUsername());
+                                    }else{
+                                        holder.tv_name.setText("昵称");
+                                    }
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                    holder.tv_name.setText("昵称");
+                                }
+                            });
+
                 }
             }
             String createDate = post.getCreatedAt().toString();

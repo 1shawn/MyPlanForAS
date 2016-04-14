@@ -1,9 +1,11 @@
 package com.andwho.myplan.activity;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.constants.ConfigParam;
 import com.andwho.myplan.model.Posts;
 import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
@@ -28,7 +31,6 @@ import com.andwho.myplan.utils.FilesUtil;
 import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.utils.ToastUtil;
 import com.andwho.myplan.view.RemoteImageView;
-import com.bmob.BmobProFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -147,7 +149,8 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                 finish();
                 break;
             case R.id.iv_rightIcon:
-                save();
+//                save();
+                uploadFile();//提交
                 break;
             case R.id.image_layout1:
                 CLICK_IMAGE1 = true;
@@ -183,7 +186,7 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
     }
 
 
-//    private void takePicture() {
+    //    private void takePicture() {
 //        if (Environment.getExternalStorageState().equals(
 //                Environment.MEDIA_MOUNTED)
 //                && Environment.getExternalStorageDirectory().exists()) {
@@ -201,7 +204,30 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 //                    Toast.LENGTH_SHORT).show();
 //        }
 //    }
+    private Uri photoUri;
+    private void takePicture() {
+        if (isSdcardExisting()) {
+            Intent cameraIntent = new Intent(
+                    "android.media.action.IMAGE_CAPTURE");//拍照
+            /*cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+            cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+            MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
+                    getImageUri().toString());*/
+            /***
+             * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的
+             * 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
+             * 如果不实用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
+             */
+            ContentValues values = new ContentValues();
+            photoUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(cameraIntent, REQUEST_CODE_CROP);
 
+        } else {
+            Toast.makeText(myselfContext, "请插入sd卡", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
     private void openAlbum() {
         Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         openAlbumIntent.setDataAndType(
@@ -209,7 +235,14 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
         myselfContext
                 .startActivityForResult(openAlbumIntent, REQUEST_CODE_CROP);
     }
-
+    private boolean isSdcardExisting() {//判断SD卡是否存在
+        final String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     private static final int REQUEST_CODE_CROP = 1245;
 
 
@@ -222,7 +255,7 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
         try {
             switch (requestCode) {
                 case REQUEST_CODE_CROP:
-
+/*
                     // 拍照
                     Uri uri = Uri.parse(MyPlanPreference.getInstance(myselfContext).getTempPicUrl());
 
@@ -237,9 +270,24 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 //                        File file = getFile(uri);
 //                        Log.e(TAG, "@@...updateUserIcon...取照片的路径 上传文件大小： "
 //                                + FilesUtil.FormetFileSize(FilesUtil.getFileSize(file)));
+                    }*/
+                    String picPath = "";
+                    photoUri = data.getData();
+                    if (photoUri == null) {
+                        Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
+                        return;
                     }
 
-                    if (uri != null) {
+                    String[] pojo = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
+                    if (cursor != null) {
+                        int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
+                        cursor.moveToFirst();
+                        picPath = cursor.getString(columnIndex);
+                        cursor.close();
+                    }
+                    if (picPath != null && (picPath.endsWith(".png") || picPath.endsWith(".PNG") || picPath.endsWith(".jpg") || picPath.endsWith(".JPG"))) {
+//                        if (uri != null) {
 //                        noCompress(uri);
 //                        BitmapFactory.Options options = new BitmapFactory.Options();
 //                        options.inSampleSize = 4;
@@ -249,11 +297,9 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                         BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
                         bmpFactoryOptions.inSampleSize = 4;
                         bmpFactoryOptions.inJustDecodeBounds = false;
-                        selectBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, bmpFactoryOptions);
+                        selectBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(photoUri), null, bmpFactoryOptions);
+                        saveComPressImage();
                     }
-
-
-                    updateUserIcon();
                     break;
             }
 
@@ -274,8 +320,8 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
         super.onDestroy();
     }
 
-    // 上传图片数据
-    private void updateUserIcon() {
+    // 压缩图片数据
+    private void saveComPressImage() {
         Log.e(TAG, "@@...updateUserIcon....");
         try {
             if (selectBitmap != null && !selectBitmap.isRecycled()) {
@@ -288,9 +334,15 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                         + imgDir);
                 File dirFile = new File(imgDir);
                 dirFile.mkdirs();
+                String fileName="";
+                if (CLICK_IMAGE1) {
+                    fileName= ConfigParam.IMAGE_COMM_FILE1;
+                }else{
+                    fileName=ConfigParam.IMAGE_COMM_FILE2;
+                }
                 // 创建文件
                 String imgPath = imgDir + System.getProperty("file.separator")
-                        + System.currentTimeMillis() + ".jpg";
+                        + fileName;//System.currentTimeMillis() + ".jpg";
                 File f = new File(imgPath);
                 f.createNewFile();
                 // 写文件
@@ -368,20 +420,11 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 //                + FilesUtil.FormetFileSize(imageHeight * imageWidth));
 //    }
 
-    private synchronized void   save() {
-
-
-        String userId = MyPlanPreference.getInstance(myselfContext).getUserId();
-        if (TextUtils.isEmpty(userId)) {
-            ToastUtil.showShortToast(myselfContext, "您还未登陆，请登陆");
-            return;
-        }
-
+    private synchronized void   save(ArrayList<String> list) {
         UserSettings author = new UserSettings();
-        author.setObjectId(userId);
-
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("http://file.bmob.cn/M02/55/34/oYYBAFafpLeAaY9EAAg29H_KHxU734.png");
+        author.setObjectId(MyPlanPreference.getInstance(myselfContext).getUserSettingId());
+//        ArrayList<String> list = new ArrayList<String>();
+//        list.add("http://file.bmob.cn/M02/55/34/oYYBAFafpLeAaY9EAAg29H_KHxU734.png");
 
 
         Posts post = new Posts();
@@ -401,7 +444,7 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 
             @Override
             public void onFailure(int i, String s) {
-
+                ToastUtil.showShortToast(myselfContext, "Sorry，发表失败！");
             }
         });
 
@@ -409,48 +452,55 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 
     private boolean isUploaded1 = false;
     private boolean isUploaded2 = false;
-
+    final ArrayList<String> list = new ArrayList<String>();
     private void uploadFile() {
-        if (file1 != null) {
+        String userId = MyPlanPreference.getInstance(myselfContext).getUserId();
+        if (TextUtils.isEmpty(userId)) {
+//            ToastUtil.showShortToast(myselfContext, "您还未登陆，请登陆");
+            IntentHelper.showLogin(myselfContext);//跳转登录页面
+            return;
+        }
+//        list.add("http://file.bmob.cn/M02/55/34/oYYBAFafpLeAaY9EAAg29H_KHxU734.png");
+        if (isUploaded1&&isUploaded2){
+            save(list);
+        }else if(file1==null&&file2==null&&!isUploaded1&&!isUploaded2){
+            save(list);
+        }
+        if (file1 != null&&!isUploaded1) {
             final BmobFile bmobFile = new BmobFile(file1);
             bmobFile.upload(myselfContext, new UploadFileListener() {
-
                 @Override
                 public void onSuccess() {
+                    isUploaded1=true;
                     Log.e(TAG, "@@...upload file  file = " + bmobFile.getFileUrl(myselfContext));
-                    isUploaded1 = true;
-                    if (isUploaded2) {
-                        save();
+                    list.add(bmobFile.getFileUrl(myselfContext));//第一张上传
+
+                    //上传第二张图
+                    if (file2 != null&&!isUploaded2) {
+                        final BmobFile bmobFile2 = new BmobFile(file2);
+                        bmobFile2.upload(myselfContext, new UploadFileListener() {
+
+                            @Override
+                            public void onSuccess() {
+                                isUploaded2=true;
+                                Log.e(TAG, "@@...upload file  file = " + bmobFile2.getFileUrl(myselfContext));
+                                list.add(bmobFile2.getFileUrl(myselfContext));//第二张上传
+                                save(list);//更新帖子表内容
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+                                save(list);
+                            }
+                        });
                     }
                 }
 
                 @Override
                 public void onFailure(int i, String s) {
-
+                    ToastUtil.showShortToast(myselfContext, "Sorry，发表失败！");
                 }
             });
-            BmobProFile.getInstance(myselfContext);
-        }
-
-        if (file2 != null) {
-            final BmobFile bmobFile = new BmobFile(file2);
-            bmobFile.upload(myselfContext, new UploadFileListener() {
-
-                @Override
-                public void onSuccess() {
-                    Log.e(TAG, "@@...upload file  file = " + bmobFile.getFileUrl(myselfContext));
-                    isUploaded2 = true;
-                    if (isUploaded1) {
-                        save();
-                    }
-                }
-
-                @Override
-                public void onFailure(int i, String s) {
-
-                }
-            });
-            BmobProFile.getInstance(myselfContext);
         }
 
     }

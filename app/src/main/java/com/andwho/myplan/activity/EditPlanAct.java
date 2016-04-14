@@ -158,8 +158,8 @@ public class EditPlanAct extends SlideAct implements OnClickListener {
         Plan plan = new Plan();
         plan.content = et.getText().toString();
         plan.iscompleted = CompleteStatus.IS_NOT_COMPLETED;
-        plan.createtime = DateUtil.getCurDateYYYYMMDD();
-        plan.updatetime = DateUtil.getCurDateYYYYMMDDHHMM();
+        plan.createtime = DateUtil.getCurDateYYYYMMDDHHMM();
+        plan.updatetime = plan.createtime;
         plan.plantype = planType;
         return plan;
     }

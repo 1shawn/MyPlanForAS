@@ -33,9 +33,7 @@ public class AboutUsAct extends SlideAct implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_us_act);
-
 		myselfContext = this;
-
 		initHeader();
 		findViews();
 		setListener();
@@ -47,11 +45,8 @@ public class AboutUsAct extends SlideAct implements OnClickListener {
 		tv_leftIcon = (TextView) this.findViewById(R.id.tv_leftIcon);
 		tv_title = (TextView) this.findViewById(R.id.tv_title);
 		iv_rightIcon = (ImageView) this.findViewById(R.id.iv_rightIcon);
-
 		ll_leftIcon.setOnClickListener(this);
-
 		tv_leftIcon.setText("关于我们");
-
 		tv_title.setVisibility(View.INVISIBLE);
 		ll_leftIcon.setVisibility(View.VISIBLE);
 	}

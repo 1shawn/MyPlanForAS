@@ -3,6 +3,7 @@ package com.andwho.myplan.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,26 +24,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.constants.ConfigParam;
 import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.StringUtil;
-import com.andwho.myplan.utils.ToastUtil;
 import com.andwho.myplan.view.MpDatePickerDialog;
 import com.andwho.myplan.view.RoundedImageView;
-import com.bmob.btp.callback.UploadListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * @author ouyyx 个人设置
@@ -67,7 +61,8 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
     private Button btn_login;
    /* private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
-    private static final int RESIZE_REQUEST_CODE = 2;*/
+ */
+   private static final int RESIZE_REQUEST_CODE = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -428,15 +423,23 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
                             }
                         }).show();
     }
-
+    private Uri photoUri;
     private void takePicture() {
         if (isSdcardExisting()) {
             Intent cameraIntent = new Intent(
                     "android.media.action.IMAGE_CAPTURE");//拍照
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+            /*cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
             cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
             MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
-                    getImageUri().toString());
+                    getImageUri().toString());*/
+            /***
+             * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的
+             * 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
+             * 如果不实用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
+             */
+            ContentValues values = new ContentValues();
+            photoUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
            startActivityForResult(cameraIntent, REQUEST_CODE_CROP);
 
         } else {
@@ -484,17 +487,6 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
         }
     }
 
-    public void resizeImage(Uri uri) {//重塑图片大小
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");//可以裁剪
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", 15);
-        intent.putExtra("outputY", 15);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, REQUEST_CODE_CROP);
-    }
 
     /* private void showResizeImage(Intent data) {//显示图片
          Bundle extras = data.getExtras();
@@ -504,10 +496,10 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
              mImageHeader.setImageDrawable(drawable);
          }
      }*/
-    private static final String IMAGE_FILE_NAME = "header.jpg";
+
     private Uri getImageUri() {//获取路径
         return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
-                IMAGE_FILE_NAME));
+                ConfigParam.IMAGE_FILE_NAME));
     }
     private static final int REQUEST_CODE_CROP = 1245;
 
@@ -518,99 +510,61 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
         switch (requestCode) {
             case REQUEST_CODE_CROP:
                 if (resultCode == Activity.RESULT_OK) {
-                    String picUrl=MyPlanPreference.getInstance(myselfContext)
+                   /* String picUrl=MyPlanPreference.getInstance(myselfContext)
                             .getTempPicUrl();
                     // 拍照
-                    Uri uri = Uri.parse(picUrl);
+                    Uri urii = Uri.parse(picUrl);
 
                     // 相册取图片
                     if (data != null) {
-                        uri = data.getData();
+                        urii = data.getData();
+                    }*/
+                    String picPath = "";
+                    photoUri = data.getData();
+                    if (photoUri == null) {
+                        Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
+                        return;
                     }
 
-                    //下面方法将获取的uri转为String类型哦！
-                    String []imgs1={MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
-                    Cursor cursor=this.managedQuery(uri, imgs1, null, null, null);
-                    int index=cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    cursor.moveToFirst();
-                    String img_url=cursor.getString(index);
+                    String[] pojo = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
+                    if (cursor != null) {
+                        int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
+                        cursor.moveToFirst();
+                        picPath = cursor.getString(columnIndex);
+                        cursor.close();
+                    }
+                    if (picPath != null && (picPath.endsWith(".png") || picPath.endsWith(".PNG") || picPath.endsWith(".jpg") || picPath.endsWith(".JPG"))) {
 
-                    MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(
-                            uri.toString());
+                        //两个组合，判断是否要上传头像
+                        MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
+                                picPath);
+                        MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(
+                                "");
+                    } else {
+                        Toast.makeText(this, "选择图片文件不正确", Toast.LENGTH_LONG).show();
+                    }
 
-                    final String userId=MyPlanPreference.getInstance(myselfContext).getUserId();
-
-                    if(!TextUtils.isEmpty(userId)){
-                        BmobAgent.uploadPicFile(myselfContext, img_url, new UploadListener() {
-                            @Override
-                            public void onSuccess(String fileName, String url, final BmobFile file) {
-                                userInfo.avatarURL = file.getUrl();
-                                BmobAgent.checkUserSettingInfo(PersonalSettingAct.this, userId, new FindListener<UserSettings>() {
-                                    @Override
-                                    public void onSuccess(List<UserSettings> object) {
-                                        // TODO Auto-generated method stub
-                                        if(object!=null&&object.size()>0){
-                                            for (UserSettings userInfodate : object) {
-                                                userInfodate.avatarURL=file.getUrl();
-                                                BmobAgent.updateUserInfo(PersonalSettingAct.this, userInfodate, new UpdateListener() {
-                                                    @Override
-                                                    public void onSuccess() {
-                                                        ToastUtil.showLongToast(PersonalSettingAct.this, "更新成功");
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(int i, String s) {
-                                                        ToastUtil.showLongToast(PersonalSettingAct.this, "更新失败：" + s);
-                                                    }
-                                                });
-                                            }
-                                        }else{
-
-                                            userInfo.userObjectId=userId;
-                                            userInfo.createdTime=DateUtil.getCurDateYYYYMMDD();
-                                            userInfo.updatedTime=userInfo.createdTime;
-                                            BmobAgent.saveUserInfo(myselfContext, userInfo, new SaveListener() {
-                                                @Override
-                                                public void onSuccess() {
-                                                    ToastUtil.showLongToast(PersonalSettingAct.this, "更新成功");
-                                                }
-
-                                                @Override
-                                                public void onFailure(int i, String s) {
-                                                    ToastUtil.showLongToast(PersonalSettingAct.this, "更新失败：" + s);
-                                                }
-                                            });
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(int code, String msg) {
-                                        // TODO Auto-generated method stub
-//						toast("查询失败：" + msg);
-                                        ToastUtil.showLongToast(PersonalSettingAct.this, "查询失败：" + msg);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onProgress(int progress) {
-                                // TODO Auto-generated method stub
-//					Log.i("bmob","onProgress :"+progress);
-                                ToastUtil.showLongToast(PersonalSettingAct.this, "进度：" + progress);
-                            }
-
-                            @Override
-                            public void onError(int statuscode, String errormsg) {
-                                // TODO Auto-generated method stub
-//					Log.i("bmob","文件上传失败："+errormsg);
-                                ToastUtil.showLongToast(PersonalSettingAct.this, "文件上传失败：" + errormsg);
-                            }
-                        });
-                    }}
-                new LoadImageAsyncTask().execute();
+                }
                 break;
+           /* case RESIZE_REQUEST_CODE:
+                // 拍照
+                Uri uri=Uri.parse("");
 
+                // 相册取图片
+                if (data != null) {
+                    uri = data.getData();
+                }
+                if(uri!=null) {
+                    //下面方法将获取的uri转为String类型哦！
+                    String[] imgs1 = {MediaStore.Images.Media.DATA};//将图片URI转换成存储路径
+                    Cursor cursor = this.managedQuery(uri, imgs1, null, null, null);
+                    int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String img_url = cursor.getString(index);
+
+                }
+                break;*/
             default:
                 break;
         }

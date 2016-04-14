@@ -18,5 +18,22 @@ public class UserSettings extends BmobUser {
     public String isAutoSync;
     public String createdTime;
     public String updatedTime;
+    public String syncTime;//
     public String level;
+
+    public String getUserObjectId() {
+        return userObjectId;
+    }
+
+    public void setUserObjectId(String userObjectId) {
+        this.userObjectId = userObjectId;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 }

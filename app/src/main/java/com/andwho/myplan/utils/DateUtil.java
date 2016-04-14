@@ -37,6 +37,16 @@ public class DateUtil {
 		strDate = format.format(date);
 		return strDate;
 	}
+	public static String getCurDateYYYYMMDDHHMMSS() {
+		Locale.setDefault(Locale.getDefault());
+		Date date = new Date();
+		date.setTime(Calendar.getInstance().getTimeInMillis());
+
+		String strDate = "";
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		strDate = format.format(date);
+		return strDate;
+	}
 	
 	public static HashMap<String, Integer> getYearMonthDayMap2(String date) {
 		if (date == null) {
@@ -254,5 +264,24 @@ public class DateUtil {
 			// TODO: handle exception
 		}
 		return tip;
+	}
+
+	public static boolean isUpDate(String date1,String date2){
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        boolean ret=false;
+		try
+		{
+			Date d1 = df.parse(date1);
+			Date d2 = df.parse(date2);
+			long diff = d1.getTime() - d2.getTime();
+			if(diff>0){
+				ret =true;
+			}
+		}
+		catch (Exception e)
+		{
+
+		}
+		return ret;
 	}
 }

@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.andwho.myplan.R;
-import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
+import com.andwho.myplan.upgrade.UpDataUtils;
 import com.andwho.myplan.utils.AndroidUtil;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.ToastUtil;
@@ -130,7 +130,7 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
         BmobAgent.checkUser(this, mAccountView.getEditViewContent(), new FindListener<BmobUser>() {
             @Override
             public void onSuccess(List<BmobUser> list) {
-                if (null != list && list.size() > 0) {
+                if (null != list && list.size() > 0&& list.size()==1) {//因为，如果查询字段传null空值时，查出来是整张表
                     final String userId=list.get(0).getObjectId().toString();
                     //是否验证了邮箱
                     if (list.get(0).getEmailVerified()) {
@@ -141,8 +141,12 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                                 MyPlanPreference.getInstance(myselfContext).setUserId(userId);
                                /* IntentHelper.showMain(myselfContext);
                                 dismissProgressDialog();*/
-                                UserSettings userInfo=new UserSettings();
-                                BmobAgent.updateAllDate(LoginAct.this,userInfo);
+//                                UserSettings userInfo=new UserSettings();
+//                                BmobAgent.updateAllDate(LoginAct.this,userInfo);
+                                new UpDataUtils().upAllPlanDate(myselfContext);
+                                dismissProgressDialog();
+                                finish();
+//                                this.onFinish();
                             }
 
                             @Override

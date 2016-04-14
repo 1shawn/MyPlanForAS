@@ -27,6 +27,7 @@ public class MyPlanPreference {
 
 	public final static String MYPLAN_NAME = "com.andwho.myplan.preference.myplanpreference";
 	private static final String USERId = "userId";
+	private static final String USERSETTINGId = "userSettingId";
 
 	public String getUserId() {
 		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
@@ -37,6 +38,17 @@ public class MyPlanPreference {
 	public void setUserId(String id) {
 		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
 		spf.edit().putString(USERId, id).commit();
+	}
+	//设置表里面的id,用于提交小区
+	public String getUserSettingId() {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+		return spf.getString(USERSETTINGId, "");
+	}
+	//设置表里面的id,用于提交小区
+	public void setUserSettingId(String id) {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERSETTINGId, id).commit();
 	}
 
 	private static final String USERNAME = "userName";

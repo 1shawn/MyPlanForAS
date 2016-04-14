@@ -12,8 +12,6 @@ import com.andwho.myplan.preference.MyPlanPreference;
 
 import java.util.ArrayList;
 
-import cn.bmob.v3.BmobObject;
-
 /**
  * @author ouyyx
  */
@@ -105,8 +103,8 @@ public class DbManger {
         return listPlan;
     }
     //查询所有的
-    public ArrayList<BmobObject> queryPlans() {
-        ArrayList<BmobObject> listPlan = new ArrayList<BmobObject>();
+    public ArrayList<Plan> queryPlans() {
+        ArrayList<Plan> listPlan = new ArrayList<Plan>();
 
         Cursor cursor = getPlanCursor();
         while (cursor.moveToNext()) {
