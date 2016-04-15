@@ -47,35 +47,47 @@ public class UpDataUtils {
             @Override
             public void onSuccess(List<UserSettings> object) {
                 // TODO Auto-generated method stub
-                if (object != null && object.size() > 0) {
+                if (object != null && object.size()==1) {//userId=null的话，查的结果是整个表的值
                     for (final UserSettings userInfodate : object) {
                         updatePlan(userInfodate, myselfContext);
+                        if(userInfodate!=null){
+                            MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfodate.getObjectId()) ? "" : userInfodate.getObjectId());
+                            MyPlanPreference.getInstance(myselfContext).setNickname(TextUtils.isEmpty(userInfodate.nickName)?"":userInfodate.nickName);
+                            MyPlanPreference.getInstance(myselfContext).setBirthday(TextUtils.isEmpty(userInfodate.birthday) ? "" : userInfodate.birthday);
+                            MyPlanPreference.getInstance(myselfContext).setGender(TextUtils.isEmpty(userInfodate.gender) ? "" : userInfodate.gender);
+                            MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfodate.lifespan)?"":userInfodate.lifespan);
+                        }
                     }
                 } else {
                     final UserSettings userInfo=new UserSettings();
                     userInfo.userObjectId = userId;
                     userInfo.createdTime = DateUtil.getCurDateYYYYMMDD();
-                    userInfo.updatedTime = userInfo.createdTime;
+//                    userInfo.updatedTime = userInfo.createdTime;
+                    userInfo.nickName= MyPlanPreference.getInstance(myselfContext).getNickname();
+                    userInfo.gender= MyPlanPreference.getInstance(myselfContext).getGender();
+                    userInfo.birthday= MyPlanPreference.getInstance(myselfContext).getBirthday();
+                    userInfo.lifespan=MyPlanPreference.getInstance(myselfContext).getLifeSpan();
                     /*BmobAgent.saveUserInfo(myselfContext, userInfo, new SaveListener() {
                         @Override
                         public void onSuccess() {
-//                                ToastUtil.showLongToast(myselfContext, "更新成功");
+                            updatePlan(null, myselfContext);
                         }
 
                         @Override
                         public void onFailure(int i, String s) {
-//                                ToastUtil.showLongToast(myselfContext, "更新失败：" + s);
+
+                            ToastUtil.showLongToast(myselfContext, "更新失败！" );
                         }
                     });*/
+                    updatePlan(userInfo, myselfContext);
 
-                    updatePlan(null,myselfContext);
                 }
             }
 
             @Override
             public void onError(int code, String msg) {
                 // TODO Auto-generated method stub
-                ToastUtil.showLongToast(myselfContext, "查询失败：" + msg);
+                ToastUtil.showLongToast(myselfContext, "更新失败！" );
             }
         });
     }
@@ -160,6 +172,11 @@ public class UpDataUtils {
                         public void onSuccess() {
                             try {
                                 MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(userInfo.avatarURL);
+                                MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfo.getObjectId()) ? "" : userInfo.getObjectId());
+                                MyPlanPreference.getInstance(myselfContext).setNickname(TextUtils.isEmpty(userInfo.nickName)?"":userInfo.nickName);
+                                MyPlanPreference.getInstance(myselfContext).setBirthday(TextUtils.isEmpty(userInfo.birthday) ? "" : userInfo.birthday);
+                                MyPlanPreference.getInstance(myselfContext).setGender(TextUtils.isEmpty(userInfo.gender) ? "" : userInfo.gender);
+                                MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfo.lifespan) ? "" : userInfo.lifespan);
                                 ((BaseAct)myselfContext).finish();//关闭登录页面
                             }catch (Exception ex){
 

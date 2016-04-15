@@ -1,11 +1,11 @@
 package com.andwho.myplan.model;
 
-import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.BmobObject;
 
 /**
  * Created by ys_1shawn on 2016/2/16.
  */
-public class UserSettings extends BmobUser {
+public class UserSettings extends BmobObject {//只能继承BmobObject，否则无法查询数据
 
     public String nickName;
     public String birthday;
@@ -20,20 +20,4 @@ public class UserSettings extends BmobUser {
     public String updatedTime;
     public String syncTime;//
     public String level;
-
-    public String getUserObjectId() {
-        return userObjectId;
-    }
-
-    public void setUserObjectId(String userObjectId) {
-        this.userObjectId = userObjectId;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
 }

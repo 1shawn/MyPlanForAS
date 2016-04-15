@@ -1,6 +1,7 @@
 package com.andwho.myplan.utils;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.andwho.myplan.preference.MyPlanPreference;
 
@@ -145,8 +146,9 @@ public class DateUtil {
 		String lifespan = MyPlanPreference.getInstance(act).getLifeSpan();
 
 		Calendar startCalendar = getClendarByDate(birthday);
-		startCalendar.add(Calendar.YEAR, Integer.parseInt(lifespan));
-
+		if(!TextUtils.isEmpty(lifespan)) {
+			startCalendar.add(Calendar.YEAR, Integer.parseInt(lifespan));
+		}
 		long endlifeTimeInMillis = startCalendar.getTimeInMillis();
 		long nowTimeInMillis = Calendar.getInstance().getTimeInMillis();
 
