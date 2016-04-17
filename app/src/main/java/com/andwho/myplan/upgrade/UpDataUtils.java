@@ -100,7 +100,8 @@ public class UpDataUtils {
             for (int i=0;i<listPlan.size();i++){
                 if(userInfo==null||TextUtils.isEmpty(userInfo.updatedTime)){
                     upPlan.add(listPlan.get(i));
-                }else if(DateUtil.isUpDate(listPlan.get(i).updatetime,userInfo.updatedTime)){ //是否需要更新
+                }else if(DateUtil.isUpDate(listPlan.get(i).updatetime,userInfo.updatedTime)
+                        &&userInfo.equals(listPlan.get(i).userObjectId)){ //是否需要更新
                     upPlan.add(listPlan.get(i));
                 }
             }

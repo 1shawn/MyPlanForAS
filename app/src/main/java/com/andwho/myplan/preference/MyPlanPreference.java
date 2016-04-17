@@ -4,12 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
+import com.andwho.myplan.model.UserInfo;
 
 public class MyPlanPreference {
 
@@ -34,119 +29,525 @@ public class MyPlanPreference {
 	}
 
 	public final static String MYPLAN_NAME = "com.andwho.myplan.preference.myplanpreference";
-	private static final String USERId = "userId";
-	private static final String USERSETTINGId = "userSettingId";
-
-	public String getUserId() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERId, "");
-	}
-
-	public void setUserId(String id) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERId, id).commit();
-	}
-	//设置表里面的id,用于提交小区
-	public String getUserSettingId() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERSETTINGId, "");
-	}
-	//设置表里面的id,用于提交小区
-	public void setUserSettingId(String id) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERSETTINGId, id).commit();
-	}
-
-	private static final String USERNAME = "userName";
-
-	public String getUsername() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERNAME, "");
-	}
-
-	public void setUsername(String name) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERNAME, name).commit();
-	}
 
 	private static final String NICKNAME = "nickname";
 
 	public String getNickname() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		String nickName = "";
 
-		return spf.getString(NICKNAME, "");
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.nickName)) {
+					nickName = userinfo.nickName;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(nickName)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			nickName = spf.getString(NICKNAME, "");
+
+		}
+		return nickName;
 	}
 
 	public void setNickname(String name) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(NICKNAME, name).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(NICKNAME, name).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.nickName = name;
+					saveObject(context, userId, obj);
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
 	}
 
 	private static final String GENDER = "gender";
 
 	public String getGender() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		String gender = "";
 
-		return spf.getString(GENDER, "1");// 1男，0女
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.gender)) {
+					gender = userinfo.gender;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(gender)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			gender = spf.getString(GENDER, "1");// 1男，0女
+
+
+		}
+		return gender;
 	}
 
+
+
 	public void setGender(String gender) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(GENDER, gender).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(GENDER, gender).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.gender=gender;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
 	}
 
 	private static final String BIRTHDAY = "birthday";
 
 	public String getBirthday() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		String birthday = "";
 
-		return spf.getString(BIRTHDAY, "2000-01-01");
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.birthday)) {
+					birthday = userinfo.birthday;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(birthday)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			birthday= spf.getString(BIRTHDAY, "2000-01-01");
+		}
+		return birthday;
+
 	}
 
 	public void setBirthday(String birthday) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(BIRTHDAY, birthday).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(BIRTHDAY, birthday).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.birthday=birthday;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
 	}
 
 	private static final String LIFESPAN = "lifespan";
 
 	public String getLifeSpan() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		return spf.getString(LIFESPAN, "100");// 100岁
+		String lifeSpan = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.lifespan)) {
+					lifeSpan = userinfo.lifespan;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(lifeSpan)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			lifeSpan= spf.getString(LIFESPAN, "100");// 100岁
+		}
+		return lifeSpan;
+
 	}
 
 	public void setLifeSpan(String lifespan) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(LIFESPAN, lifespan).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(LIFESPAN, lifespan).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.lifespan=lifespan;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
 	}
 
 	private static final String TEMP_PIC_URL = "temp_pic_url";
 
 	public String getTempPicUrl() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		return spf.getString(TEMP_PIC_URL, "");
+		String tempPicUrl = "";
 
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.tempPicUrl)) {
+					tempPicUrl = userinfo.tempPicUrl;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(tempPicUrl)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			tempPicUrl= spf.getString(TEMP_PIC_URL, "");
+		}
+		return  tempPicUrl;
 	}
 
 	public void setTempPicUrl(String tempPicUrl) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(TEMP_PIC_URL, tempPicUrl).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(TEMP_PIC_URL, tempPicUrl).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.tempPicUrl=tempPicUrl;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
 	}
 
 	private static final String HEAD_PIC_URL = "head_pic_url";
 
 	public String getHeadPicUrl() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		return spf.getString(HEAD_PIC_URL, "");
+		String headPicUrl = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.headPicUrl)) {
+					headPicUrl = userinfo.headPicUrl;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+
+		if (TextUtils.isEmpty(headPicUrl)) {//兼容1.0版本
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			headPicUrl= spf.getString(HEAD_PIC_URL, "");
+		}
+		return  headPicUrl;
 
 	}
 
 	public void setHeadPicUrl(String headPicUrl) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(HEAD_PIC_URL, headPicUrl).commit();
+//		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+//		spf.edit().putString(HEAD_PIC_URL, headPicUrl).commit();
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.headPicUrl=headPicUrl;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+
+	}
+
+
+
+	//头像链接
+	public String getAvatarUrl(){
+		String avatarUrl = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.avatarURL)) {
+					avatarUrl = userinfo.avatarURL;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		return avatarUrl;
+	}
+	public void setAvatarUrl(String avatarUrl){
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.avatarURL=avatarUrl;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+	}
+
+
+
+	public String getUserId() {
+		String userID = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.userObjectId)) {
+					userID = userinfo.userObjectId;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		return userID;
+	}
+
+	public void setUserId(String userid) {
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.userObjectId=userid;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+	}
+	//	private static final String USERSETTINGId = "userSettingId";
+	//设置表里面的id,用于提交小区
+	public String getUserSettingId() {
+		String settingId = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.objectId)) {
+					settingId = userinfo.objectId;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		return settingId;
+	}
+	//设置表里面的id,用于提交小区
+	public void setUserSettingId(String id) {
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.objectId=id;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+	}
+
+
+	public String getUsername() {
+		String userName = "";
+
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.userName)) {
+					userName = userinfo.userName;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		return userName;
+	}
+
+	public void setUsername(String username) {
+		try {
+			String userId = getUserId();
+			if (TextUtils.isEmpty(userId)) {
+				userId = "userId0";
+			}
+			Object obj = readObject(context, getUserId());
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.userObjectId.contains(userId)) {
+					userinfo.userName=username;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
 	}
 
 
@@ -160,7 +561,8 @@ public class MyPlanPreference {
 	 * modified:
 	 */
 	private void saveObject(Context context,String key ,Object obj){
-		try {
+		return;
+		/*try {
 			// 保存对象
 			SharedPreferences.Editor sharedata = context.getSharedPreferences(MYPLAN_NAME, 0).edit();
 			//先将序列化结果写到byte缓存中，其实就分配一个内存空间
@@ -176,7 +578,7 @@ public class MyPlanPreference {
 		} catch (IOException e) {
 			e.printStackTrace();
 //			Log.e("", "保存obj失败");
-		}
+		}*/
 	}
 	/**
 	 * desc:将数组转为16进制
@@ -209,7 +611,7 @@ public class MyPlanPreference {
 	 * modified:
 	 */
 	private Object readObject(Context context,String key ){
-		try {
+		/*try {
 			SharedPreferences sharedata = context.getSharedPreferences(MYPLAN_NAME, 0);
 			if (sharedata.contains(key)) {
 				String string = sharedata.getString(key, "");
@@ -234,7 +636,7 @@ public class MyPlanPreference {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		//所有异常返回null
 		return null;
 
