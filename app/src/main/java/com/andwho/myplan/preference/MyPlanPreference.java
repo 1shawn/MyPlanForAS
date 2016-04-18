@@ -6,6 +6,15 @@ import android.text.TextUtils;
 
 import com.andwho.myplan.model.UserInfo;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
+
+import cn.bmob.v3.BmobUser;
+
 public class MyPlanPreference {
 
 	private static final String TAG = MyPlanPreference.class.getSimpleName();
@@ -37,15 +46,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.nickName)) {
 					nickName = userinfo.nickName;
 				}
@@ -67,15 +73,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(NICKNAME, name).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.nickName = name;
 					saveObject(context, userId, obj);
 				}
@@ -93,15 +96,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.gender)) {
 					gender = userinfo.gender;
 				}
@@ -126,15 +126,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(GENDER, gender).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.gender=gender;
 					saveObject(context,userId,obj);
 				}
@@ -151,15 +148,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.birthday)) {
 					birthday = userinfo.birthday;
 				}
@@ -181,15 +175,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(BIRTHDAY, birthday).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.birthday=birthday;
 					saveObject(context,userId,obj);
 				}
@@ -206,15 +197,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.lifespan)) {
 					lifeSpan = userinfo.lifespan;
 				}
@@ -236,15 +224,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(LIFESPAN, lifespan).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.lifespan=lifespan;
 					saveObject(context,userId,obj);
 				}
@@ -261,15 +246,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.tempPicUrl)) {
 					tempPicUrl = userinfo.tempPicUrl;
 				}
@@ -290,15 +272,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(TEMP_PIC_URL, tempPicUrl).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.tempPicUrl=tempPicUrl;
 					saveObject(context,userId,obj);
 				}
@@ -315,15 +294,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.headPicUrl)) {
 					headPicUrl = userinfo.headPicUrl;
 				}
@@ -345,15 +321,12 @@ public class MyPlanPreference {
 //		spf.edit().putString(HEAD_PIC_URL, headPicUrl).commit();
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.headPicUrl=headPicUrl;
 					saveObject(context,userId,obj);
 				}
@@ -364,23 +337,18 @@ public class MyPlanPreference {
 
 	}
 
-
-
 	//头像链接
 	public String getAvatarUrl(){
 		String avatarUrl = "";
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.avatarURL)) {
 					avatarUrl = userinfo.avatarURL;
 				}
@@ -393,15 +361,13 @@ public class MyPlanPreference {
 	public void setAvatarUrl(String avatarUrl){
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.avatarURL=avatarUrl;
 					saveObject(context,userId,obj);
 				}
@@ -415,20 +381,24 @@ public class MyPlanPreference {
 
 	public String getUserId() {
 		String userID = "";
-
 		try {
-			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
+			BmobUser bmobUser = BmobUser.getCurrentUser(context);
+			if(bmobUser != null){
+				// 允许用户使用应用
+				userID=bmobUser.getObjectId();
+
+			}else{
+				//缓存用户对象为空时， 可打开用户注册界面…
 			}
-			Object obj = readObject(context, getUserId());
+
+			Object obj = readObject(context, userID);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
-						!TextUtils.isEmpty(userinfo.userObjectId)) {
-					userID = userinfo.userObjectId;
+				if (userinfo.objectId.contains(userID) &&
+						!TextUtils.isEmpty(userinfo.objectId)) {
+					userID = userinfo.objectId;
 				}
 			}
 		} catch (Exception ex) {
@@ -439,10 +409,11 @@ public class MyPlanPreference {
 
 	public void setUserId(String userid) {
 		try {
+
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
+			/*if (TextUtils.isEmpty(userId)) {
 				userId = "userId0";
-			}
+			}*/
 			Object obj = readObject(context, getUserId());
 			UserInfo userinfo = new UserInfo();
 
@@ -464,15 +435,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.objectId)) {
 					settingId = userinfo.objectId;
 				}
@@ -486,15 +454,12 @@ public class MyPlanPreference {
 	public void setUserSettingId(String id) {
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.objectId=id;
 					saveObject(context,userId,obj);
 				}
@@ -510,15 +475,12 @@ public class MyPlanPreference {
 
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId) &&
+				if (userinfo.objectId.contains(userId) &&
 						!TextUtils.isEmpty(userinfo.userName)) {
 					userName = userinfo.userName;
 				}
@@ -532,15 +494,12 @@ public class MyPlanPreference {
 	public void setUsername(String username) {
 		try {
 			String userId = getUserId();
-			if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}
-			Object obj = readObject(context, getUserId());
+			Object obj = readObject(context, userId);
 			UserInfo userinfo = new UserInfo();
 
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
+				if (userinfo.objectId.contains(userId)) {
 					userinfo.userName=username;
 					saveObject(context,userId,obj);
 				}
@@ -560,9 +519,8 @@ public class MyPlanPreference {
 	 * @param obj 要保存的对象，只能保存实现了serializable的对象
 	 * modified:
 	 */
-	private void saveObject(Context context,String key ,Object obj){
-		return;
-		/*try {
+	public void saveObject(Context context,String key ,Object obj){
+		try {
 			// 保存对象
 			SharedPreferences.Editor sharedata = context.getSharedPreferences(MYPLAN_NAME, 0).edit();
 			//先将序列化结果写到byte缓存中，其实就分配一个内存空间
@@ -578,7 +536,7 @@ public class MyPlanPreference {
 		} catch (IOException e) {
 			e.printStackTrace();
 //			Log.e("", "保存obj失败");
-		}*/
+		}
 	}
 	/**
 	 * desc:将数组转为16进制
@@ -611,7 +569,7 @@ public class MyPlanPreference {
 	 * modified:
 	 */
 	private Object readObject(Context context,String key ){
-		/*try {
+		try {
 			SharedPreferences sharedata = context.getSharedPreferences(MYPLAN_NAME, 0);
 			if (sharedata.contains(key)) {
 				String string = sharedata.getString(key, "");
@@ -636,7 +594,7 @@ public class MyPlanPreference {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		//所有异常返回null
 		return null;
 

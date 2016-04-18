@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.model.UserInfo;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.upgrade.UpDataUtils;
 import com.andwho.myplan.utils.AndroidUtil;
@@ -137,12 +138,14 @@ public class LoginAct extends BaseAct implements View.OnClickListener {
                         BmobAgent.loginIn(LoginAct.this, mAccountView.getEditViewContent(), mPswView.getEditViewContent(), new SaveListener() {
                             @Override
                             public void onSuccess() {
-                                MyPlanPreference.getInstance(myselfContext).setUsername(mAccountView.getEditViewContent());
-                                MyPlanPreference.getInstance(myselfContext).setUserId(userId);
-                               /* IntentHelper.showMain(myselfContext);
-                                dismissProgressDialog();*/
-//                                UserSettings userInfo=new UserSettings();
-//                                BmobAgent.updateAllDate(LoginAct.this,userInfo);
+//                                MyPlanPreference.getInstance(myselfContext).setUsername(mAccountView.getEditViewContent());
+//                                MyPlanPreference.getInstance(myselfContext).setUserId(userId);
+
+                                UserInfo userInfo=new UserInfo();
+                                userInfo.objectId=userId;
+                                userInfo.userName=mAccountView.getEditViewContent();
+                                MyPlanPreference.getInstance(myselfContext).saveObject(myselfContext,userId,userInfo);
+
                                 new UpDataUtils().upAllPlanDate(myselfContext);
                                 dismissProgressDialog();
                                 finish();

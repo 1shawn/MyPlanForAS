@@ -138,9 +138,22 @@ public class CommunityDetailAct extends SlideAct implements View.OnClickListener
         sv.setScrollViewListener(onScrollChangeListener);
         iv_post_img1.setOnClickListener(this);
         iv_post_img2.setOnClickListener(this);
+        et_comment.setOnKeyListener(onKey);
 
     }
+    View.OnKeyListener onKey=new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            // TODO Auto-generated method stub
+            if(keyCode == KeyEvent.KEYCODE_ENTER){
+                //这里写发送信息的方法
+                String msg=et_comment.getText().toString();
 
+                return true;
+            }
+            return false;
+        }
+    };
     private boolean isEditModel = false;
     private Plan plan;
     private Posts post;
