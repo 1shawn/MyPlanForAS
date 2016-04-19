@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.andwho.myplan.model.UserInfo;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+
+import cn.bmob.v3.BmobUser;
 
 public class MyPlanPreference {
 
@@ -34,50 +38,29 @@ public class MyPlanPreference {
 	}
 
 	public final static String MYPLAN_NAME = "com.andwho.myplan.preference.myplanpreference";
-	private static final String USERId = "userId";
-	private static final String USERSETTINGId = "userSettingId";
-
-	public String getUserId() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERId, "");
-	}
-
-	public void setUserId(String id) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERId, id).commit();
-	}
-	//设置表里面的id,用于提交小区
-	public String getUserSettingId() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERSETTINGId, "");
-	}
-	//设置表里面的id,用于提交小区
-	public void setUserSettingId(String id) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERSETTINGId, id).commit();
-	}
-
-	private static final String USERNAME = "userName";
-
-	public String getUsername() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-
-		return spf.getString(USERNAME, "");
-	}
-
-	public void setUsername(String name) {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		spf.edit().putString(USERNAME, name).commit();
-	}
 
 	private static final String NICKNAME = "nickname";
 
 	public String getNickname() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		String nickName="";
+		try{
+			Object obj=readObject(context,getUserId());
+			if(obj!=null) {
+				UserInfo userInfo = (UserInfo) obj;
+				if(userInfo!=null&&!TextUtils.isEmpty(userInfo.nickName)) {
+					nickName = userInfo.nickName;
+				}
+			}
+		}catch (Exception ex){
 
-		return spf.getString(NICKNAME, "");
+		}
+		if(TextUtils.isEmpty(nickName)){//为了兼容1
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+			nickName= spf.getString(NICKNAME, "");
+		}
+		return nickName;
+
 	}
 
 	public void setNickname(String name) {
@@ -114,8 +97,24 @@ public class MyPlanPreference {
 	private static final String LIFESPAN = "lifespan";
 
 	public String getLifeSpan() {
-		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
-		return spf.getString(LIFESPAN, "100");// 100岁
+		String lifeSpan="";
+		try{
+			Object obj=readObject(context,getUserId());
+			if(obj!=null) {
+				UserInfo userInfo = (UserInfo) obj;
+				if(userInfo!=null&&!TextUtils.isEmpty(userInfo.lifespan)) {
+					lifeSpan = userInfo.lifespan;
+				}
+			}
+		}catch (Exception ex){
+
+		}
+		if(TextUtils.isEmpty(lifeSpan)){//为了兼容1
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			lifeSpan= spf.getString(LIFESPAN, "100");// 100岁
+		}
+		return lifeSpan;
+
 	}
 
 	public void setLifeSpan(String lifespan) {
@@ -147,6 +146,70 @@ public class MyPlanPreference {
 	public void setHeadPicUrl(String headPicUrl) {
 		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
 		spf.edit().putString(HEAD_PIC_URL, headPicUrl).commit();
+	}
+	private static final String USERId = "userId";
+	private static final String USERSETTINGId = "userSettingId";
+
+	public String getUserId() {
+		String userId="";
+		try{
+			BmobUser bmobUser = BmobUser.getCurrentUser(context);
+			if(bmobUser != null){
+				// 允许用户使用应用
+				userId=bmobUser.getObjectId();
+			}else{
+				//缓存用户对象为空时， 可打开用户注册界面…
+			}
+
+		}catch (Exception ex){
+
+		}
+		if(TextUtils.isEmpty(userId)){//为了兼容1
+			spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+			userId=spf.getString(USERId, "");
+		}
+		return userId;
+	}
+
+	public void setUserId(String id) {
+		/*spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERId, id).commit();*/
+		try{
+			Object obj=readObject(context,getUserId());
+			if(obj!=null) {
+				UserInfo userInfo = (UserInfo) obj;
+				if(userInfo!=null) {
+					userInfo.userId = id;
+					saveObject(context,getUserId(),obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+	}
+	//设置表里面的id,用于提交小区
+	public String getUserSettingId() {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+		return spf.getString(USERSETTINGId, "");
+	}
+	//设置表里面的id,用于提交小区
+	public void setUserSettingId(String id) {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERSETTINGId, id).commit();
+	}
+
+	private static final String USERNAME = "userName";
+
+	public String getUsername() {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+
+		return spf.getString(USERNAME, "");
+	}
+
+	public void setUsername(String name) {
+		spf = context.getSharedPreferences(MYPLAN_NAME, Context.MODE_PRIVATE);
+		spf.edit().putString(USERNAME, name).commit();
 	}
 
 
