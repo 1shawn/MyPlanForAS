@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -155,7 +154,6 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 //这里写发送信息的方法
                 String msg=et_comment.getText().toString();
                 String userSettingId=MyPlanPreference.getInstance(myselfContext).getUserSettingId();
-                BmobUser bmobUser = BmobUser.getCurrentUser(myselfContext);
                 if(TextUtils.isEmpty(msg)||TextUtils.isEmpty(userSettingId)){
                     isCommunity=true;
                     hideSoftKeyboard();
