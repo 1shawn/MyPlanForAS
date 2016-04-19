@@ -23,6 +23,8 @@ import com.andwho.myplan.R;
 import com.andwho.myplan.model.Comments;
 import com.andwho.myplan.model.Plan;
 import com.andwho.myplan.model.Posts;
+import com.andwho.myplan.model.UserSettings;
+import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.Log;
 import com.andwho.myplan.utils.ToastUtil;
@@ -36,13 +38,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * Created by ys_1shawn on 2016/2/21.
  */
-public class CommunityDetailAct extends SlideAct implements View.OnClickListener {
+public class CommunityDetailAct extends BaseAct implements View.OnClickListener {
 
     private static final String TAG = CommunityDetailAct.class.getSimpleName();
 
@@ -141,19 +145,65 @@ public class CommunityDetailAct extends SlideAct implements View.OnClickListener
         et_comment.setOnKeyListener(onKey);
 
     }
+    Boolean isCommunity=true;
+
     View.OnKeyListener onKey=new View.OnKeyListener() {
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             // TODO Auto-generated method stub
-            if(keyCode == KeyEvent.KEYCODE_ENTER){
+            if(keyCode == KeyEvent.KEYCODE_ENTER&&event.getAction()==KeyEvent.ACTION_DOWN){//解决回车会有两次调用
                 //这里写发送信息的方法
                 String msg=et_comment.getText().toString();
+                String userSettingId=MyPlanPreference.getInstance(myselfContext).getUserSettingId();
+                BmobUser bmobUser = BmobUser.getCurrentUser(myselfContext);
+                if(TextUtils.isEmpty(msg)||TextUtils.isEmpty(userSettingId)){
+                    isCommunity=true;
+                    hideSoftKeyboard();
+                    if(TextUtils.isEmpty(userSettingId)){
+                        IntentHelper.showLogin(myselfContext);
+                    }
+                    return true;
+                }
+                showProgressDialog(null, true, false);
 
+
+                UserSettings author = new UserSettings();
+                author.setObjectId(userSettingId);
+
+                Posts posts = new Posts();
+                posts.setObjectId(post.getObjectId());
+
+                Comments comments=new Comments();
+                comments.author = author;
+                if(!isCommunity&&v.getTag()!=null) {
+                    comments.replyAuthor=((Comments)v.getTag()).author;
+                }
+                comments.posts=posts;
+                comments.content=msg;
+                community(comments);
+                isCommunity=true;
+                hideSoftKeyboard();
                 return true;
             }
             return false;
         }
     };
+    private void community(Comments comment){
+        comment.save(myselfContext, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                ToastUtil.showLongToast(myselfContext,"评论已提交！");
+                dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                ToastUtil.showLongToast(myselfContext,"评论提交失败！");
+                dismissProgressDialog();
+
+            }
+        });
+    }
     private boolean isEditModel = false;
     private Plan plan;
     private Posts post;
@@ -300,6 +350,8 @@ public class CommunityDetailAct extends SlideAct implements View.OnClickListener
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Comments comments = listAdapter.getItem(position);
             et_comment.setHint("回复 " + comments.author.nickName + " :");
+            et_comment.setTag(comments);
+            isCommunity=false;
             showInputEdit(true);
             showInputMethod();
 
