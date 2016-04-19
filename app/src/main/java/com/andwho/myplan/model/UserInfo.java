@@ -1,5 +1,13 @@
 package com.andwho.myplan.model;
 
+<<<<<<< .merge_file_a09936
+/**
+ * Created by zhouf on 2016/4/18.
+ */
+public class UserInfo {
+    public String userName;
+    public String userId;
+=======
 import java.io.Serializable;
 
 /**
@@ -12,6 +20,7 @@ public class UserInfo implements Serializable {
     public String tempPicUrl;
     public String headPicUrl;
 
+>>>>>>> .merge_file_a09968
     public String nickName;
     public String birthday;
     public String userObjectId;
@@ -25,6 +34,9 @@ public class UserInfo implements Serializable {
     public String updatedTime;
     public String syncTime;//
     public String level;
+<<<<<<< .merge_file_a09936
+=======
     public   String objectId;
 
+>>>>>>> .merge_file_a09968
 }
