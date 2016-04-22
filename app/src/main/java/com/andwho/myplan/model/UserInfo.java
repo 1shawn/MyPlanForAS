@@ -14,7 +14,7 @@ public class UserInfo implements Serializable {
 
     public String nickName;
     public String birthday;
-    public String userObjectId;
+    public String userObjectId;//userSettingId
     public String gender;
     public String lifespan;
     public String liespan;
@@ -25,6 +25,6 @@ public class UserInfo implements Serializable {
     public String updatedTime;
     public String syncTime;//
     public String level;
-    public   String objectId;
+    public   String objectId;//userId
 
 }

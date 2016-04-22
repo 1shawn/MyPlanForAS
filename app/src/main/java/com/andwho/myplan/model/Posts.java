@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * Created by ys_1shawn on 2016/2/16.
@@ -19,7 +20,8 @@ public class Posts extends BmobObject implements Serializable {
 
     public UserSettings author;
     public UserSettings likes;
-    public  Comments comments;
+//    public  Comments comments;
+    public BmobRelation comments;
     public BmobUser readUser;
 
     public int readTimes;

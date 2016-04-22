@@ -13,6 +13,7 @@ import com.andwho.myplan.activity.BaseAct;
 import com.andwho.myplan.constants.ConfigParam;
 import com.andwho.myplan.contentprovider.DbManger;
 import com.andwho.myplan.model.Plan;
+import com.andwho.myplan.model.UserInfo;
 import com.andwho.myplan.model.UserSettings;
 import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -51,16 +53,34 @@ public class UpDataUtils {
                     for (final UserSettings userInfodate : object) {
                         updatePlan(userInfodate, myselfContext);
                         if(userInfodate!=null){
-                            MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfodate.getObjectId()) ? "" : userInfodate.getObjectId());
+                            /*MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfodate.getObjectId()) ? "" : userInfodate.getObjectId());
                             MyPlanPreference.getInstance(myselfContext).setNickname(TextUtils.isEmpty(userInfodate.nickName)?"":userInfodate.nickName);
                             MyPlanPreference.getInstance(myselfContext).setBirthday(TextUtils.isEmpty(userInfodate.birthday) ? "" : userInfodate.birthday);
                             MyPlanPreference.getInstance(myselfContext).setGender(TextUtils.isEmpty(userInfodate.gender) ? "" : userInfodate.gender);
-                            MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfodate.lifespan)?"":userInfodate.lifespan);
+                            MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfodate.lifespan)?"":userInfodate.lifespan);*/
+                            UserInfo userInfo=new UserInfo();
+                            BmobUser bmobUser = BmobUser.getCurrentUser(myselfContext);
+                            if(bmobUser != null){
+                                // 允许用户使用应用
+                                userInfo.objectId=bmobUser.getObjectId();
+                                userInfo.userName=bmobUser.getUsername();
+                                userInfo.userObjectId=TextUtils.isEmpty(userInfodate.getObjectId()) ? "" : userInfodate.getObjectId();
+                                userInfo.nickName=TextUtils.isEmpty(userInfodate.nickName)?"":userInfodate.nickName;
+                                userInfo.birthday=TextUtils.isEmpty(userInfodate.birthday) ? "" : userInfodate.birthday;
+                                userInfo.gender=TextUtils.isEmpty(userInfodate.gender) ? "" : userInfodate.gender;
+                                userInfo.lifespan=TextUtils.isEmpty(userInfodate.lifespan)?"":userInfodate.lifespan;
+                                userInfo.avatarURL=TextUtils.isEmpty(userInfodate.avatarURL)?"":userInfodate.avatarURL;
+                                userInfo.level=TextUtils.isEmpty(userInfodate.level)?"":userInfodate.level;
+                                userInfo.updatedTime=TextUtils.isEmpty(userInfodate.updatedTime)?"":userInfodate.updatedTime;
+                                MyPlanPreference.getInstance(myselfContext).saveObject(myselfContext,userInfo.objectId,userInfo);
+
+                            }else{
+                                //缓存用户对象为空时， 可打开用户注册界面…
+                            }
                         }
                     }
                 } else {
                     final UserSettings userInfo=new UserSettings();
-                    userInfo.userObjectId = userId;
                     userInfo.createdTime = DateUtil.getCurDateYYYYMMDD();
 //                    userInfo.updatedTime = userInfo.createdTime;
                     userInfo.nickName= MyPlanPreference.getInstance(myselfContext).getNickname();
@@ -167,17 +187,17 @@ public class UpDataUtils {
                 public void onSuccess() {
                     userInfo.avatarURL =   bmobFile.getFileUrl(myselfContext);
 
-
                     BmobAgent.updateUserInfo(myselfContext, userInfo, new UpdateListener() {
                         @Override
                         public void onSuccess() {
                             try {
                                 MyPlanPreference.getInstance(myselfContext).setHeadPicUrl(userInfo.avatarURL);
-                                MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfo.getObjectId()) ? "" : userInfo.getObjectId());
+                                MyPlanPreference.getInstance(myselfContext).setUpdateTime(TextUtils.isEmpty(userInfo.updatedTime)?"":userInfo.updatedTime);
+                               /* MyPlanPreference.getInstance(myselfContext).setUserSettingId(TextUtils.isEmpty(userInfo.getObjectId()) ? "" : userInfo.getObjectId());
                                 MyPlanPreference.getInstance(myselfContext).setNickname(TextUtils.isEmpty(userInfo.nickName)?"":userInfo.nickName);
                                 MyPlanPreference.getInstance(myselfContext).setBirthday(TextUtils.isEmpty(userInfo.birthday) ? "" : userInfo.birthday);
                                 MyPlanPreference.getInstance(myselfContext).setGender(TextUtils.isEmpty(userInfo.gender) ? "" : userInfo.gender);
-                                MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfo.lifespan) ? "" : userInfo.lifespan);
+                                MyPlanPreference.getInstance(myselfContext).setLifeSpan(TextUtils.isEmpty(userInfo.lifespan) ? "" : userInfo.lifespan);*/
                                 ((BaseAct)myselfContext).finish();//关闭登录页面
                             }catch (Exception ex){
 

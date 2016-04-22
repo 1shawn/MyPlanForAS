@@ -407,27 +407,7 @@ public class MyPlanPreference {
 		return userID;
 	}
 
-	public void setUserId(String userid) {
-		try {
 
-			String userId = getUserId();
-			/*if (TextUtils.isEmpty(userId)) {
-				userId = "userId0";
-			}*/
-			Object obj = readObject(context, getUserId());
-			UserInfo userinfo = new UserInfo();
-
-			if (obj != null) {
-				userinfo = (UserInfo) obj;
-				if (userinfo.userObjectId.contains(userId)) {
-					userinfo.userObjectId=userid;
-					saveObject(context,userId,obj);
-				}
-			}
-		}catch (Exception ex){
-
-		}
-	}
 	//	private static final String USERSETTINGId = "userSettingId";
 	//设置表里面的id,用于提交小区
 	public String getUserSettingId() {
@@ -441,8 +421,8 @@ public class MyPlanPreference {
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
 				if (userinfo.objectId.contains(userId) &&
-						!TextUtils.isEmpty(userinfo.objectId)) {
-					settingId = userinfo.objectId;
+						!TextUtils.isEmpty(userinfo.userObjectId)) {
+					settingId = userinfo.userObjectId;
 				}
 			}
 		} catch (Exception ex) {
@@ -460,7 +440,7 @@ public class MyPlanPreference {
 			if (obj != null) {
 				userinfo = (UserInfo) obj;
 				if (userinfo.objectId.contains(userId)) {
-					userinfo.objectId=id;
+					userinfo.userObjectId=id;
 					saveObject(context,userId,obj);
 				}
 			}
@@ -507,6 +487,46 @@ public class MyPlanPreference {
 		}catch (Exception ex){
 
 		}
+	}
+
+	public String getUpdatetime() {
+		String updateTime = "";
+
+		try {
+			String userId = getUserId();
+			Object obj = readObject(context, userId);
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.objectId.contains(userId) &&
+						!TextUtils.isEmpty(userinfo.updatedTime)) {
+					updateTime = userinfo.updatedTime;
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		try {
+			String userId = getUserId();
+			Object obj = readObject(context, userId);
+			UserInfo userinfo = new UserInfo();
+
+			if (obj != null) {
+				userinfo = (UserInfo) obj;
+				if (userinfo.objectId.contains(userId)) {
+					userinfo.updatedTime=updateTime;
+					saveObject(context,userId,obj);
+				}
+			}
+		}catch (Exception ex){
+
+		}
+
 	}
 
 

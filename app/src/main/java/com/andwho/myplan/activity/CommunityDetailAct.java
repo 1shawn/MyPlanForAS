@@ -39,6 +39,7 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -168,15 +169,21 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 UserSettings author = new UserSettings();
                 author.setObjectId(userSettingId);
 
-                Posts posts = new Posts();
-                posts.setObjectId(post.getObjectId());
+                /*Posts posts = new Posts();
+                posts.setObjectId(post.getObjectId());*/
 
                 Comments comments=new Comments();
                 comments.author = author;
                 if(!isCommunity&&v.getTag()!=null) {
                     comments.replyAuthor=((Comments)v.getTag()).author;
                 }
-                comments.posts=posts;
+                //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+                BmobRelation relation = new BmobRelation();
+                //将当前用户添加到多对多关联中
+                relation.add(post);
+               //多对多关联指向`post`的`likes`字段
+
+                comments.posts=relation;
                 comments.content=msg;
                 community(comments);
                 isCommunity=true;
@@ -186,12 +193,32 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
             return false;
         }
     };
-    private void community(Comments comment){
+    private void community(final Comments comment){
         comment.save(myselfContext, new SaveListener() {
             @Override
             public void onSuccess() {
-                ToastUtil.showLongToast(myselfContext,"评论已提交！");
+
+                ToastUtil.showLongToast(myselfContext, "评论已提交！");
                 dismissProgressDialog();
+               /* BmobRelation relation = new BmobRelation();
+                //将当前用户添加到多对多关联中
+                relation.add(comment);
+                post.comments=relation;
+                post.save(myselfContext, new SaveListener() {
+                    @Override
+                    public void onSuccess() {
+                        ToastUtil.showLongToast(myselfContext, "评论已提交！");
+                        dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+                        ToastUtil.showLongToast(myselfContext,"评论提交失败！");
+                        dismissProgressDialog();
+                    }
+                });*/
+
+
             }
 
             @Override
