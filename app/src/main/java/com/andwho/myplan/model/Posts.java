@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobRelation;
 
@@ -19,10 +18,10 @@ public class Posts extends BmobObject implements Serializable {
     public String isHighlight;
 
     public UserSettings author;
-    public UserSettings likes;
+    public BmobRelation likes;
 //    public  Comments comments;
     public BmobRelation comments;
-    public BmobUser readUser;
+    public BmobRelation readUser;
 
     public int readTimes;
     public int likesCount;

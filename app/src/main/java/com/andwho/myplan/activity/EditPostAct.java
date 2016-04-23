@@ -1,8 +1,10 @@
 package com.andwho.myplan.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -154,15 +156,40 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                 break;
             case R.id.image_layout1:
                 CLICK_IMAGE1 = true;
-                openAlbum();
+                showIconSelectDialog();
                 break;
             case R.id.image_layout2:
                 CLICK_IMAGE1 = false;
-                openAlbum();
+                showIconSelectDialog();
                 break;
             default:
                 break;
         }
+    }
+
+    private void showIconSelectDialog() {
+
+        final String[] strArray = getResources().getStringArray(
+                R.array.mine_icon_sel_array);
+
+        new AlertDialog.Builder(myselfContext)
+                .setTitle("请选择")
+                .setSingleChoiceItems(strArray, 2,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                final int which) {
+                                dialog.cancel();
+                                switch (which) {
+                                    case 0: // 拍照
+                                        takePicture();
+                                        break;
+                                    case 1: // 相册
+                                        openAlbum();
+                                        break;
+                                }
+                            }
+                        }).show();
     }
 
     private File file1, file2;
@@ -435,6 +462,8 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
         post.updatedTime = new BmobDate(new Date());
         post.author = author;
         post.imgURLArray = list;
+        post.likesCount=0;
+        post.commentsCount=0;
         post.save(myselfContext, new SaveListener() {
             @Override
             public void onSuccess() {
