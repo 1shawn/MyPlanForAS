@@ -20,6 +20,7 @@ import com.andwho.myplan.R;
 import com.andwho.myplan.activity.IntentHelper;
 import com.andwho.myplan.model.Banner;
 import com.andwho.myplan.model.Posts;
+import com.andwho.myplan.preference.MyPlanPreference;
 import com.andwho.myplan.utils.BmobAgent;
 import com.andwho.myplan.utils.DateUtil;
 import com.andwho.myplan.utils.ToastUtil;
@@ -413,6 +414,11 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         int id = view.getId();
         switch (id) {
             case R.id.iv_rightIcon:
+                String userId = MyPlanPreference.getInstance(myselfContext).getUserId();
+                if (TextUtils.isEmpty(userId)) {
+                    IntentHelper.showLogin(myselfContext);//跳转登录页面
+                    return;
+                }
                 IntentHelper.showEditPost(myselfContext);
                 break;
             case R.id.iv_back_to_top:

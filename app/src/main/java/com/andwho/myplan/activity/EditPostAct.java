@@ -1,10 +1,7 @@
 package com.andwho.myplan.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -136,7 +133,6 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
         });
     }
 
-
     private void init() {
 
     }
@@ -157,41 +153,17 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                 break;
             case R.id.image_layout1:
                 CLICK_IMAGE1 = true;
-                showIconSelectDialog();
+                openAlbum();
                 break;
             case R.id.image_layout2:
                 CLICK_IMAGE1 = false;
-                showIconSelectDialog();
+                openAlbum();
                 break;
             default:
                 break;
         }
     }
 
-    private void showIconSelectDialog() {
-
-        final String[] strArray = getResources().getStringArray(
-                R.array.mine_icon_sel_array);
-
-        new AlertDialog.Builder(myselfContext)
-                .setTitle("请选择")
-                .setSingleChoiceItems(strArray, 2,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                final int which) {
-                                dialog.cancel();
-                                switch (which) {
-                                    case 0: // 拍照
-                                        takePicture();
-                                        break;
-                                    case 1: // 相册
-                                        openAlbum();
-                                        break;
-                                }
-                            }
-                        }).show();
-    }
 
     private File file1, file2;
     private boolean CLICK_IMAGE1 = true;
@@ -233,19 +205,19 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
 //        }
 //    }
     private Uri photoUri;
-    private void takePicture() {
+    /*private void takePicture() {
         if (isSdcardExisting()) {
             Intent cameraIntent = new Intent(
                     "android.media.action.IMAGE_CAPTURE");//拍照
-            /*cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+            *//*cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
             cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
             MyPlanPreference.getInstance(myselfContext).setTempPicUrl(
-                    getImageUri().toString());*/
-            /***
+                    getImageUri().toString());*//*
+            *//***
              * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的
              * 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
              * 如果不实用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
-             */
+             *//*
             ContentValues values = new ContentValues();
             photoUri = this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
@@ -255,7 +227,7 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
             Toast.makeText(myselfContext, "请插入sd卡", Toast.LENGTH_LONG)
                     .show();
         }
-    }
+    }*/
     private void openAlbum() {
         Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
         openAlbumIntent.setDataAndType(
@@ -400,7 +372,7 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
                     image_layout2_iv.setImageBitmap(selectBitmap);
                 }
 
-                //updateTip();
+                updateTip();
             } else {
                 Toast.makeText(myselfContext, R.string.str_operation_failed,
                         Toast.LENGTH_SHORT).show();
@@ -486,11 +458,9 @@ public class EditPostAct extends SlideAct implements View.OnClickListener {
     private boolean isUploaded2 = false;
     final ArrayList<String> list = new ArrayList<String>();
     private void uploadFile() {
-        String userId = MyPlanPreference.getInstance(myselfContext).getUserId();
-        if (TextUtils.isEmpty(userId)) {
-//            ToastUtil.showShortToast(myselfContext, "您还未登陆，请登陆");
-            IntentHelper.showLogin(myselfContext);//跳转登录页面
-            return;
+
+        if(TextUtils.isEmpty(et.getText().toString()) && null!=file1&&null!=file2){
+            ToastUtil.showLongToast(myselfContext,"不能发表空贴");
         }
 //        list.add("http://file.bmob.cn/M02/55/34/oYYBAFafpLeAaY9EAAg29H_KHxU734.png");
         if (isUploaded1&&isUploaded2){
