@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -533,7 +534,9 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
                         int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
                         cursor.moveToFirst();
                         picPath = cursor.getString(columnIndex);
-                        cursor.close();
+                        if(Build.VERSION.SDK_INT < 14) {
+                            cursor.close();
+                        }
                     }
                     if (picPath != null && (picPath.endsWith(".png") || picPath.endsWith(".PNG") || picPath.endsWith(".jpg") || picPath.endsWith(".JPG"))) {
 

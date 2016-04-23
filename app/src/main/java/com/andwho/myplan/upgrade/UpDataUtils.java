@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -178,7 +179,9 @@ public class UpDataUtils {
             int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             final String img_url = cursor.getString(index);
-            cursor.close();
+            if(Build.VERSION.SDK_INT < 14) {
+                cursor.close();
+            }
 
             final BmobFile bmobFile=new BmobFile(getComPressImage(img_url));
             //3、有时候使用upload方式上传不超过10M的文件的时候会出现OOM异常，故，建议开发者使用uploadblock（分片上传）方法来上传文件。

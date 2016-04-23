@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.andwho.myplan.model.Plan;
@@ -98,7 +99,9 @@ public class DbManger {
             listPlan.add(plan);
         }
 
-        cursor.close();
+        if(Build.VERSION.SDK_INT < 14) {
+            cursor.close();
+        }
 
         return listPlan;
     }
@@ -137,7 +140,9 @@ public class DbManger {
             listPlan.add(plan);
         }
 
-        cursor.close();
+        if(Build.VERSION.SDK_INT < 14) {
+            cursor.close();
+        }
 
         return listPlan;
     }
