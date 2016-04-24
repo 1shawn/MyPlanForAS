@@ -58,9 +58,11 @@ public class BmobAgent {
     }
     //退出登陆
     public static void loginOut(Context context){
+        BmobUser bmobUser=BmobUser.getCurrentUser(context);
+        if(bmobUser!=null){
+            MyPlanPreference.getInstance(context).removeObject(context,bmobUser.getObjectId());
+        }
         BmobUser.logOut(context);   //清除缓存用户对象
-        MyPlanPreference.getInstance(context).setUsername("");
-//        BmobUser currentUser = BmobUser.getCurrentUser(context); // 现在的currentUser是null了
     }
     public static void uploadPicProFile(Context context,String picPath, UploadListener listener){
        BmobProFile.getInstance(context).upload(picPath, listener);

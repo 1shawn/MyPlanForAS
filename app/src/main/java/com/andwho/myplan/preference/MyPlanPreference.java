@@ -529,7 +529,19 @@ public class MyPlanPreference {
 
 	}
 
+    public void removeObject(Context context,String key){
 
+		try {
+			// 保存对象
+			SharedPreferences.Editor sharedata = context.getSharedPreferences(MYPLAN_NAME, 0).edit();
+			//先将序列化结果写到byte缓存中，其实就分配一个内存空间
+			sharedata.remove(key);
+			sharedata.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+//			Log.e("", "保存obj失败");
+		}
+	}
 
 	/**
 	 * desc:保存对象
