@@ -56,4 +56,6 @@
     <string name="start_activity">Start new activity!</string>
     <string name="finish_activity">Finish Activity</string>
 
+    <string name="share">我有计划分享</string>
+
 </resources>
