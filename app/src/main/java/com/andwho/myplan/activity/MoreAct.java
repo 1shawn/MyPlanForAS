@@ -218,13 +218,14 @@ public class MoreAct extends SlideAct implements OnClickListener {
 					IntentHelper.showProblems(myselfContext);
 					break;
 				case R.id.ll_share_item: //分享
-					IntentHelper.share(myselfContext);
+//					IntentHelper.share(myselfContext);
+					IntentHelper.showShare(myselfContext);
 					break;
 				case R.id.ll_about_item:// 关于我们
 					IntentHelper.showAboutUs(myselfContext);
 					break;
 				case R.id.ll_notice_item:// 消息中心
-
+					IntentHelper.showMsgCenter(myselfContext);
 					break;
 				case R.id.ll_suggest_item:// 建议
 

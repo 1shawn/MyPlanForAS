@@ -107,7 +107,7 @@ public class IntentHelper {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         act.startActivity(Intent.createChooser(intent, "我有计划"));
     }
-    private void showShare(Context context) {
+    public static final void showShare(Context context) {
         ShareSDK.initSDK(context);
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
@@ -120,19 +120,32 @@ public class IntentHelper {
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl("http://sharesdk.cn");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
+        oks.setText("我有计划");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("http://sharesdk.cn");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
+//        oks.setComment("我是测试评论文本");
         // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(context.getString(R.string.app_name));
+//        oks.setSite(context.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
+//        oks.setSiteUrl("http://sharesdk.cn");
 
 // 启动分享GUI
         oks.show(context);
+    }
+
+    public static final void showMsgCenter(Activity act) {
+        Intent intent = new Intent(act, MsgCenterAct.class);
+        IntentUtils.getInstance().startActivity(act, intent);
+    }
+
+    public static final void showMsgDetail(Activity act, String title,String content,String time) {
+        Intent intent = new Intent(act, MsgDetailAct.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
+        intent.putExtra("msgTime", time);
+        IntentUtils.getInstance().startActivity(act, intent);
     }
 }

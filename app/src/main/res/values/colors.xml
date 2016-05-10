@@ -270,6 +270,7 @@
 
     <color name="complete_bg">#BDFCC9</color>
     <color name="plan_group_text">#FFFF01</color>
+    <color name="msg_content_txt">#a8a8a8</color>
 
 
 </resources>

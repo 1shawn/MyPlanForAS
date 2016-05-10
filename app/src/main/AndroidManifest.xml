@@ -102,6 +102,16 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
+        android:name=".activity.MsgCenterAct"
+        android:launchMode="singleTask"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".activity.MsgDetailAct"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
             android:name=".upgrade.DownloadActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -117,7 +127,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" >
 
             <intent-filter>
-                <data android:scheme="tencent100371282" />
+                <data android:scheme="tencent1104873268" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
