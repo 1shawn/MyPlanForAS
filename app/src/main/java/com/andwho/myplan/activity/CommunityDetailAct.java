@@ -183,7 +183,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 BmobRelation relation = new BmobRelation();
                 //将当前用户添加到多对多关联中
                 relation.add(post);
-               //多对多关联指向`post`的`likes`字段
+                //多对多关联指向`post`的`likes`字段
 
                 comments.posts=relation;
                 comments.content=msg;
@@ -319,12 +319,35 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
         }
     }
 
+    private void likePost(){
+        if(post==null)
+            return;
+        try{
+            showProgressDialog(null,true,false);
+            post.likesCount=post.likesCount++;
+            post.update(myselfContext, new UpdateListener() {
+                @Override
+                public void onSuccess() {
+                    tv_like.setText(String.valueOf(post.likesCount));
+                    dismissProgressDialog();
+                }
+
+                @Override
+                public void onFailure(int i, String s) {
+                    ToastUtil.showLongToast(myselfContext,s);
+                    dismissProgressDialog();
+                }
+            });
+        }catch (Exception ex){
+
+        }
+    }
     private TextView tv_nocontent;
     private MyListView listview;
     private CommentListAdapter listAdapter;
 
     private void requestListData() {
-
+        showProgressDialog(null,true,false);
         Posts posts = new Posts();
         posts.setObjectId(post.getObjectId());
 
@@ -339,7 +362,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
             @Override
             public void onSuccess(final List<Comments> list) {
                 // TODO Auto-generated method stub
-
+dismissProgressDialog();
                 if (list != null && list.size() > 0) {
 
                     tv_nocontent.setVisibility(View.GONE);
@@ -366,6 +389,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
 
             @Override
             public void onError(int arg0, String arg1) {
+                dismissProgressDialog();
                 // TODO Auto-generated method stub
                 ToastUtil.showLongToast(myselfContext, arg1);
             }
