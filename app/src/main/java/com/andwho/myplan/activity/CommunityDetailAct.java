@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
@@ -68,7 +69,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
     private LinearLayout ll_like, ll_comment;
     private TextView tv_like;
     private EditText et_comment;
-
+    private ImageView iv_like;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +135,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 findViewById(R.id.tv_like);
         et_comment = (EditText)
                 findViewById(R.id.et_comment);
+        iv_like=(ImageView)findViewById(R.id.iv_like);
     }
 
     private void setListener() {
@@ -201,8 +203,8 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
         comment.save(myselfContext, new SaveListener() {
             @Override
             public void onSuccess() {
-                ToastUtil.showLongToast(myselfContext, "评论已提交！");
-                dismissProgressDialog();
+//                ToastUtil.showLongToast(myselfContext, "评论已提交！");
+//                dismissProgressDialog();
                 BmobRelation relation = new BmobRelation();
                 //将当前用户添加到多对多关联中
                 relation.add(comment);
@@ -212,6 +214,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                     @Override
                     public void onSuccess() {
                         ToastUtil.showLongToast(myselfContext, "评论已提交！");
+                        requestListData(false);//不用刷新点赞的数据
                         dismissProgressDialog();
                     }
 
@@ -283,10 +286,9 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
         }
 
         tv_like.setText(String.valueOf(post.likesCount));
-
-        requestListData();
-
+        requestListData(true);
     }
+
 
 
     @Override
@@ -306,7 +308,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
                 IntentHelper.showImageGallery(myselfContext, post);
                 break;
             case R.id.ll_like:
-
+                likePost();
                 break;
             case R.id.ll_comment:
                 et_comment.setHint("评论一下");
@@ -323,13 +325,31 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
         if(post==null)
             return;
         try{
-            showProgressDialog(null,true,false);
-            post.likesCount=post.likesCount++;
+            showProgressDialog(null, true, false);
+
+            //将当前用户添加到多对多关联中
+            BmobRelation relation = new BmobRelation();
+            if(iv_like.getTag()==null||!(Boolean)(iv_like.getTag())) {
+                post.likesCount = ++post.likesCount;
+                relation.add(BmobUser.getCurrentUser(CommunityDetailAct.this));
+                post.likes = relation;
+            } else{
+                post.likesCount = --post.likesCount;
+                relation.remove(BmobUser.getCurrentUser(CommunityDetailAct.this));
+                post.likes = relation;
+            }
             post.update(myselfContext, new UpdateListener() {
                 @Override
                 public void onSuccess() {
-                    tv_like.setText(String.valueOf(post.likesCount));
                     dismissProgressDialog();
+                    if(iv_like.getTag()==null||!(Boolean)(iv_like.getTag())) {
+                        iv_like.setImageResource(R.drawable.icon_praised);
+                        iv_like.setTag(true);
+                    }else{
+                        iv_like.setImageResource(R.drawable.icon_praise);
+                        iv_like.setTag(false);
+                    }
+                    tv_like.setText(String.valueOf(post.likesCount));
                 }
 
                 @Override
@@ -346,7 +366,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
     private MyListView listview;
     private CommentListAdapter listAdapter;
 
-    private void requestListData() {
+    private void requestListData(Boolean getLiks) {
         showProgressDialog(null,true,false);
         Posts posts = new Posts();
         posts.setObjectId(post.getObjectId());
@@ -362,7 +382,7 @@ public class CommunityDetailAct extends BaseAct implements View.OnClickListener 
             @Override
             public void onSuccess(final List<Comments> list) {
                 // TODO Auto-generated method stub
-dismissProgressDialog();
+                dismissProgressDialog();
                 if (list != null && list.size() > 0) {
 
                     tv_nocontent.setVisibility(View.GONE);
@@ -375,16 +395,6 @@ dismissProgressDialog();
                     listview.setVisibility(View.GONE);
                     tv_nocontent.setVisibility(View.VISIBLE);
                 }
-
-//                new Handler().postDelayed(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//                        // TODO Auto-generated method stub
-//                        sv.scrollTo(0, 0);
-//                    }
-//                }, 500);
-
             }
 
             @Override
@@ -394,7 +404,30 @@ dismissProgressDialog();
                 ToastUtil.showLongToast(myselfContext, arg1);
             }
         });
+        if(getLiks) {
+            BmobQuery<BmobUser> query2 = new BmobQuery<BmobUser>();
+            query2.addWhereRelatedTo("likes", new BmobPointer(post));
+            query2.findObjects(myselfContext, new FindListener<BmobUser>() {
+                @Override
+                public void onSuccess(List<BmobUser> list) {
+                    dismissProgressDialog();
+                    if (list != null && list.size() > 0) {
+                        for (BmobUser item : list) {
+                            if (BmobUser.getCurrentUser(CommunityDetailAct.this).getObjectId().equals(item.getObjectId())) {
+                                iv_like.setImageResource(R.drawable.icon_praised);
+                                iv_like.setTag(true);
+                            }
 
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    dismissProgressDialog();
+                }
+            });
+        }
     }
 
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
