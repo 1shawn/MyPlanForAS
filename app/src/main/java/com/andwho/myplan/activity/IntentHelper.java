@@ -141,11 +141,12 @@ public class IntentHelper {
         IntentUtils.getInstance().startActivity(act, intent);
     }
 
-    public static final void showMsgDetail(Activity act, String title,String content,String time) {
+    public static final void showMsgDetail(Activity act, String title,String content,String time,String objId) {
         Intent intent = new Intent(act, MsgDetailAct.class);
         intent.putExtra("title", title);
         intent.putExtra("content", content);
         intent.putExtra("msgTime", time);
+        intent.putExtra("objId", objId);
         IntentUtils.getInstance().startActivity(act, intent);
     }
 }

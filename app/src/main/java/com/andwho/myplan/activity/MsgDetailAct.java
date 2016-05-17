@@ -8,6 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andwho.myplan.R;
+import com.andwho.myplan.model.Messages;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobRelation;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by zhouf on 2016/5/10.
@@ -49,9 +54,33 @@ public class MsgDetailAct extends BaseAct implements View.OnClickListener {
     }
 
     private void initData(){
+        showProgressDialog(null, false, true);
         tv_msgTitle.setText( myselfContext.getIntent().getStringExtra("title"));
         tv_msgTime.setText( myselfContext.getIntent().getStringExtra("msgTime"));
         tv_msgContent.setText( myselfContext.getIntent().getStringExtra("content"));
+        String objId=myselfContext.getIntent().getStringExtra("objId");
+        BmobUser user = BmobUser.getCurrentUser(this);
+        Messages msg = new Messages();
+        msg.setObjectId(objId);
+        BmobRelation relation = new BmobRelation();
+        relation.add(user);
+        msg.hasRead=relation;
+        msg.update(this, new UpdateListener() {
+
+            @Override
+            public void onSuccess() {
+                dismissProgressDialog();
+                // TODO Auto-generated method stub
+//                Log.i("life", "多对多关联添加成功");
+            }
+
+            @Override
+            public void onFailure(int arg0, String arg1) {
+                dismissProgressDialog();
+                // TODO Auto-generated method stub
+//                Log.i("life", "多对多关联添加失败");
+            }
+        });
     }
     @Override
     public void onClick(View v) {

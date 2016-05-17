@@ -74,7 +74,7 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
         initHeader();
         findViews();
         setListener();
-        init();
+//        init();
     }
 
     private void initHeader() {

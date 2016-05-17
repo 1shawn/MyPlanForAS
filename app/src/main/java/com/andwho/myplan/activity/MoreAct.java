@@ -73,8 +73,16 @@ public class MoreAct extends SlideAct implements OnClickListener {
 		initHeader();
 		findViews();
 		setListener();
-		init();
+
 	}
+
+	/*@Override
+	protected void onStart() {
+		super.onStart();
+		init();
+	}*/
+
+
 
 	private void initHeader() {
 		ll_leftIcon = (LinearLayout) this.findViewById(R.id.ll_leftIcon);
@@ -175,6 +183,7 @@ public class MoreAct extends SlideAct implements OnClickListener {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		init();
 	}
 
 	@Override

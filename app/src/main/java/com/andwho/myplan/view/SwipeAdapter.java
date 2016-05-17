@@ -15,6 +15,11 @@ import com.andwho.myplan.model.Messages;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.listener.FindListener;
+
 
 public class SwipeAdapter extends BaseAdapter {
     /**
@@ -67,7 +72,7 @@ public class SwipeAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder item;
+       final ViewHolder item;
         if (convertView == null) {
 //            convertView = LayoutInflater.from(mContext).inflate(R.layout.msgitem, parent, false);
             convertView = LayoutInflater.from(mContext).inflate(R.layout.msgitem,null);
@@ -76,6 +81,7 @@ public class SwipeAdapter extends BaseAdapter {
             item.item_right = (View)convertView.findViewById(R.id.item_right);
             item.item_title_txt = (TextView)convertView.findViewById(R.id.msg_title);
             item.item_content_txt = (TextView)convertView.findViewById(R.id.msg_content);
+            item.item_attention =(View)convertView.findViewById(R.id.msg_count_area);
             convertView.setTag(item);
         } else {// 有直接获得ViewHolder
             item = (ViewHolder)convertView.getTag();
@@ -95,6 +101,29 @@ public class SwipeAdapter extends BaseAdapter {
                 }
             }
         });
+        BmobQuery<BmobUser> query = new BmobQuery<BmobUser>();
+        query.addWhereRelatedTo("hasRead", new BmobPointer(mDatas.get(position)));
+        query.findObjects(mContext, new FindListener<BmobUser>() {
+            @Override
+            public void onSuccess(final List<BmobUser> list) {
+                // TODO Auto-generated method stub
+                if (list != null && list.size() > 0) {
+                    for (BmobUser user:list
+                         ) {
+                        if(user.getObjectId().equals(BmobUser.getCurrentUser(mContext).getObjectId())){
+                            item.item_attention.setVisibility(View.GONE);
+                        }
+                    }
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onError(int arg0, String arg1) {
+            }
+        });
         return convertView;
     }
 
@@ -106,5 +135,6 @@ public class SwipeAdapter extends BaseAdapter {
         TextView item_title_txt;
         TextView item_content_txt;
 
+        View item_attention;
     }
 }

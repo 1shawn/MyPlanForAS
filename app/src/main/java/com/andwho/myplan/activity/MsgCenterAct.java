@@ -66,7 +66,7 @@ public class MsgCenterAct extends BaseAct implements View.OnClickListener {
 //                Toast.makeText(MainActivity.this, "item onclick " + position, Toast.LENGTH_SHORT)
 //                        .show();
                 Messages msg=adapter.getItem(position);
-                IntentHelper.showMsgDetail(MsgCenterAct.this,msg.title,msg.content,msg.getCreatedAt());
+                IntentHelper.showMsgDetail(MsgCenterAct.this,msg.title,msg.content,msg.getCreatedAt(),msg.getObjectId());
             }
         });
         mListView.setAdapter(adapter);
