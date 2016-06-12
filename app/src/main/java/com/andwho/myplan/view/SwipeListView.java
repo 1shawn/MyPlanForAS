@@ -268,6 +268,9 @@ public class SwipeListView extends ListView {
     }
 
     private void clearPressedState() {
+        if (mCurrentItemView == null) {
+            return;
+        }
         // TODO current item is still has background, issue
         mCurrentItemView.setPressed(false);
         setPressed(false);
@@ -276,6 +279,9 @@ public class SwipeListView extends ListView {
     }
 
     private void showRight(View view) {
+        if (mCurrentItemView == null) {
+            return;
+        }
         Message msg = new MoveHandler().obtainMessage();
         msg.obj = view;
         msg.arg1 = view.getScrollX();
