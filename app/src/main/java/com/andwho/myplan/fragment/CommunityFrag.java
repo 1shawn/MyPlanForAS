@@ -140,7 +140,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
 
     private void init() {
         initAdView();
-//        pullDownListData();
+        pullDownListData();
     }
 
     private void pullDownListData() {
@@ -442,7 +442,7 @@ public class CommunityFrag extends BaseFrag implements OnClickListener {
         if (ad != null) {
             ad.startAdAutoSwitch();
         }
-        pullDownListData();//刷一次数据
+//        pullDownListData();//刷一次数据
     }
 
     public void onPause() {

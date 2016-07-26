@@ -168,6 +168,7 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
             }
             ll_changePsw.setVisibility(View.VISIBLE);
             btn_login.setText("注销登录");
+            btn_login.setBackgroundResource(R.drawable.btn_red_bg);
         } else {
             //缓存用户对象为空时， 可打开用户注册界面…
 //			IntentHelper.showLogin(this);
@@ -271,6 +272,7 @@ public class PersonalSettingAct extends SlideAct implements OnClickListener {
                     BmobAgent.loginOut(myselfContext);
                     ll_changePsw.setVisibility(View.GONE);
                     btn_login.setText("登录");
+                    btn_login.setBackgroundResource(R.drawable.btn_corner_selector);
                 } else {
                     IntentHelper.showLogin(myselfContext);
                 }

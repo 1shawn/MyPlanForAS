@@ -166,9 +166,10 @@ public class DbManger {
     }
 
     // 通过日期查询“每日计划”
+    //strftime('%Y-%m-%d', datatime) = '2015-09-23'
     public Cursor getEverydayPlanByDate(String createDate) {
         String where = MyPlanDBOpenHelper.PLANTYPE + " = 1  AND  "
-                + MyPlanDBOpenHelper.CREATETIME + " = '" + createDate + "'"
+                +"strftime('%Y-%m-%d',"+MyPlanDBOpenHelper.CREATETIME + ") = '" + createDate + "'"
                 + "  ORDER BY " + MyPlanDBOpenHelper.ISCOMPLETED + " ASC,"
                 + MyPlanDBOpenHelper.UPDATETIME + " DESC";
         Cursor cursor = mContentResolver.query(
@@ -179,9 +180,10 @@ public class DbManger {
     }
 
     // 查询“每日计划”的日期
+    // strftime('%Y-%m-%d', datatime)
     public Cursor getEverydayPlanDate() {
         String where = MyPlanDBOpenHelper.PLANTYPE + " = 1  GROUP BY  "
-                + MyPlanDBOpenHelper.CREATETIME
+                +" strftime('%Y-%m-%d',"+MyPlanDBOpenHelper.CREATETIME+")"
                 + "  ORDER BY " + MyPlanDBOpenHelper.CREATETIME + " DESC";
         String[] projection = new String[]{
                 MyPlanDBOpenHelper.CREATETIME

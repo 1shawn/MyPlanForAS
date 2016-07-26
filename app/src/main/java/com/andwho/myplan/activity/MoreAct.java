@@ -163,12 +163,17 @@ public class MoreAct extends SlideAct implements OnClickListener {
 		String userName= MyPlanPreference.getInstance(myselfContext).getUsername();
 //		BmobUser bmobUser = BmobUser.getCurrentUser(this);
 		if(!TextUtils.isEmpty(userName)){
+			mNotLoginView.setVisibility(View.GONE);
 			// 允许用户使用应用
 			String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
 			if(!TextUtils.isEmpty(nickname)){
 				mNameTextView.setText(nickname);
+				mPhoneTextView.setText(StringUtil.starStrFormatChange(userName));
+				mNameTextView.setVisibility(View.VISIBLE);
+				mPhoneTextView.setVisibility(View.VISIBLE);
 			}else{
 				mNameTextView.setText(StringUtil.starStrFormatChange(userName));
+				mNameTextView.setVisibility(View.VISIBLE);
 			}
 
 		}else{

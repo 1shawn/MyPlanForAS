@@ -267,7 +267,24 @@ public class DateUtil {
 		}
 		return tip;
 	}
+	public static String getYYMMDD(String time){
+		String ret=time;
+		try{
+			SimpleDateFormat format = new SimpleDateFormat(
+					"yyyy-MM-dd");
+			Date date = null;
+			try {
+				date = format.parse(time);
+				ret=format.format(date);
+			} catch (java.text.ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}catch (Exception ex){
 
+		}
+		return ret;
+	}
 	public static boolean isUpDate(String date1,String date2){
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         boolean ret=false;
