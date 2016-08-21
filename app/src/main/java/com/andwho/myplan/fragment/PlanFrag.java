@@ -217,18 +217,6 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
         } else {
             // Log.e(TAG, "@@---------------------重新查询 ");
             everydayCursor = DbManger.getInstance(myselfContext).getEverydayPlanDate();
-//            Log.e(TAG, "@@---------------------cursor count = " + everydayCursor.getCount());
-//            while (everydayCursor.moveToNext()) {
-//                Plan plan = new Plan();
-//
-//                plan.content = everydayCursor.getString(everydayCursor
-//                        .getColumnIndex(MyPlanDBOpenHelper.CONTENT));
-//                plan.createtime = everydayCursor.getString(everydayCursor
-//                        .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
-//                Log.e(TAG, "@@--------------------->查到的日期 ： " + plan.createtime);
-//                Log.e(TAG, "@@--------------------->查到的日期 content： " + plan.content);
-//
-//            }
 
             if (everydayCursor != null && everydayCursor.getCount() > 0) {
                 tv_nocontent.setVisibility(View.GONE);
@@ -243,27 +231,6 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                         R.layout.plans_group_item, null, false);
                 expandable_list.setPinnedHeaderView(view);
                 expandable_list.expandGroup(0);
-//                expandable_list
-//                        .setOnPinnedHeaderClickLisenter(new OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(View v) {
-//                                // TODO Auto-generated method stub
-//                                Integer groupPosition = (Integer) v.getTag();
-//
-//                                Log.e(TAG, "@@---setOnPinnedHeaderClickLisenter groupPosition： " + groupPosition);
-//
-//                                boolean isContain = expandPositionsEveryday
-//                                        .contains(groupPosition);
-//                                Log.e(TAG, "@@---setOnPinnedHeaderClickLisenter isContains： " + isContain);
-//                                if (isContain) {
-//                                    expandable_list.collapseGroup(groupPosition);
-//                                } else {
-//                                    expandable_list.expandGroup(groupPosition);
-//                                }
-//
-//                            }
-//                        });
             } else {
                 tv_nocontent.setVisibility(View.VISIBLE);
                 expandable_list.setVisibility(View.GONE);
@@ -341,6 +308,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
 
             String createTime = cursor.getString(cursor
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
+            createTime=DateUtil.getYYMMDD(createTime);
 
             if (DateUtil.isToday(createTime)) {
                 tv_name.setText(createTime + " .今天");
@@ -395,21 +363,8 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
 
             //  Log.e(TAG, "@@---getChildrenCursor createDate=  " + createDate);
-
+            createDate=DateUtil.getYYMMDD(createDate);
             Cursor cursor = DbManger.getInstance(myselfContext).getEverydayPlanByDate(createDate);
-//            Log.e(TAG, "@@---getChildrenCursor cursor count=  " + cursor.getCount());
-//            while (cursor.moveToNext()) {
-//                Plan plan = new Plan();
-//                plan.planid = String.valueOf(cursor.getInt(cursor
-//                        .getColumnIndex(MyPlanDBOpenHelper.PLANID)));
-//                plan.content = cursor.getString(cursor
-//                        .getColumnIndex(MyPlanDBOpenHelper.CONTENT));
-//                plan.createtime = cursor.getString(cursor
-//                        .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
-//
-//
-//                Log.e(TAG, "@@--------------------->查到的日期 content： " + plan.content);
-//            }
             return cursor;
         }
 
@@ -453,6 +408,7 @@ public class PlanFrag extends BaseFrag implements OnClickListener {
             Cursor groupCursor = getGroup(groupPosition);
             String createDate = groupCursor.getString(groupCursor
                     .getColumnIndex(MyPlanDBOpenHelper.CREATETIME));
+            createDate=DateUtil.getYYMMDD(createDate);
 
             if (DateUtil.isToday(createDate)) {
                 tv_name.setText(createDate + " .今天");

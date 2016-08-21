@@ -73,8 +73,16 @@ public class MoreAct extends SlideAct implements OnClickListener {
 		initHeader();
 		findViews();
 		setListener();
-		init();
+
 	}
+
+	/*@Override
+	protected void onStart() {
+		super.onStart();
+		init();
+	}*/
+
+
 
 	private void initHeader() {
 		ll_leftIcon = (LinearLayout) this.findViewById(R.id.ll_leftIcon);
@@ -155,12 +163,17 @@ public class MoreAct extends SlideAct implements OnClickListener {
 		String userName= MyPlanPreference.getInstance(myselfContext).getUsername();
 //		BmobUser bmobUser = BmobUser.getCurrentUser(this);
 		if(!TextUtils.isEmpty(userName)){
+			mNotLoginView.setVisibility(View.GONE);
 			// 允许用户使用应用
 			String nickname=MyPlanPreference.getInstance(myselfContext).getNickname();
 			if(!TextUtils.isEmpty(nickname)){
 				mNameTextView.setText(nickname);
+				mPhoneTextView.setText(StringUtil.starStrFormatChange(userName));
+				mNameTextView.setVisibility(View.VISIBLE);
+				mPhoneTextView.setVisibility(View.VISIBLE);
 			}else{
 				mNameTextView.setText(StringUtil.starStrFormatChange(userName));
+				mNameTextView.setVisibility(View.VISIBLE);
 			}
 
 		}else{
@@ -175,6 +188,7 @@ public class MoreAct extends SlideAct implements OnClickListener {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		init();
 	}
 
 	@Override
@@ -218,13 +232,14 @@ public class MoreAct extends SlideAct implements OnClickListener {
 					IntentHelper.showProblems(myselfContext);
 					break;
 				case R.id.ll_share_item: //分享
-					IntentHelper.share(myselfContext);
+//					IntentHelper.share(myselfContext);
+					IntentHelper.showShare(myselfContext);
 					break;
 				case R.id.ll_about_item:// 关于我们
 					IntentHelper.showAboutUs(myselfContext);
 					break;
 				case R.id.ll_notice_item:// 消息中心
-
+					IntentHelper.showMsgCenter(myselfContext);
 					break;
 				case R.id.ll_suggest_item:// 建议
 
